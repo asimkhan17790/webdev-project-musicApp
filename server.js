@@ -6,8 +6,12 @@ var app = express();
 //app.use(bodyParser.urlencoded({ extended: false }));
 
 
+
+
+require ("./project/apis/acr.cloud.server");
+
 app.use(express.static(__dirname + '/public'));
 
-var port      = process.env.PORT || 4000;
+var port = process.env.PORT || 4000;
 
 app.listen(port);
