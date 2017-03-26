@@ -58,7 +58,7 @@
         }, cb);
     }
 
-    var bitmap = fs.readFileSync('./sample.wav');
+    var bitmap = fs.readFileSync('./sample_bad.wav');
 
     identify(new Buffer(bitmap), defaultOptions, function (err, httpResponse, body) {
         if (err) console.log(err);
