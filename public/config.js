@@ -11,15 +11,15 @@
 
         $routeProvider
             .when("/", {
-                templateUrl:"views/users/templates/login.view.client.html",
-                controller:"LoginController",
+                templateUrl:"/views/music/templates/musicsearch.view.client.html",
+                controller:"MusicRecSearchController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Login User',
+                    pageTitle: 'Search Music',
                 }
             })
             .otherwise({
-                redirectTo:"/login"
+                redirectTo:"/"
             });
     }
 })();

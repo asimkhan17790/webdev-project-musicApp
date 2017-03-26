@@ -1,3 +1,10 @@
+module.exports = function () {
+
+    var api = {
+        findMusicFingerPrint : findMusicFingerPrint
+    }
+
+    var q = require('q');
     var url = require('url');
     var fs = require('fs');
     var crypto = require('crypto');
@@ -57,10 +64,30 @@
             formData: formData
         }, cb);
     }
+    return api;
 
-    var bitmap = fs.readFileSync('./sample_bad.wav');
 
-    identify(new Buffer(bitmap), defaultOptions, function (err, httpResponse, body) {
-        if (err) console.log(err);
-        console.log(body);
-    });
+    function findMusicFingerPrint (musicObject) {
+       // var bitmap = fs.readFileSync('./sample_bad.wav');
+        var defered = q.defer();
+        identify(new Buffer(musicObject), defaultOptions, function (err, httpResponse, body) {
+            if (err)
+            {
+                console.log(err);
+                defered.reject(err);
+            }
+            else {
+
+                defered.resolve(body);
+            }
+        });
+        return defered.promise;
+    }
+}
+
+
+
+
+
+
+

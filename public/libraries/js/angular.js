@@ -24155,7 +24155,7 @@ var ngCloakDirective = ngDirective({
  *    };
  *   </file>
  *   <file name="protractor.js" type="protractor">
- *     it('should check controller as', function() {
+ *     it(controllers, function() {
  *       var container = element(by.id('ctrl-as-exmpl'));
  *         expect(container.element(by.model('settings.name'))
  *           .getAttribute('value')).toBe('John Smith');

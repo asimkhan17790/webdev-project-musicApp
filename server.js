@@ -8,7 +8,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
-require ("./project/apis/acr.cloud.server");
+//var arcCloud  = require ("./project/apis/acr.cloud.server")();
+
+//arcCloud.findMusicFingerPrint(null) ;
+
+require ("./project/app.js")(app);
 
 app.use(express.static(__dirname + '/public'));
 
