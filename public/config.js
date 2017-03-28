@@ -18,6 +18,22 @@
                     pageTitle: 'Search Music',
                 }
             })
+            .when("/login", {
+                templateUrl:"/views/user/templates/login.view.client.html",
+                controller:"LoginController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'User Login',
+                }
+            })
+            .when("/signup", {
+                templateUrl:"/views/user/templates/signup.view.client.html",
+                controller:"SignUpController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'New User Signup',
+                }
+            })
             .otherwise({
                 redirectTo:"/"
             });
