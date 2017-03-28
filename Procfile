@@ -1,1 +1,1 @@
-web: node server.jsgit merge
+web: node server.js
