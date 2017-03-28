@@ -68,7 +68,7 @@ module.exports = function () {
 
 
     function findMusicFingerPrint (musicObject) {
-       // var bitmap = fs.readFileSync('./sample_bad.wav');
+       // var bitmap = fs.readFileSync('./sample_bad.wav')
         var defered = q.defer();
         identify(new Buffer(musicObject), defaultOptions, function (err, httpResponse, body) {
             if (err)

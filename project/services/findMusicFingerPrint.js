@@ -36,7 +36,7 @@ module.exports = function (app) {
 
        );
       // console.log(data);
-       // return res.json(data) ;
+
 
     }
 
