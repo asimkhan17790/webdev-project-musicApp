@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    
+
+    <form class="form-group">
+        <ng-audio-recorder id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-complete="model.sendToServer()">
+            <!-- Start controls, exposed via recorder-->
+            <div ng-if="recorder.isAvailable">
+                <button class="" ng-click="recorder.startRecord()" type="button" ng-disabled="recorder.status.isRecording">
+                    <div style="font-size: 25px">
+                    <i style="color: red;" class="fa fa-microphone" aria-hidden="true"></i>
+                    </div>
+                </button>
+
+                <!--<button class="btn btn-block btn-danger" ng-click="recorder.stopRecord()" type="button" ng-disabled="recorder.status.isRecording === false">
+                    Stop Record
+                </button>
+                <button class="btn btn-block btn-success" ng-click="recorder.playbackRecording()" type="button"
+                        ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                    Play Back
+                </button>-->
+            </div>
+          <!--  <button type="button" ng-click="recorder.save('save')">save</button>-->
+            <div ng-if="!recorder.isAvailable">
+                Message for users when recording is not possible.
+            </div>
+
+        </ng-audio-recorder>
+
+    </form>
+
+    <ul class="list-group">
+        <li ng-repeat="song in model.music" class="list-group-item">
+
+            <div>
+                <a  ng-href="#">
+                    {{song.title}}
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
