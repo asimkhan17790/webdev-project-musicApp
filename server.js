@@ -5,8 +5,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-require ("./project/app.js")(app);
+require ("./project/database/music-app-database")(app);
 
 app.use(express.static(__dirname + '/public'));
 
