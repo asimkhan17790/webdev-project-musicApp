@@ -34,6 +34,14 @@
                     pageTitle: 'New User Signup',
                 }
             })
+                .when("/music/playlist", {
+                templateUrl:"/views/music/templates/playlist.view.client.html",
+                controller:"PlayListController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My playlist',
+                }
+            })
             .otherwise({
                 redirectTo:"/"
             });

@@ -9,7 +9,8 @@
 
         var api= {
 
-            "searchMusicFingerPrint":searchMusicFingerPrint
+            "searchMusicFingerPrint" : searchMusicFingerPrint,
+            "searchLyrics" : searchLyrics
         };
 
         return api;
@@ -21,6 +22,11 @@
 
             return $http.post("/api/findmusic/musicFingerPrint",musicBlobObject);
         }
+
+        function searchLyrics(songTitle, artistName) {
+            return $http.get("/api/music/lyrics/" + songTitle + "/" + artistName);
+        }
+
     }
 
 })();

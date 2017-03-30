@@ -1,0 +1,52 @@
+<div class="pageBackground">
+    <div style="background-color: black; background:rgba(0,0,0,0.6);margin-top: 50px;" class="container">
+
+
+        <h1> My Play List</h1>
+        <hr size="30">
+        <!--Music Player here -->
+        <div id="nowPlay">
+            <div class="row">
+
+            <span class="col-xs-6" id="npAction">Paused...</span>
+            <span class="col-xs-6" id="npTitle">Song</span>
+            </div>
+            <div id="audio0" style="margin-top: 5px">
+                <audio style="width: 100%;" preload id="audio1" preload controls="controls">Your browser does not support HTML5 Audio!>
+                    <source src="https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" type="audio/mpeg">
+                </audio>
+                <div class="center">
+                    <span id="prev" class="glyphicon glyphicon-step-backward pull-left"></span>
+                    <span id="next" class="glyphicon glyphicon-step-forward pull-right"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <hr size="30">
+        <div>
+        <ul class="list-group" style="overflow-y: scroll;height: 350px">
+            <li ng-repeat="song in model.playlist.songs" class="list-group-item">
+
+                <div class="row">
+                    <div class="pull-left col-xs-2">
+                        <a class="glyphicon glyphicon-play-circle play-button"></a>
+
+                         <!--   <span>{{$index+1}}</span>-->
+
+                    </div>
+
+
+                    <span class="col-xs-10">
+                        {{song.title}}
+                    </span>
+
+
+                </div>
+            </li>
+        </ul>
+        </div>
+
+
+    </div>
+ </div>
