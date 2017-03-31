@@ -1,0 +1,45 @@
+.list-group-item:hover {
+    background-color: black;
+   // background:rgba(0,0,0,0.7);
+    font-stretch: expanded;
+    font-size: large;
+
+}
+.list-group-item {
+    background-color: black;
+    background:rgba(0,0,0,0.7)
+
+}
+.play-button {
+    font-size: 20px;
+    color: #5e5e5e;
+}
+.play-button:hover {
+    font-size: 22px;
+    color: #ff9200;
+}
+.glyphicon-step-backward:hover {
+    font-size: 25px;
+    color: #ff9200;
+}
+
+.glyphicon-step-forward:hover {
+    font-size: 25px;
+    color: #ff9200;
+}
+
+.glyphicon-step-backward {
+    font-size: 22px;
+
+}
+
+.glyphicon-step-forward {
+    font-size: 22px;
+
+}
+
+.current-song {
+    background-color: #ff9200;
+
+
+}

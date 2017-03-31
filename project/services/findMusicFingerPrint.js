@@ -18,7 +18,7 @@ module.exports = function (app) {
 
    // arcCloud.findMusicFingerPrint(null) ;
 
-    app.post("/api/findmusic/musicFingerPrint",upload,  findMusicFingerPrint);
+    app.post("/api/findmusic/musicFingerPrint",upload,findMusicFingerPrint);
 
 
     function findMusicFingerPrint(req, res) {

@@ -1,6 +1,4 @@
-<div class="container-fluid">
-    
-
+<div class="container">
     <form class="form-group">
         <ng-audio-recorder id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-complete="model.sendToServer()">
             <!-- Start controls, exposed via recorder-->
@@ -35,7 +33,58 @@
                 <a  ng-href="#">
                     {{song.title}}
                 </a>
+                <a class="pull-right" ng-click="model.findLyrics(song.title, song.artists)">
+                    <i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i>
+                </a>
+
             </div>
         </li>
     </ul>
+
+    <div ng-bind-html="model.getTrustedHtml(model.lyricsData)" class="form-group" style="background-color: black;opacity: 0.7;color: white;font-size: 15px" ng-show="model.lyricsData"></div>
+
+    <!-- Email API-->
+
+    <form class="form-group">
+        <input id ="to"
+               type="text"
+               class="form-control"
+               placeholder="To"
+               ng-model="model.email.to"/>
+
+        <input id ="from"
+               type="text"
+               class="form-control"
+               placeholder="from"
+               ng-model="model.email.from"/>
+        <input id ="subject"
+               type="text"
+               class="form-control"
+               placeholder="Subject"
+               ng-model="model.email.subject"/>
+        <input id ="message"
+               type="text"
+               class="form-control"
+               placeholder="message"
+               ng-model="model.email.message"/>
+
+        <button type="submit" class="btn btn-success btn-block"
+                ng-click="model.sendEmail()">
+           Send Email</button>
+    </form>
+
+
+    <!-- Music Player-->
+   <!-- <embed type=”application/x-shockwave-flash” src=”http://www.google.com/reader/ui/3523697345-audio-player.swf” flashvars=”audioUrl=MP3URL” width=”400″ height=”27″ quality=”best”></embed>
+-->
+
+    <audio controls>
+        <source src="https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" type="audio/ogg">
+        <source src="https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+
+    <iframe src="https://embed.spotify.com/?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+
 </div>

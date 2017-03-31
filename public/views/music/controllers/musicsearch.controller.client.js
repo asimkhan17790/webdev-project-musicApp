@@ -2,23 +2,18 @@
 
     angular
         .module("WebDevMusicApp")
-        /*.run(['$location', '$rootScope', function($location, $rootScope) {
-         $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-
-         if (current.hasOwnProperty('$$route')) {
-         $rootScope.title = current.$$route.title;
-         }
-         });
-         }])*/
         .controller("MusicRecSearchController",MusicRecSearchController);
 
 
-    function MusicRecSearchController($location,Upload,$timeout) {
+    function MusicRecSearchController($location,Upload,$timeout,MusicService,$sce,EmailService) {
         console.log('Hello from music page');
 
         var vm = this;
         vm.recordAudio = recordAudio;
         vm.stopRecording = stopRecording;
+        vm.findLyrics = findLyrics;
+        vm.getTrustedHtml = getTrustedHtml;
+        vm.sendEmail = sendEmail;
         //var recordRTC = null;
 
         function init () {
@@ -59,40 +54,49 @@
                 });
             }, 50);
 
-        };
-
-
-
-        /*function recordAudio() {
-
-            var session = {
-                audio: true,
-                video: false
-            };
-
-            navigator.getUserMedia(session, function (mediaStream) {
-                recordRTC = RecordRTC(MediaStream);
-                recordRTC.startRecording();
-            }, function (err) {
-                console.log(err);
-            });
         }
-        function stopRecording() {
-            recordRTC.stopRecording(function(audioURL) {
-                var formData = new FormData();
-                formData.append('edition[audio]', recordRTC.getBlob())
-                $.ajax({
-                    type: 'POST',
-                    url: 'some/path',
-                    data: formData,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
+        function getTrustedHtml(html) {
+            return $sce.trustAsHtml(html);
+        }
+
+        function findLyrics (songTitle, artists) {
+            console.log(artists[0]);
+            if (songTitle && artists && artists[0] != null) {
+                var promise =  MusicService.searchLyrics(songTitle, artists[0].name);
+
+                promise.success(function (data) {
+                    if (data.message && data.message.header
+                        && data.message.header.status_code && data.message.header.status_code === 200) {
+                        //console.log(data.message.body.lyrics.lyrics_body);
+                        vm.lyricsData = data.message.body.lyrics.lyrics_body;
+                        console.log(vm.lyricsData);
+                    }
+                    else {
+                        console.log("No Data Found");
+                        vm.lyricsData =null;
+                    }
                 })
-            });
+                    .error(function () {
+                        vm.error = "Error Occurred";
+                        vm.lyricsData =null;
+                    });
+            }
+            else {
+                console.log("No input Data");
+            }
 
-        }*/
+        }
+
+        function sendEmail () {
+            var promise =  EmailService.sendEmail(vm.email);
+            promise.success(function (response) {
+                console.log(response);
+            }).error(function (error) {
+                    console.log(error);
+                });
 
 
+
+        }
     }
 })();
