@@ -33,12 +33,20 @@
                     pageTitle: 'New User Signup',
                 }
             })
-                .when("/music/playlist", {
-                templateUrl:"/views/music/templates/playlist.view.client.html",
+            .when("/music/playlist", {
+                templateUrl:"/views/playlists/templates/playlist.view.client.html",
                 controller:"PlayListController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'My playlist',
+                    pageTitle: 'Play playlist',
+                }
+            })
+            .when("/music/myplaylists", {
+                templateUrl:"/views/playlists/templates/allplaylists.view.client.html",
+                controller:"AllPlayListController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My playlists',
                 }
             })
             .otherwise({

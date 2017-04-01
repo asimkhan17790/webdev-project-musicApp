@@ -1,3 +1,4 @@
+<div class="pageBackground">
 <div class="container">
     <form class="form-group">
         <ng-audio-recorder id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-complete="model.sendToServer()">
@@ -9,13 +10,6 @@
                     </div>
                 </button>
 
-                <!--<button class="btn btn-block btn-danger" ng-click="recorder.stopRecord()" type="button" ng-disabled="recorder.status.isRecording === false">
-                    Stop Record
-                </button>
-                <button class="btn btn-block btn-success" ng-click="recorder.playbackRecording()" type="button"
-                        ng-disabled="recorder.status.isRecording || !recorder.audioModel">
-                    Play Back
-                </button>-->
             </div>
           <!--  <button type="button" ng-click="recorder.save('save')">save</button>-->
             <div ng-if="!recorder.isAvailable">
@@ -74,17 +68,79 @@
     </form>
 
 
-    <!-- Music Player-->
-   <!-- <embed type=”application/x-shockwave-flash” src=”http://www.google.com/reader/ui/3523697345-audio-player.swf” flashvars=”audioUrl=MP3URL” width=”400″ height=”27″ quality=”best”></embed>
--->
 
-    <audio controls>
-        <source src="https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" type="audio/ogg">
-        <source src="https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <!-- search Event -->
 
 
-    <iframe src="https://embed.spotify.com/?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+    <form name="categorySearch" class="form-group">
 
+        <button type="submit" class="btn btn-primary btn-block"
+                ng-click="model.searchEventCategories()">
+            SearchEvent Categories</button>
+
+    </form>
+    <form name="eventSearch" class="form-group">
+        <button type="submit" class="btn btn-success btn-block"
+                ng-click="model.searchNearByEvents()">
+            Search Near By Events</button>
+
+    </form>
+
+    <div>
+    <h1 ng-show="model.events">
+        Upcoming Music Events
+        </h1>
+    <ul ng-show="model.events" class="list-group" style="overflow-y: auto;height: 250px">
+        <li ng-repeat="event in model.events" class="list-group-item">
+            <div class="row">
+                <div class="pull-left col-xs-3">
+                    <img class="thumb" width="50px" height="50px" ng-src="{{event.logo.original.url || '../../../resources/images/MuiscAlt2.png'}} ">
+                </div>
+
+                <div class="pull-left col-xs-9">
+                    <a target="_blank" ng-href="{{event.url}}">
+                        {{event.name.text}}
+                    </a>
+                    <a class="glyphicon glyphicon-bookmark pull-right" style="position: relative;right:-3px" ng-click="model.changeEventHTMLForModal(event.logo.original.url)"></a>
+                    <a class="glyphicon glyphicon-resize-full pull-right"  ng-click="model.changeEventHTMLForModal(event.logo.original.url)"></a>
+
+
+                </div>
+            </div>
+              <!--  <div ng-bind-html="model.getTrustedHtml(event.description.html)" style="background-color: black;opacity: 0.7;color: white;font-size: 15px"></div>
+            </div>-->
+        </li>
+    </ul>
+    </div>
+
+
+    <!-- Modal-->
+
+    <form  class="form-group">
+        <button type="submit" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal">
+            Open Modal Panel</button>
+    </form>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body" style="width: 500px;height: 450px;">
+                    <img width="500px" height="450px" ng-src="{{model.htmlText || '../../../resources/images/MuiscAlt2.png'}} ">
+                </div>
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
 </div>

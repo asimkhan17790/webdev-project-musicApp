@@ -23,9 +23,6 @@ module.exports = function (app) {
                 });
             }
         });
-
-
-
     }
 
     function sendSampleMail(auth,req, cb) {

@@ -5,7 +5,7 @@
         .controller("MusicRecSearchController",MusicRecSearchController);
 
 
-    function MusicRecSearchController($location,Upload,$timeout,MusicService,$sce,EmailService) {
+    function MusicRecSearchController($location,Upload,$timeout,MusicService,$sce,EmailService,EventService) {
         console.log('Hello from music page');
 
         var vm = this;
@@ -14,7 +14,9 @@
         vm.findLyrics = findLyrics;
         vm.getTrustedHtml = getTrustedHtml;
         vm.sendEmail = sendEmail;
-        //var recordRTC = null;
+        vm.searchEventCategories = searchEventCategories;
+        vm.searchNearByEvents = searchNearByEvents;
+        vm.changeEventHTMLForModal = changeEventHTMLForModal;
 
         function init () {
         }
@@ -94,9 +96,75 @@
             }).error(function (error) {
                     console.log(error);
                 });
+        }
 
+        function searchEventCategories () {
+            console.log('searchEventCategories');
+            var promise =  EventService.searchEventCategories();
+            promise.success(function (response) {
+                console.log(response);
+            }).error(function (error) {
+                console.log(error);
+            });
 
+        }
 
+        function getLocation() {
+            if (navigator.geolocation) {
+             navigator.geolocation.getCurrentPosition(function (position) {
+                     console.log('latitude:' + position.coords.latitude);
+                     console.log('longitude:'+ position.coords.longitude);
+                     var cord = {
+                         latitude : position.coords.latitude,
+                         longitude : position.coords.longitude
+                     };
+                     console.log(cord) ;
+                });
+            } else {
+                console.log('Geolocation is not supported by this browser.');
+                return null;
+            }
+
+        }
+
+        function searchNearByEvents() {
+            console.log('searchNearByEvents');
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var cord = {
+                        latitude : position.coords.latitude,
+                        longitude : position.coords.longitude
+                    };
+                    var inputFilter = {
+                        cords : cord
+                    }
+                    callSearchEventService(inputFilter);
+
+                }, function (error) {
+                    console.log(error);
+                    callSearchEventService(null);
+                });
+            } else {
+                console.log('Geolocation is not supported by this browser.');
+                callSearchEventService(null);
+                return null;
+            }
+        }
+
+        function callSearchEventService(inputFilter) {
+            var promise =  EventService.searchNearByEvents(inputFilter);
+            promise.success(function (response) {
+                console.log(response);
+                vm.events = response.events;
+
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
+
+        function changeEventHTMLForModal (imageUrl) {
+            vm.htmlText = imageUrl;
         }
     }
 })();
