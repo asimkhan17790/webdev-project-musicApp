@@ -16,6 +16,7 @@
         vm.sendEmail = sendEmail;
         vm.searchEventCategories = searchEventCategories;
         vm.searchNearByEvents = searchNearByEvents;
+        vm.changeEventHTMLForModal = changeEventHTMLForModal;
 
         function init () {
         }
@@ -160,6 +161,10 @@
             }).error(function (error) {
                 console.log(error);
             });
+        }
+
+        function changeEventHTMLForModal (imageUrl) {
+            vm.htmlText = imageUrl;
         }
     }
 })();
