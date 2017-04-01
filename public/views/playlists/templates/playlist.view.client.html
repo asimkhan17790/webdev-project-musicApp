@@ -6,7 +6,7 @@
                 <h1> {{model.playlist.playListName}}</h1>
             </div>
             <div class="pull-right col-xs-6">
-                <img style="position: relative;right: -12px;top: 2px;" class="pull-right img-circle" width="100px" height="100px" src="{{model.playlist.playlistThumbNail}}" alt="../../../resources/images/MuiscAlt2.png">
+                <img style="position: relative;right: -12px;top: 2px;" class="pull-right img-circle" width="100px" height="100px" ng-src="{{model.playlist.playlistThumbNail  || '../../../resources/images/MuiscAlt2.png'}}">
             </div>
         </div>
 
