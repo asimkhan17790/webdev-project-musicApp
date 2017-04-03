@@ -18,6 +18,14 @@
                     pageTitle: 'Search Music',
                 }
             })
+            .when("/landingPage", {
+                templateUrl:"/views/user/templates/landingPage.view.client.html",
+                controller:"LandingPageController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My Music',
+                }
+            })
             .when("/login", {
                 templateUrl:"/views/user/templates/login.view.client.html",
                 controller:"LoginController",

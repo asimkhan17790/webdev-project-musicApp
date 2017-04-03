@@ -24,3 +24,54 @@ glyphicon {
     width: 40%;
     padding: 10px;
 }
+
+input.form-control, select.form-control, textarea.form-control {
+    margin-bottom: 8px;
+}
+btn {
+    margin-bottom: 5px;
+}
+a { text-decoration: none !important}
+.no-left-padding {
+    padding-left: 0px;
+}
+.no-left-margin{
+    margin-left: 0px;
+}
+
+.wbdv-left-pane {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding-top: 15px;
+    overflow: auto;
+
+}
+.wbdv-right-pane {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin-bottom: 60px;
+    margin-top: 51px;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-y: auto;
+}
+/*
+video.fullscreen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translate(-50%, -50%);
+}*/
+body {
+    font-family: 'Dosis', serif;
+}
