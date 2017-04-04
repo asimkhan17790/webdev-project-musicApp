@@ -151,9 +151,13 @@ video {
 h4.modal-title {
     color: white;
 }
+.modal-header .close {
+    margin-top: -8px;
+}
 
 button.close {
     color: darkgrey;
     font-size:28px;
     opacity: 0.5;
+
 }

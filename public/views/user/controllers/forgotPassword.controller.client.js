@@ -10,8 +10,8 @@
                     if (top) {
                         $uibModalStack.dismiss(top.key);
                         event.preventDefault();
+
                     }
-                    $uibModalStack.dismissAll();
 
                     $timeout(function () {
                         $('.modal').modal('hide');
@@ -20,34 +20,17 @@
                 });
             }
         ])*/
-        .controller("LandingPageController",LandingPageController);
+        .controller("ForgotPasswordController", ForgotPasswordController);
 
-    function LandingPageController ($location,$timeout) {
+    function ForgotPasswordController ($location) {
 
         var vm = this;
-        vm.closeModal = closeModal;
-        vm.redirectToForgotPassword = redirectToForgotPassword;
         function init() {
+            console.log('Forgot password controller started');
+            console.log('Forgot password controller started' +vm.username);
+            $('.modal').modal('hide');
         }
         init();
-
-        function closeModal() {
-            console.log(vm);
-
-            //$scope.$apply();
-        }
-
-
-        function redirectToForgotPassword() {
-            $('.modal').modal('hide');
-
-            $timeout(function () {
-                $location.url("/user/forgotPassword");
-            }, 250);
-
-        }
-
-
     }
 
 })();

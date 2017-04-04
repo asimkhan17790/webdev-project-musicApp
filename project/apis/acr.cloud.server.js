@@ -2,7 +2,7 @@ module.exports = function () {
 
     var api = {
         findMusicFingerPrint : findMusicFingerPrint
-    }
+    };
 
     var q = require('q');
     var url = require('url');

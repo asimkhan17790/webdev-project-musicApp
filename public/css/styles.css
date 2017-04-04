@@ -75,3 +75,4 @@ video.fullscreen {
 body {
     font-family: 'Dosis', serif;
 }
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

@@ -42,6 +42,14 @@
                     pageTitle: 'New User Signup',
                 }
             })
+            .when("/user/forgotPassword", {
+                templateUrl:"/views/user/templates/forgotpassword.view.client.html",
+                controller:"ForgotPasswordController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Forgot Password',
+                }
+            })
             .when("/music/playlist", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
                 controller:"PlayListController",
