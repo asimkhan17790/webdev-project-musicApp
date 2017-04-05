@@ -32,16 +32,15 @@
         function init() {
         }
         init();
-        // title : vm.song.title,
-        //     singer : vm.song.singer,
-        //     genre : vm.song.genre,
          vm.sendtoserver = function () {
                 Upload.upload({
                     url: '/api/musicCompany/uploadSong', // web api which will handle the data
                     data:{
                         title : vm.song.title,
-                        singer : vm.song.singer,
+                        name : vm.song.name,
                         genre : vm.song.genre,
+                        userId : "asim",
+                        albumId : "albumid",
                         file:vm.file
                     } //pass file as data, should be user ng-model
                 }).then(function (resp) { //upload function returns a promise

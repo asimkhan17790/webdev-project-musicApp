@@ -17,14 +17,36 @@ module.exports = function (app , listOfModel) {
         storage: storage
     }).single('file');
 
+    var UserModel = listOfModel.UserModel ;
+    var albumModel = listOfModel.albumModel ;
+    var playListModel = listOfModel.playListModel;
+    var songModel = listOfModel.songModel;
 
     app.post("/api/musicCompany/uploadSong",upload,uploadMusicAws);
-
     function uploadMusicAws(req, res) {
-        aws.uploadMusicAws(req.file.buffer).then(
-            function (song) {
+        var keyName = req.body.userId + Date.now() + ".mp3";
+        var albumId = req.body.albumId ;
+        aws.uploadMusicAws(req.file.buffer , keyName)
+            .then(function (song) {
+               var url = "https://s3-us-west-2.amazonaws.com/testbucketsumittest/" + keyName ;
+               var newsong = {
+                   songURL : url,
+                   title : req.body.userId ,
+                   name : req.body.userId,
+                   genre : req.body.userId,
+               }
+                songModel.createSong(newsong)
+                   .then(function (newsong){
+                       return albumModel.addSong(newsong ,albumId);
+                   }).then(function (res) {
+                       console.log("success");
+                       res.json(album);
 
-                return;
+                }, function (err) {
+                    res.json(err);
+                    return;
+                });
+
             },
             function (err) {
                 res.json(err);

@@ -16,11 +16,11 @@ module.exports = function (app) {
     var s3 = new AWS.S3();
 // Create a bucket and upload something into it
     var bucketName = 'testbucketsumittest';
-    var keyName = 'onceagain22.mp3';
     return api;
 
-    function uploadMusicAws (musicObject) {
+    function uploadMusicAws (musicObject , key) {
         var q1 =  q.defer() ;
+        keyName =  key ;
         // console.log("Object is public at https://s3.amazonaws.com/" +
         //    params.Bucket + "/" + params.Key);
         var params = {Bucket: bucketName,

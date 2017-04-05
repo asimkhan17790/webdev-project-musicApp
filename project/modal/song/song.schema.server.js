@@ -12,9 +12,9 @@ module.exports = function () {
         lyricsID : String ,
         songURL : String ,
         songThumb : String ,
-        dateCreated : {type : Date , default :Date.now()},
-        albums : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
-        playlist : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}]
+        dateCreated : {type : Date , default :Date.now()}
+        // albums : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
+        // playlist : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}]
     },{collection: 'song'});
     return songSchema ;
 };
