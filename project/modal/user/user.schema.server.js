@@ -15,6 +15,8 @@ module.exports = function () {
         gender : String,
         dateCreated : {type : Date , default :Date.now()},
         userType : {type : String, enum : ['E', 'U', 'M', 'S','A']},
+        playList : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}],
+        album : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
         followers :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],
         following :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],
     },{collection: 'user'});
