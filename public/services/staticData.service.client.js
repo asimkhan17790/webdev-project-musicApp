@@ -4,31 +4,24 @@
         .factory("StaticDataService", StaticDataService);
 
     function StaticDataService() {
-        var widgetOptions = [
+        var userTypeOptions = [
             {
-                "widgetType": "HEADER",
-                "label": "Header"
+                "userType": "M",
+                "label": "Music Company/Singer"
             }, {
-                "widgetType": "IMAGE",
-                "label": "Image"
+                "userType": "E",
+                "label": "Event Organiser"
             }, {
-                "widgetType": "YOUTUBE",
-                "label": "YouTube"
-            }, {
-                "widgetType": "HTML",
-                "label": "Html"
-            },
-            {
-                "widgetType": "TEXT",
-                "label": "Text"
+                "userType": "U",
+                "label": "Music Lover"
             }
         ];
         var api = {
             "imageWidthOptions": ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"],
             "youtubeWidthOptions": ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"],
             "headerSizeOptions": [1, 2, 3, 4, 5, 6],
-            "widgetOptions": widgetOptions,
-            "getWidgetTypeLabelName": getWidgetTypeLabelName
+            "getWidgetTypeLabelName": getWidgetTypeLabelName,
+            "userTypeOptions": userTypeOptions
         };
 
         return api;

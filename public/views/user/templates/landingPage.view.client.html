@@ -1,83 +1,91 @@
 <div class="container-fluid">
 
-<video poster="../../../resources/images/IMG_16566.jpg" id="bgvid" playsinline autoplay muted loop>
-    <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
-    <source src="../../../resources/videos/landingPageMovie.mp4" type="video/webm">
-    <source src="../../../resources/videos/landingPageMovie.mp4" type="video/mp4">
-</video>
+    <video poster="../../../resources/images/IMG_16566.jpg" id="bgvid" playsinline autoplay muted loop>
+        <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+        <source src="../../../resources/videos/landingPageMovie.mp4" type="video/webm">
+        <source src="../../../resources/videos/landingPageMovie.mp4" type="video/mp4">
+    </video>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-<div class="container-fluid">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <div class="navbar-header">
-        <a class="navbar-brand">
-            <span style="color: red;font-family:Helvetica">My</span>Music
-        </a>
-    </div>
-        <div id="navbar" class="navbar-collapse collapse ">
-            <ul class="nav navbar-nav pull-right">
-                <li class="nav-item"><a data-toggle="modal" data-target="#myModal">Login</a></li>
-                <li class="nav-item"><a href="#/signup" target="_self">Sign Up</a></li>
-            </ul>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-header">
+                <a class="navbar-brand">
+                    <span style="color: red;font-family:Helvetica">My</span>Music
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse ">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="nav-item"><a data-toggle="modal" data-target="#myModal">Login</a>
+                        <!--<ul class="sub-menu">-->
+                            <!--<li><a href="event.html">Event List</a></li>-->
+                            <!--<li><a href="event-photo.html">Event Photo</a></li>-->
+                            <!--<li><a href="event-detail.html">Event Detail</a></li>-->
+                            <!--<li><a href="archive-event.html">Archive Event</a></li>-->
+                        <!--</ul>-->
+
+                    </li>
+                    <li class="nav-item"><a data-toggle="modal" data-target="#myModalSignup" target="_self">Sign Up</a></li>
+                </ul>
+            </div>
+
         </div>
-
-</div>
-</nav>
+    </nav>
     <div style="margin-top: 80px;">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
 
-                <div class="container">
-                    <div class="carousel-caption">
+                    <div class="container">
+                        <div class="carousel-caption">
 
-                        <h1> First Slide</h1>
-                        <p><a class="btn btn-lg btn-primary"  role="button">Sign up today</a></p>
+                            <h1> First Slide</h1>
+                            <p><a class="btn btn-lg btn-primary"  role="button">Sign up today</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <h1> Second Slide</h1>
+
+                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <h1>One more for good measure.</h1>
+
+                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="item">
-
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1> Second Slide</h1>
-
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>One more for good measure.</h1>
-
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
-                    </div>
-                </div>
-            </div>
+            <a class="left carousel-control" href="#myCarousel" target="_self" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" target="_self" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
-        <a class="left carousel-control" href="#myCarousel" target="_self" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" target="_self" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
-</div>
 
 
     <div id="myModal" class="modal fade" role="dialog">
@@ -87,26 +95,103 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Sign In</h4>
+                    <h4 class="modal-title">Login</h4>
                 </div>
                 <div class="modal-body">
-                    <ng-include src="'views/user/templates/login.view.client.html'"></ng-include>
+                    <!--<ng-include src="views/user/templates/login.view.client.html"></ng-include>-->
+                    <div class="">
+                        <div class="row">
+                            <div class="">
+                                <div class="account-wall">
+                                    <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                                         alt="">
+                                    <form class="form-signin form-group">
+                                        <input type="text" class="form-control" placeholder="Username"   ng-model="username" required autofocus>
+                                        <input type="password" class="form-control" placeholder="Password"ng-model="password"required>
+                                        <button class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.login(username,password)">
+                                            Sign in</button>
+                                        <div class="row">
+                                            <!--<div class="col-xs-12 col-sm-6 col-md-6 text-center">
+                                               <label class="checkbox">
+                                                   <input type="checkbox" value="remember-me">
+                                                   Remember me
+                                               </label>
+                                            </div>-->
+                                            <div class="col-xs-12 col-sm-6 col-md-6 text-center" style="margin-top: 5px">
+                                                <a class="">Forgot Password? </a><span class="clearfix"></span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <a href="#" class="text-center new-account">Create an account </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--<div class="modal-footer" >
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>-->
             </div>
 
         </div>
     </div>
 
-    <nav class="navbar navbar-default navbar-fixed-bottom">
+    <div id="myModalSignup" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+ <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sign up</h4>
+                </div>
+                <div class="modal-body">
+                    <!--<ng-include src="views/user/templates/signup.view.client.html"></ng-include>-->
+                    <div class="container">
+                        <div class="row">
+                            <h3 class="col-sm-offset-3 col-sm-6">Signup</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-offset-1 col-sm-2">
+                            </div>
+                            <div class="col-sm-6">
+                                <form class="form-group" role="form">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-6">
+                                            <input type="text" name="firstname" value="" class="form-control input-lg" ng-model="model.user.firstName"  placeholder="First Name"/> </div>
+                                        <div class="col-xs-6 col-md-6">
+                                            <input type="text" name="lastname" value="" class="form-control input-lg"  ng-model="model.user.lastName" placeholder="Last Name"/> </div>
+                                    </div>
+                                    <input type="text" name="email" value="" class="form-control input-lg" ng-model="model.user.email" placeholder="Your Email"/>
+                                    <input type="text" name="username" value="" class="form-control input-lg" ng-model="model.user.username" placeholder="userName"/>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-6">
+                                            <input type="text" name="phone" value="" class="form-control input-lg" pattern="\d*" ng-model="model.user.phone" placeholder="Your contact Number"/>
+                                        </div>
+                                        <div class="col-xs-6 col-md-6">
+                                            <select class = "form-control" name="singleSelect" ng-model="model.userType" ng-options="x.label for x in model.userOptions">
 
+                                            </select>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <input type="password" name="password" value="" class="form-control input-lg" ng-model="model.user.password" placeholder="Password"/>
+                                    <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password"  />
+                                    <label>Gender : </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender" ng-model="model.user.gender" value="M" id=male />Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender" ng-model="model.user.gender" value="F" id=female />Female
+                                    </label>
+                                    <br/>
+                                    <button class="btn btn-lg btn-primary btn-block signup-btn" ng-click="model.createUser()" type="submit">Create my account</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
     </nav>
 
 </div>
-
-
-
-
-
