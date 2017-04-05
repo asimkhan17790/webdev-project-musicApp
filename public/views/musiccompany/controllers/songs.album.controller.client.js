@@ -45,9 +45,7 @@
                         file:vm.file
                     } //pass file as data, should be user ng-model
                 }).then(function (resp) { //upload function returns a promise
-                    console.log(resp.data);
-                    var data = JSON.parse(resp.data);
-                    vm.music = data.metadata.music;
+
                 }, function (resp) { //catch error
                     console.log(resp);
                 }, function (evt) {

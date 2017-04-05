@@ -2,7 +2,7 @@
  * Created by sumitbhanwala on 4/4/17.
  */
 
-module.exports = function (app) {
+module.exports = function (app , listOfModel) {
     app.use(function(req, res, next) { //allow cross origin requests
         res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
         res.header("Access-Control-Allow-Origin", "http://localhost");
@@ -17,13 +17,13 @@ module.exports = function (app) {
         storage: storage
     }).single('file');
 
+
     app.post("/api/musicCompany/uploadSong",upload,uploadMusicAws);
 
     function uploadMusicAws(req, res) {
-     console.log("inside the server side ");
         aws.uploadMusicAws(req.file.buffer).then(
             function (song) {
-                res.json(song);
+
                 return;
             },
             function (err) {

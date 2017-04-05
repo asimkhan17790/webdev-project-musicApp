@@ -66,6 +66,14 @@
                     pageTitle: 'My playlists',
                 }
             })
+            .when("/music/temp/company", {
+                templateUrl:"/views/musiccompany/templates/musiclist.view.client.html",
+                controller:"SongsInAlbums",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My playlists',
+                }
+            })
             .otherwise({
                 redirectTo:"/"
             });
