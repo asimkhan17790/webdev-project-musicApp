@@ -2,6 +2,9 @@
 
     angular
         .module("WebDevMusicApp")
+        /*.run(function($rootScope, $uibModalStack) {
+            $uibModalStack.dismissAll();
+        })*/
         /*.run([
             '$rootScope','$uibModalStack','$timeout',
             function ($rootScope, $uibModalStack, $timeout) {
@@ -27,6 +30,7 @@
         var vm = this;
         vm.closeModal = closeModal;
         vm.redirectToForgotPassword = redirectToForgotPassword;
+        vm.signInUser = signInUser;
         function init() {
         }
         init();
@@ -44,7 +48,12 @@
             $timeout(function () {
                 $location.url("/user/forgotPassword");
             }, 250);
+        }
 
+        function signInUser () {
+            $timeout(function () {
+                $location.url("/user/userHomePage");
+            }, 250);
         }
 
 

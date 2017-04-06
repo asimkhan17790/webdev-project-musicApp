@@ -26,6 +26,22 @@
                     pageTitle: 'My Music',
                 }
             })
+            .when("/user/userHomePage", {
+                templateUrl:"/views/user/templates/homePage.view.client.html",
+                controller:"HomePageController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Home Page',
+                }
+            })
+            .when("/user/userHomePageSinger", {
+                templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
+                controller:"HomePageSingerController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Home Page',
+                }
+            })
             .when("/login", {
                 templateUrl:"/views/user/templates/login.view.client.html",
                 controller:"LoginController",

@@ -1,0 +1,26 @@
+.navbar-default .navbar-nav> .open > a{
+    color: white;
+    background-color: red;
+}
+.navbar-default .navbar-nav> .open > a:focus {
+    color: white;
+    background-color: red;
+}
+
+.navbar-default .navbar-nav> .open> a:hover {
+    color: white;
+    background-color: red;
+}
+
+.dropdown-menu {
+    background: rgba(0,0,0,0.8);
+
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    color: white;
+    text-decoration: none;
+    background-color: darkred;
+}
+.dropdown-menu>li>a {
+    color: white;
+}
