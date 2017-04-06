@@ -11,15 +11,18 @@ module.exports = function (app ,listOfModel) {
 
     // add this album to the user model also
     // so as to refer to this particular album
+    // have to get it checked by asim
     function createalbum(req,res) {
         var album = req.body;
-        albumModel
-            .createAlbum(album)
+        albumModel.createAlbum(album)
             .then(function(album) {
+               return userModel.addalbum(album);
+            })
+            .then(function (album) {
                 res.send(album);
-            }, function (error) {
-                res.sendStatus(500).send(error);
-            });
+            },function (err) {
+                res.send(err);
+            })
     }
 
 }

@@ -10,7 +10,8 @@ module.exports = function () {
     // expsoing this particular api
     var api = {
         createUser: createUser ,
-        findUserByCredentials : findUserByCredentials
+        findUserByCredentials : findUserByCredentials,
+        addalbum : addalbum
     };
 
     var mongoose = require('mongoose');
@@ -39,6 +40,27 @@ module.exports = function () {
             else
             {
                 q1.resolve(user);
+            }
+        });
+        return q1.promise;
+    }
+
+    function addalbum( album) {
+        var q1 =  q.defer();
+        UserModel.findOne({_id:album.albumOwner}, function(err, user) {
+            if (err){
+                q1.reject(err);
+            }
+            else if (user){
+                user.album.push(album._id);
+                user.save(function (err, upAlbum) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(upAlbum);
+                    }
+                });
             }
         });
         return q1.promise;

@@ -23,7 +23,7 @@ module.exports = function () {
                 q1.reject(err);
             }
             else if (album){
-                album.pages.push(newSong._id);
+                album.songs.push(newSong._id);
                 album.save(function (err, upAlbum) {
                     if (err) {
                         q1.reject();
@@ -43,8 +43,8 @@ module.exports = function () {
             if (err){
                 q1.reject(err);
             }
-            else if (album){
-                q1.resolve(album);
+            else if (newAlbum){
+                q1.resolve(newAlbum);
             }
         });
         return q1.promise;
