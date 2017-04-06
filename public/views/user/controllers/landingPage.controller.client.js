@@ -4,7 +4,7 @@
         .module("WebDevMusicApp")
         .controller("LandingPageController",LandingPageController);
 
-    function LandingPageController ($location, UserService ,$routeParams,StaticDataService) {
+    function LandingPageController ($location, UserService ,$routeParams,StaticDataService ,$timeout) {
         var vm = this;
         vm.login = login;
         vm.createUser = createUser;
@@ -36,15 +36,21 @@
         }
 */
         function login(userId, password) {
-            console.log("username is" +userId)
-            console.log("password is" +password)
             var promise = UserService.findUserByCredentials(userId, password);
             promise.success(function(user) {
-                if(user) {
-                    console.log(user);
+                if(user){
                     closeModal();
                     $timeout(function () {
-                       // $location.url("/user/forgotPassword"); -- Goto landing Page
+                        if(user.userType == "M")
+                        {
+                            $location.url("/user/userHomePageSinger/"+user._id);
+                        }
+                        // remaining are for the different type of users which I currently dont care
+                        else if(user.userType == "U")
+                            $location.url("/user/forgotPassword");
+                        else
+                            $location.url("/user/forgotPassword");
+
                     }, 250);
                 }
 

@@ -8,10 +8,7 @@
         .controller("HomePageSingerController",HomePageSingerController);
 
     function HomePageSingerController ($scope) {
-
         var vm = this;
-
-
         function init() {
             $(document).ready(function () {
                 $('[data-toggle="offcanvas"]').click(function () {

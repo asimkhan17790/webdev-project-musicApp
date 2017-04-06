@@ -34,7 +34,7 @@
                     pageTitle: 'Home Page',
                 }
             })
-            .when("/user/userHomePageSinger", {
+            .when("/user/userHomePageSinger/:uid", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
                 controller:"HomePageSingerController",
                 controllerAs:"model",
