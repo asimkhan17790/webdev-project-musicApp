@@ -25,7 +25,8 @@ module.exports = function (app , listOfModel) {
     app.post("/api/musicCompany/uploadSong",upload,uploadMusicAws);
     function uploadMusicAws(req, res) {
         var keyName = req.body.userId + Date.now() + ".mp3";
-        var albumId = req.body.albumId ;
+       // var albumId = req.body.albumId ;
+        var albumId = "58e5878554427707d5ce295b" ;
         aws.uploadMusicAws(req.file.buffer , keyName)
             .then(function (song) {
                var url = "https://s3-us-west-2.amazonaws.com/testbucketsumittest/" + keyName ;
