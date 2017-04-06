@@ -9,7 +9,7 @@ module.exports = function (app) {
     require("./services/email.service.server")(app);
     require("./services/eventbrite.service.server")(app);
     require("./services/user.service.server")(app,modelList);
-    require("./services/uploadMusicAws")(app,modelList);
+   // require("./services/uploadMusicAws")(app,modelList);
    // require("./services/quickstart");
 
     console.log("Application is started");
