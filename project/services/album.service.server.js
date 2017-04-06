@@ -7,7 +7,10 @@ module.exports = function (app ,listOfModel) {
     app.post("/api/album" ,createalbum);
 
     var albumModel = listOfModel.albumModel;
+    var userModel = listOfModel.UserModel;
 
+    // add this album to the user model also
+    // so as to refer to this particular album
     function createalbum(req,res) {
         var album = req.body;
         albumModel

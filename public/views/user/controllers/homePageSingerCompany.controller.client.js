@@ -7,7 +7,7 @@
         })
         .controller("HomePageSingerController",HomePageSingerController);
 
-    function HomePageSingerController ($location, albumService ,$routeParams,StaticDataService ,$timeout) {
+    function HomePageSingerController ($scope ,$location, albumService ,$routeParams,StaticDataService ,$timeout) {
         var vm = this;
         vm.createalbum = createalbum ;
         function init() {
@@ -21,7 +21,7 @@
         init();
 
         function createalbum() {
-            var promise = albumService.createUser(vm.album);
+            var promise = albumService.createalbum(vm.album);
             promise.success(function (album) {
                     console.log(album);
                 }

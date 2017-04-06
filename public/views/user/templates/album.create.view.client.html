@@ -12,10 +12,10 @@
                             <h4 class="modal-title">Create Album</h4>
                         </div>
                         <label for="albumname"> AlbumName </label>
-                        <input  ng-model="model.album.name" type ="text" class = "form-control" id="albumname" placeholder="Album Name"  ng-required="required">
+                        <input  ng-model="model.album.albumname" type ="text" class = "form-control" id="albumname" placeholder="Album Name"  ng-required="required">
 
                         <label for="genre"> Genre </label>
-                        <input ng-model="model.album.genre" type ="text" class = "form-control"id="genre" placeholder="pop" ng-required="required" >
+                        <input ng-model="model.album.albumgenre" type ="text" class = "form-control"id="genre" placeholder="pop" ng-required="required" >
                     </div>
                     <div class="modal-footer" style="padding-top: 10px">
                         <button type="submit" class="btn btn-primary" ng-click="model.createalbum()" >Create album</button>
