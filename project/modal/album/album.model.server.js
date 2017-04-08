@@ -7,7 +7,9 @@ module.exports = function () {
     // expsoing this particular api
     var api = {
         addSong : addSong ,
-        createAlbum : createAlbum
+        createAlbum : createAlbum ,
+        findAllSongs : findAllSongs,
+        deleteAlbum : deleteAlbum
     };
 
     var mongoose = require('mongoose');
@@ -16,9 +18,38 @@ module.exports = function () {
     var albumModel = mongoose.model('albumModel', albumSchema);
     return api;
 
+    function deleteAlbum(albumId) {
+        var q1 = q.defer();
+        albumModel.findOneAndRemove({_id : albumId} , function (err , album) {
+            if(err)
+                q1.reject();
+            else
+                q1.resolve(album);
+        });
+        return q1.promise ;
+    }
+
+
+    function findAllSongs (albumId) {
+        var q1 = q.defer();
+        albumModel
+            .findOne({ _id: albumId })
+            .populate('songs')
+            .exec(function (err, album) {
+                if(album)
+                {
+                    q1.resolve(album);
+                }
+                else
+                    q1.reject ;
+            });
+
+        return q1.promise;
+    }
+
     function addSong(newSong , albumId) {
         var q1 =  q.defer();
-        albumModel.findOne({_id:albumId}, function(err, Website) {
+        albumModel.findOne({_id:albumId}, function(err, album) {
             if (err){
                 q1.reject(err);
             }
@@ -50,9 +81,6 @@ module.exports = function () {
         return q1.promise;
     }
 
-    // create album
-    // delete an album
-    // delete an song from an album  are the possible crud operations
 
 
 };

@@ -53,8 +53,6 @@
 
                     }, 250);
                 }
-
-                    vm.error = "User Not found";
             })
             promise.error(function (user) {
                 vm.error = "User Not found";

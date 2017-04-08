@@ -17,10 +17,15 @@
             "createUser" : createUser,
             "findUserByCredentials" : findUserByCredentials,
             "updateUser" : updateUser,
-            "deleteUser" : deleteUser
+            "deleteUser" : deleteUser,
+            "findAllAlbums" : findAllAlbums
         }
         return api;
 
+        function findAllAlbums(userId) {
+            console.log("user id is" + userId);
+            return $http.get("/api/user/album/"+userId);
+        }
         function createUser(user) {
             console.log("user is" + user);
             return $http.post("/api/user", user);

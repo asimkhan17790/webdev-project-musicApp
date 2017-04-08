@@ -12,9 +12,22 @@ module.exports = function (app ,listOfModel) {
     app.post("/api/user" ,createUser);
     app.get("/api/user" ,findUser);
     app.put("/api/user/:userId",updateUser);
+    app.get("/api/user/album/:userId",findAlbumsForUser);
 
     var userModel = listOfModel.UserModel;
+    var albumModel = listOfModel.albumModel;
 
+    function findAlbumsForUser(req, res) {
+        var userId = req.params.userId;
+        userModel
+            .findAllAlbums(userId)
+            .then(function(user) {
+                res.send(user);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            })
+        // hopefully we will be sending the entire user and albums will be embedded in it
+    }
     function createUser(req,res) {
         var user = req.body;
         userModel
@@ -30,8 +43,6 @@ module.exports = function (app ,listOfModel) {
         var queryParams = req.query;
         var userName = queryParams.username;
         var passWord = queryParams.password;
-        console.log("username is from server " + userName);
-        console.log("password is  from server" + passWord);
         userModel
             .findUserByCredentials(userName, passWord)
             .then(function (user) {

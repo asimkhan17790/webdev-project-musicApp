@@ -17,13 +17,27 @@
 
     function albumService($http) {
         var api = {
-            "createalbum" : createalbum
+            "createalbum" : createalbum,
+            "findAllSongs" : findAllSongs ,
+            "deleteAlbum" : deleteAlbum
         }
         return api;
+
+
+        function findAllSongs(albumId) {
+            console.log("Album id is" + albumId);
+            return $http.get("/api/user/album/song/"+albumId);
+        }
 
         function createalbum(album) {
             console.log("album is" + album);
             return $http.post("/api/album", album);
         }
+
+        function deleteAlbum (album) {
+            console.log("insid the delete part on the clinet side");
+            return $http.delete("/api/album/"+album._id);
+        }
+
     }
 })();

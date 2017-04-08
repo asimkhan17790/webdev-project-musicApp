@@ -6,7 +6,6 @@ module.exports = function () {
     var mongoose = require('mongoose');
     var userSchema = mongoose.Schema({
         username : {type :String , required: true},
-        id : String,
         password : String,
         firstName : String,
         lastName :  String,

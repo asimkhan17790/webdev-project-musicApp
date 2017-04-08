@@ -11,7 +11,9 @@ module.exports = function () {
     var api = {
         createUser: createUser ,
         findUserByCredentials : findUserByCredentials,
-        addalbum : addalbum
+        addalbum : addalbum,
+        findAllAlbums  : findAllAlbums ,
+        deleteAlbum : deleteAlbum
     };
 
     var mongoose = require('mongoose');
@@ -19,6 +21,28 @@ module.exports = function () {
     var UserSchema = require('./user.schema.server.js')();
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
+    
+    function deleteAlbum(userId , albumId) {
+        var q1 =  q.defer();
+        UserModel.findOne({_id:userId}, function(err, User) {
+            if (err){
+                q1.reject();
+
+            }
+            else {
+                User.album.pull(albumId);
+                User.save(function (err, updatedUser) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(updatedUser);
+                    }
+                });
+            }
+        });
+        return q1.promise;
+    }
 
     function findUserByCredentials(userName , password) {
         var q1 =  q.defer() ;
@@ -29,6 +53,23 @@ module.exports = function () {
                 q1.resolve(user);
         });
         return q1.promise ;
+    }
+
+    function findAllAlbums(userId) {
+        var q1 = q.defer();
+        UserModel
+            .findOne({ _id: userId })
+            .populate('album')
+            .exec(function (err, user) {
+                if(user)
+                {
+                    q1.resolve(user);
+                }
+                else
+                    q1.reject ;
+            });
+
+        return q1.promise;
     }
 
     function createUser(user) {

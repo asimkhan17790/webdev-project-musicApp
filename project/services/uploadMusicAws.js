@@ -25,29 +25,27 @@ module.exports = function (app , listOfModel) {
     app.post("/api/musicCompany/uploadSong",upload,uploadMusicAws);
     function uploadMusicAws(req, res) {
         var keyName = req.body.userId + Date.now() + ".mp3";
-       // var albumId = req.body.albumId ;
-        var albumId = "58e5878554427707d5ce295b" ;
+        var albumId = req.body.albumId ;
         aws.uploadMusicAws(req.file.buffer , keyName)
             .then(function (song) {
                var url = "https://s3-us-west-2.amazonaws.com/testbucketsumittest/" + keyName ;
                var newsong = {
                    songURL : url,
-                   title : req.body.userId ,
-                   name : req.body.userId,
-                   genre : req.body.userId,
+                   title : req.body.title ,
+                   name : req.body.name,
+                   genre : req.body.genre
                }
                 songModel.createSong(newsong)
                    .then(function (newsong){
                        return albumModel.addSong(newsong ,albumId);
-                   }).then(function (res) {
-                       console.log("success");
-                       res.json(album);
+                   }).then(function (updatedAlbum) {
+                       res.json(updatedAlbum);
+                       return;
 
                 }, function (err) {
                     res.json(err);
                     return;
                 });
-
             },
             function (err) {
                 res.json(err);

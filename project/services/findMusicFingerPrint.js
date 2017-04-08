@@ -33,7 +33,6 @@ module.exports = function (app) {
                res.json(err);
                return;
            }
-
        );
       // console.log(data);
     }

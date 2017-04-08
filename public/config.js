@@ -82,7 +82,7 @@
                     pageTitle: 'My playlists',
                 }
             })
-            .when("/music/temp/company", {
+            .when("/user/:uid/album/:aid/songs", {
                 templateUrl:"/views/musiccompany/templates/musiclist.view.client.html",
                 controller:"SongsInAlbums",
                 controllerAs:"model",
