@@ -13,8 +13,6 @@ module.exports = function () {
         songURL : String ,
         songThumb : String ,
         dateCreated : {type : Date , default :Date.now()}
-        // albums : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
-        // playlist : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}]
     },{collection: 'song'});
     return songSchema ;
 };

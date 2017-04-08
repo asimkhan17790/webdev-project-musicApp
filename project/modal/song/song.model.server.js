@@ -2,11 +2,10 @@
  * Created by sumitbhanwala on 4/5/17.
  */
 module.exports = function () {
-
-    // expsoing this particular api
     var api = {
         createSong : createSong ,
-        deleteAllSongs : deleteAllSongs
+        deleteAllSongs : deleteAllSongs ,
+        deleteSong : deleteSong
     };
 
     var mongoose = require('mongoose');
@@ -14,6 +13,18 @@ module.exports = function () {
     var songSchema = require('./song.schema.server.js')();
     var songModel = mongoose.model('songModel', songSchema);
     return api;
+
+    function deleteSong(songid) {
+        var q1 = q.defer();
+        songModel.findOneAndRemove({'_id' :songid} ,function (err,song) {
+            if(err)
+                q1.reject();
+            else
+                q1.resolve(song);
+        });
+
+        return q1.promise();
+    }
 
     function deleteAllSongs (songs) {
         console.log(songs);
@@ -27,8 +38,7 @@ module.exports = function () {
             }
         });
         return q1.promise;
-        // we are not sending any thing back after resolving to the function
-        // who wanted to resolve the function
+
     }
 
     function createSong (newsong) {
@@ -44,9 +54,6 @@ module.exports = function () {
         return q1.promise;
     }
 
-    // create album
-    // delete an album
-    // delete an song from an album  are the possible crud operations
 
 
 };

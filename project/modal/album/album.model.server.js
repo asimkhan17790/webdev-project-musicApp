@@ -81,6 +81,4 @@ module.exports = function () {
         return q1.promise;
     }
 
-
-
 };
