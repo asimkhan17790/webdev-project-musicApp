@@ -15,7 +15,7 @@
                 controller:"MusicRecSearchController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Search Music',
+                    pageTitle: 'Search Music'
                 }
             })
             .when("/landingPage", {
@@ -23,7 +23,7 @@
                 controller:"LandingPageController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'My Music',
+                    pageTitle: 'My Music'
                 }
             })
             .when("/user/userHomePage", {
@@ -31,7 +31,7 @@
                 controller:"HomePageController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Home Page',
+                    pageTitle: 'Home Page'
                 }
             })
             .when("/user/userHomePageSinger/:uid", {
@@ -39,7 +39,7 @@
                 controller:"HomePageSingerController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Home Page',
+                    pageTitle: 'Home Page'
                 }
             })
             .when("/login", {
@@ -47,7 +47,7 @@
                 controller:"LoginController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'User Login',
+                    pageTitle: 'User Login'
                 }
             })
             .when("/signup", {
@@ -55,7 +55,7 @@
                 controller:"SignUpController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'New User Signup',
+                    pageTitle: 'New User Signup'
                 }
             })
             .when("/user/forgotPassword", {
@@ -63,7 +63,7 @@
                 controller:"ForgotPasswordController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Forgot Password',
+                    pageTitle: 'Forgot Password'
                 }
             })
             .when("/music/playlist", {
@@ -71,7 +71,7 @@
                 controller:"PlayListController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Play playlist',
+                    pageTitle: 'Play playlist'
                 }
             })
             .when("/music/myplaylists", {
@@ -79,7 +79,7 @@
                 controller:"AllPlayListController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'My playlists',
+                    pageTitle: 'My playlists'
                 }
             })
             .when("/user/:uid/album/:aid/songs", {
@@ -87,15 +87,24 @@
                 controller:"SongsInAlbums",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'My playlists',
+                    pageTitle: 'My playlists'
                 }
             })
+
             .when("/landingPage/forgetpass", {
                 templateUrl:"/views/user/templates/forgotpassword.view.client.html",
                 controller:"ForgotPasswordController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Forgot password',
+                    pageTitle: 'Forgot password'
+                }})
+            .when("/music/recordAndSearch", {
+                templateUrl:"/views/music/templates/musicRecordSearch.view.client.html",
+                controller:"MusicRecorderController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Record and Search'
+
                 }
             })
             .otherwise({

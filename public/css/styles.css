@@ -1,6 +1,6 @@
 .pageBackground {
 
-    background: url('../resources/images/night_background.jpg');
+    background: url('../resources/images/IMG_16566.jpg');
     background-size: cover;
     position: absolute;
     top:0;
@@ -76,3 +76,82 @@ body {
     font-family: 'Dosis', serif;
 }
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+
+.modal .seach-button-lens {
+    border-radius : 0px;
+    font-size: 21px;
+    position: relative;
+    left: -35px;
+    z-index: 50;
+}
+
+
+.form-signin .search-field {
+
+     border-bottom-left-radius: 0;
+     border-bottom-right-radius: 0;
+}
+.form-control .search-field {
+    border-radius : 0px;
+}
+
+a {
+    transition: color .3s ease,background-color .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+
+.audioRecorder {
+    width:20px;
+    height:46px;
+    padding-top:17px;
+    padding-left: 19px;
+    padding-right: 20px;
+}
+
+.recorder-div {
+    background: rgba(0,0,0,0.8);
+    background-size: cover;
+    position: absolute;
+    top:0;
+    left:0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.alert-danger {
+    background: rgba(0,0,0,0.8);
+
+
+}
+.alert {
+
+    margin-top: 40px;
+    z-index: 22;
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+    border-color:#f44336;
+    font-size:large;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}
+.animate-top{position:relative;animation:animatetop 0.4s}
+@keyframes animatetop{
+    from{top:-300px;opacity:0}
+    to{top:0;opacity:1}}

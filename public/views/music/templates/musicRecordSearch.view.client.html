@@ -1,0 +1,200 @@
+<div class=" pageBackground">
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-header">
+                    <a class="navbar-brand">
+                        <span style="color: red;font-family:Helvetica">My</span>Music
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav pull-right  visible-sm visible-md visible-lg">
+
+                        <!--<li class="dropdown">
+                            <a href="#" target="_self"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Search <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a target="_self" aria-expanded="false">Music</a></li>
+
+                            </ul>
+                        </li>-->
+                        <li class="nav-item"><a>Home</a></li>
+                        <li class="nav-item"><a>Playlists</a></li>
+                        <li class="nav-item"><a>Followers <span class="badge">42</span></a></li>
+                        <li class="nav-item"><a>Following <span class="badge">12</span></a></li>
+                        <li class="nav-item"><a>Events</a></li>
+
+                        <!--<li class="nav-item"><a
+                                style="font-size: 20px"
+                                class="fa fa-microphone"
+                                disabled="{{!model.recordingFlag}}"
+                                ng-click="model.showSpinner()"></a></li>-->
+
+                        <li class="nav-item" >
+                            <form>
+                                <div>
+                            <ng-audio-recorder auto-start="true" id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-start="model.showSpinner()" on-record-complete="model.recordAndSearch()">
+                                <!-- Start controls, exposed via recorder-->
+                                <div ng-if="recorder.isAvailable" ng-click="">
+                                    <a style="font-size: 20px"
+                                       class="fa fa-microphone"
+                                       aria-hidden="true"
+                                       id='audioInput11'
+                                       ng-click="!recorder.status.isRecording && recorder.startRecord()"
+                                       ng-disabled="recorder.status.isRecording">
+                                    </a>
+                                </div>
+
+                                <div ng-if="!recorder.isAvailable">
+                                   <!-- <i class="fa fa-microphone-slash" aria-hidden="true"></i>-->
+                                </div>
+
+                            </ng-audio-recorder>
+                                </div>
+                            </form>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="glyphicon glyphicon-cog dropdown-toggle"
+                               target="_self"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false"></a>
+
+                            <ul class="dropdown-menu" id="profileHeaderCog">
+                                <li><a target="_self">Edit Profile</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a target="_self" >Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav pull-left hidden-md visible-xs hidden-lg">
+                        <!--<li class="dropdown">
+                            <a href="#" target="_self"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Search <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a target="_self">Music</a></li>
+                                &lt;!&ndash;<li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                               &lt;!&ndash; <li class="dropdown-header">Nav header</li>&ndash;&gt;
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">One more separated link</a></li>&ndash;&gt;
+                            </ul>
+                        </li>-->
+                        <li class="nav-item"><a>Home</a></li>
+                        <li class="nav-item"><a>Playlists</a></li>
+                        <li class="nav-item"><a>Followers</a></li>
+                        <li class="nav-item"><a>Following</a></li>
+                        <li class="nav-item"><a>Events</a></li>
+                        <li class="nav-item"><a>Search</a></li>
+                       <!-- <li class="nav-item"><a style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>-->
+
+                        <li class="nav-item">
+                            <form>
+                                <ng-audio-recorder id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-complete="model.recordAndSearch()">
+                                    <!-- Start controls, exposed via recorder-->
+                                    <div ng-if="recorder.isAvailable">
+                                        <a style="font-size: 20px"
+                                           class="fa fa-microphone"
+                                           aria-hidden="true"
+                                           ng-click="recorder.startRecord()"
+                                           ng-disabled="recorder.status.isRecording">
+                                        </a>
+                                    </div>
+                                    <!--  <button type="button" ng-click="recorder.save('save')">save</button>-->
+                                    <div ng-if="!recorder.isAvailable">
+                                        <!-- <i class="fa fa-microphone-slash" aria-hidden="true"></i>-->
+                                    </div>
+
+                                </ng-audio-recorder>
+                            </form>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="glyphicon glyphicon-cog dropdown-toggle"
+                               target="_self"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false"></a>
+
+                            <ul class="dropdown-menu" id="profileHeaderCogPhone">
+                                <li><a target="_self">Edit Profile</a></li>
+
+                                <li><a target="_self" >Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+    <div ng-show="model.success" class="jumbotron">
+        <div class="container-fluid" style="margin-top: 50px">
+            <div class="row">
+                <div class="col-xs-6">
+
+                    <div id="nowPlay">
+                        <div id="audio0" style="margin-top: 5px">
+                            <audio style="width: 100%;" preload id="audio1" preload controls="controls">Your browser does not support HTML5 Audio!>
+
+                            </audio>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-6">
+
+                    <div class="pull-right">
+                        <img class="img-rounded" width="200px" height="200px"
+                             ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+
+
+                <div class="recorder-div" ng-show="model.recordingFlag">
+                    <img class="img-responsive" width="200px" height="200px"  style="margin: auto;margin-top: 100px;"
+                         ng-src="{{user.imageURL || '../../../resources/images/recorder.gif'}} ">
+                </div>
+            <
+        <div ng-show="model.error" class="alert alert-danger animate-top" role="alert">
+            <span class="closebtn" ng-click="model.error=null;">&times;</span>
+            {{model.error}}
+        </div>
+
+    </div>
+
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+
+    </nav>
+</div>

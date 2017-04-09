@@ -1,15 +1,27 @@
 .list-group-item:hover {
-    background-color: black;
-   // background:rgba(0,0,0,0.7);
+    background-color: #c9302c;
+   // background:rgba(0,0,0,0);
     font-stretch: expanded;
     font-size: large;
 
-}
-.list-group-item {
-    background-color: black;
-    background:rgba(0,0,0,0.7)
 
 }
+.list-group-item {
+   // background-color: #c9302c;
+    background:rgba(0,0,0,0)
+
+}
+.list-group-item {
+
+    border-width: thin;
+    border-color: #363636;
+}
+.modal .list-group-item a{
+
+    color: white;
+    font-weight: 100;
+}
+
 .play-button {
     font-size: 20px;
     color: #5e5e5e;
@@ -40,6 +52,4 @@
 
 .current-song {
     background-color: #ff9200;
-
-
 }
