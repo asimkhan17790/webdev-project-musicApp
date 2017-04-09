@@ -54,8 +54,6 @@ module.exports = function (app) {
     function searchEventCategories(req,res) {
        // var queryString = '';
       //  var inputFilter = req.body;
-
-
         var service_endPoint = '/v3/categories/';
         var path =  service_endPoint + '?token=' + evnt_anon_token;
         return httpsResponse(req, res, path);

@@ -8,7 +8,6 @@ module.exports = function (app) {
     var googleAuth = require('google-auth-library');
     var google = require('googleapis');
 
-
     function sendEmail (req, res) {
         getOAuth2Client(function(err, oauth2Client) {
             if (err) {

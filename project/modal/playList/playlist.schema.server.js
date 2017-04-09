@@ -5,10 +5,10 @@
 module.exports = function () {
     var mongoose = require('mongoose');
     var playListSchema = mongoose.Schema({
-        playListname : {type :String , required: true},
-        id : String,
+        playListName : {type :String , required: true},
         dateCreated : {type : Date , default :Date.now()},
         playListOwner : String,
+        playlistmood :String,
         songs : [{type :mongoose.Schema.Types.ObjectId , ref:'songModel'}]
     },{collection: 'playList'});
     return playListSchema;

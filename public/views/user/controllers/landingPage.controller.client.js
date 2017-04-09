@@ -41,9 +41,11 @@
                         {
                             $location.url("/user/userHomePageSinger/"+user._id);
                         }
-                        // remaining are for the different type of users which I currently dont care
-                        else if(user.userType == "U")
-                            $location.url("/user/forgotPassword");
+                        // remaining are for the different type of users which I currently dont care and
+                            // later for the admin too
+                        else if(user.userType == "U") {
+                            $location.url("/user/userHomePage/" + user._id);
+                        }
                         else
                             $location.url("/user/forgotPassword");
 
@@ -58,7 +60,6 @@
         function createUser() {
             vm.user.userType = vm.userType.userType;
             var promise = UserService.createUser(vm.user);
-
             promise.success(function (user) {
                 console.log(user);
                 }

@@ -26,7 +26,7 @@
                     pageTitle: 'My Music'
                 }
             })
-            .when("/user/userHomePage", {
+            .when("/user/userHomePage/:uid", {
                 templateUrl:"/views/user/templates/homePage.view.client.html",
                 controller:"HomePageController",
                 controllerAs:"model",

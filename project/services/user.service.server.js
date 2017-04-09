@@ -13,9 +13,11 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user" ,findUser);
     app.put("/api/user/:userId",updateUser);
     app.get("/api/user/album/:userId",findAlbumsForUser);
+    app.get("/api/user/playList/:userId",findPlayListForUser)
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
+    var playListModel = listOfModel.playListModel;
 
     function findAlbumsForUser(req, res) {
         var userId = req.params.userId;
@@ -28,11 +30,49 @@ module.exports = function (app ,listOfModel) {
             })
         // hopefully we will be sending the entire user and albums will be embedded in it
     }
+
+    function findPlayListForUser(req, res) {
+        var userId = req.params.userId;
+        userModel
+            .findAllplayLists(userId)
+            .then(function (user) {
+                res.send(user);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            })
+    }
+
+    // create a default playlist for the user of type music lover which cant be deleted
+    // have to see how to make sure its not deleted ever okay creating a field called
+    // default playlist which can never be deleted
+
+    // NOTE :: creating default playlist in the particular playlist itself
+    // possible bug that user gets created but the default playlist dont get cra
     function createUser(req,res) {
         var user = req.body;
         userModel
             .createUser(user)
             .then(function(user) {
+                if(user.userType == "U")
+                {
+                    var defaultplayList = {
+                        "playListName" : "Default",
+                        "playListOwner" : user._id
+                    }
+                    playListModel
+                        .createplayList(defaultplayList)
+                        .then(function (createplayList) {
+                            userModel
+                                .addplayList(createplayList)
+                                .then(function (createplayList) {
+                                    res.send(createplayList);
+                                },function (error) {
+                                    res.sendStatus(500).send(error);
+                                });
+                        },function (error) {
+                            res.sendStatus(500).send(error);
+                        });
+                }
                 res.send(user);
             }, function (error) {
                 res.sendStatus(500).send(error);

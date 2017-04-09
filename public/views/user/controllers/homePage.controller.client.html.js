@@ -7,41 +7,65 @@
     })
     .controller("HomePageController",HomePageController);
 
-    function HomePageController ($scope,EventService) {
-
+    function HomePageController ($scope,EventService ,UserService ,$routeParams ,StaticDataService,$timeout,playListService) {
         var vm = this;
         vm.searchNearByEvents = searchNearByEvents;
-        vm.users = [
-            {
-                firstName : "Asim",
-                lastName : "Khan",
-                imageURL : ""
-            },{
-                firstName : "Saurabh",
-                lastName : "Singh",
-                imageURL : ""
-            },{
-                firstName : "Raj",
-                lastName : "chawdhary",
-                imageURL : ""
-            },{
-                firstName : "Sumit",
-                lastName : "Bhanwala",
-                imageURL : ""
-            }
-        ];
-
-
+        vm.userId = $routeParams.uid ;
+        vm.createplayList = createplayList ;
+        vm.deleteplayList = deleteplayList ;
         function init() {
            // searchNearByEvents();
+           // searchAllPlaylists();
+            var promise = UserService.findAllplayList(vm.userId);
+            promise.success(function (user) {
+                vm.playLists = user.playList ;
+                console.log(vm.playLists);
+
+            })
+            promise.error(function (err) {
+                console.log("some error occured " + err);
+                vm.playLists = null ;
+            })
         }
         init();
 
 
+        function closeModal() {
+            $('.modal').modal('hide');
+        }
+        function deleteplayList(playList) {
+            var promise = playListService.deleteplayList(playList);
+            promise.success(function(playList) {
+                if(playList){
+                    init();
+                }
+            })
+            promise.error(function (err) {
+                vm.error = "PlayList Not found";
+            })
+        }
+        
+        function createplayList() {
+            vm.playlist.playListOwner =  vm.userId;
+            var promise = playListService.createplayList(vm.playlist);
+            promise.success(function(playlist) {
+                if(playlist){
+                    closeModal();
+                    vm.playlist = {};
+                    $timeout(function () {
+                        // probably will handle the redirection to the
+                        // album default page
+                        init();
+                    }, 250);
+                }
+            })
+            promise.error(function (err) {
+                vm.error = "User Not found";
+            })
+        }
 
         function searchNearByEvents() {
             console.log('searchNearByEvents');
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var cord = {
@@ -73,6 +97,7 @@
                 console.log(error);
             });
         }
+
 
     }
 

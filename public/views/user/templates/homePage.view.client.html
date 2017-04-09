@@ -125,31 +125,34 @@
         </div>
     </div>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12" style="margin-top:50px ">
-            <!--<p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas" title="Toggle sidebar"><i class="fa fa-chevron-right"></i></button>
-            </p>-->
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <h2>Heading</h2>
-                    <p>asdassdsds </p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-12 col-sm-6">
-                    <h2>Heading</h2>
-                    <p>asdasdads </p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-12 col-sm-6">
-                    <h2>Heading</h2>
-                    <p>asdasda</p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-12 col-sm-6">
-                    <h2>Heading</h2>
-                    <p>asdasds</p>
+    <div class="row row-offcanvas row-offcanvas-right">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12 col-sm-9 col-sm-push-3">
+                <p class="pull-right visible-xs">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas" title="Toggle sidebar"><i class="fa fa-chevron-right"></i></button>
+                </p>
+                <ng-include src="'views/user/templates/playlist.create.view.client.html'"></ng-include>
+            </div><!--/.col-xs-12.col-sm-9-->
+            <div class="col-xs-6 col-sm-3 col-sm-pull-9 sidebar-offcanvas" id="sidebar">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">Your Playlist</a>
+                    <ul class="list-group" >
+                        <li ng-repeat="playList in model.playLists" class="list-group-item" >
+                            <div class="row">
+                                <div class="col-xs-10 col-sm-6">
+                                    <a href="#/user/{{model.userId}}/playList/{{playList._id}}/songs">
+                                        {{playList.playListName}}
+                                    </a>
+                                    <a class="btn btn-default glyphicon glyphicon-hand-up" ng-click="model.deleteplayList(playList)">
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
+        </div><
+
 
 
     <ng-include src="'views/user/templates/upcomingEvents.view.client.html'"></ng-include>
