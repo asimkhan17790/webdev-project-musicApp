@@ -90,6 +90,14 @@
                     pageTitle: 'My playlists',
                 }
             })
+            .when("/music/recordAndSearch", {
+                templateUrl:"/views/music/templates/musicRecordSearch.view.client.html",
+                controller:"MusicRecorderController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Record and Search',
+                }
+            })
             .otherwise({
                 redirectTo:"/"
             });

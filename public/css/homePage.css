@@ -9,7 +9,7 @@
 
 .navbar-default .navbar-nav> .open> a:hover {
     color: white;
-    background-color: red;
+    background-color: #c9302c;
 }
 
 .dropdown-menu {
@@ -19,8 +19,376 @@
 .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
     color: white;
     text-decoration: none;
-    background-color: darkred;
+    background-color: #c9302c;
 }
 .dropdown-menu>li>a {
     color: white;
+}
+
+@media (max-width: 767px)
+{
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a {
+        color: white;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover{
+        color: white;
+        background-color: #c9302c;
+    }
+}
+.jumbotron {
+    background: rgba(0,0,0,0.8);
+   // background-image: linear-gradient(90deg, black, white);
+}
+.event-homePage-item {
+    background: rgba(0,0,0,0.8);
+}
+.navbar-collapse.in {
+    overflow-y: visible;
+}
+#profileHeaderCog {
+    left: -100px;
+}
+
+
+/*  Events CSS*/
+
+
+
+.mymusic-shortcode-events {
+
+}
+.sh-event-title {
+    font-size: 36px;
+    color: #fff;
+    padding: 0;
+    margin: 0 0 10px;
+    text-align: center
+}
+@media (max-width: 767px) {
+    .sh-event-title {
+        font-size: 24px;
+        line-height: 100%
+    }
+}
+.sh-event-title span {
+    color: #d91f26
+}
+.sh-ds {
+    font-size: 18px;
+    line-height: 24px;
+    color: #fff;
+    padding: 0 10%;
+    margin: 0;
+    font-weight: 400;
+    text-align: center
+}
+.mymusic-sh-event-content {
+    margin-top: 80px
+}
+.mymusic-sh-list-event {
+    position: relative;
+    background: rgba(0, 0, 0, .19999999999999996);
+    border-top: 1px solid #1c1c1c;
+    margin-left: 48px;
+    -webkit-transition: all .3s ease 0s;
+    -o-transition: all .3s ease 0s;
+    transition: all .3s ease 0s
+}
+.mymusic-sh-list-event:after {
+    clear: both;
+    display: block;
+    content: ''
+}
+.mymusic-sh-list-event:first-child {
+    border-top: 0
+}
+.mymusic-sh-list-event:hover {
+    background: rgba(0, 0, 0, .5)
+}
+.mymusic-sh-list-event:hover .mymusic-thumbnail {
+    background-position: center left
+}
+.mymusic-sh-list-event .entry-date {
+    background: #d91f26;
+    position: absolute;
+    left: -48px;
+    display: block;
+    text-align: center;
+    top: 0;
+    font-size: 1.875em;
+    line-height: 30px;
+    color: #fff;
+    font-weight: 300;
+    padding: 6px 10px 4px;
+    border-bottom: 3px solid #b7181e;
+    z-index: 1
+}
+.mymusic-sh-list-event .entry-date span {
+    display: block;
+    border-top: 1px solid #fff;
+    font-size: 14px;
+    margin-top: 8px
+}
+.mymusic-sh-list-event .mymusic-thumbnail {
+    width: 200px;
+    float: left;
+    position: relative;
+    min-height: 200px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    -webkit-transition: all .5s ease 0s;
+    -o-transition: all .5s ease 0s;
+    transition: all .5s ease 0s
+}
+
+.mymusic-sh-list-event .mymusic-shevent-content {
+    padding-left: 230px;
+    padding-right: 10px
+}
+@media (max-width: 767px) {
+    .mymusic-sh-list-event {
+        margin-left: 0!important
+    }
+    .mymusic-sh-list-event .entry-date {
+        right: auto;
+        left: 0
+    }
+    .mymusic-sh-list-event .mymusic-thumbnail {
+        width: 100%;
+        display: block;
+        margin-bottom: 15px;
+        min-height: 300px
+    }
+    .mymusic-sh-list-event .mymusic-shevent-content {
+        width: 100%;
+        display: block;
+        padding: 15px
+    }
+}
+.mymusic-sh-list-event .mymusic-shevent-content h4 {
+    padding: 25px 0 16px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 16.8px;
+    color: #fff;
+    text-transform: uppercase
+}
+@media (max-width: 767px) {
+    .mymusic-sh-list-event .mymusic-shevent-content h4 {
+        font-size: 16px
+    }
+}
+.mymusic-sh-list-event .mymusic-shevent-content .sh-date {
+    font-size: 1.125em;
+    line-height: 30px;
+    color: #fff;
+    text-transform: uppercase
+}
+@media (max-width: 767px) {
+    .mymusic-sh-list-event .mymusic-shevent-content .sh-date {
+        font-size: 16px
+    }
+}
+.mymusic-sh-list-event .mymusic-shevent-content .sh-date i {
+    color: #d91f26;
+    margin-right: 10px
+}
+.mymusic-sh-list-event .mymusic-shevent-content .sh-address {
+    margin-left: 38px;
+    font-size: 1.125em;
+    line-height: 30px;
+    color: #fff;
+    text-transform: uppercase
+}
+@media (max-width: 767px) {
+    .mymusic-sh-list-event .mymusic-shevent-content .sh-address {
+        font-size: 16px;
+        display: block;
+        margin-left: 0
+    }
+}
+.mymusic-sh-list-event .mymusic-shevent-content .sh-address i {
+    color: #d91f26;
+    margin-right: 10px
+}
+.mymusic-sh-list-event .mymusic-shevent-content .sh-excerpt {
+    margin-top: 18px;
+    color: #555;
+    font-size: 16px;
+    line-height: 24px
+}
+.mymusic-view-event {
+    text-align: center;
+    margin-top: 80px
+}
+.mymusic-view-event a {
+    display: inline-block;
+    font-size: 1.125em;
+    color: #555;
+    text-transform: uppercase;
+    background: #1f1f1f;
+    padding: 0 27px;
+    border-bottom: 3px solid #191919;
+    height: 50px;
+    line-height: 50px;
+    margin: 0
+}
+.mymusic-view-event a:hover {
+    background: #d91f26;
+    color: #fff;
+    border-bottom: 3px solid #b7181e
+}
+.grid .mymusic-grid-header-events {
+    margin-bottom: 95px
+}
+.mymusic-sh-grid-event {
+    position: relative;
+    height: 370px;
+    overflow: hidden;
+    margin-top: 30px
+}
+.mymusic-sh-grid-event:hover .mymusic-thumbnail img {
+    -webkit-filter: none;
+    filter: none;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1)
+}
+.mymusic-sh-grid-event .mymusic-thumbnail {
+    height: 100%
+}
+.mymusic-sh-grid-event .mymusic-thumbnail img {
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    -webkit-transition: all .6s ease 0s;
+    -o-transition: all .6s ease 0s;
+    transition: all .6s ease 0s;
+    height: 100%;
+    width: auto;
+    max-width: none
+}
+.mymusic-sh-grid-event .mymusic-shevent-content {
+    position: absolute;
+    left: 25px;
+    bottom: 20px;
+    right: 20px
+}
+.mymusic-sh-grid-event .mymusic-shevent-content h4 {
+    padding: 25px 0 10px;
+    margin: 0;
+    font-size: 1.5em;
+    line-height: 30px;
+    color: #fff;
+    text-transform: uppercase
+}
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-date,
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-time-event {
+    font-size: .875em;
+    line-height: 30px;
+    color: #fff;
+    text-transform: uppercase
+}
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-date i,
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-time-event i {
+    color: #d91f26;
+    margin-right: 10px
+}
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-time-event {
+    padding-right: 10px
+}
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-time-event i {
+    font-size: 15px
+}
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-address {
+    font-size: 16px;
+    line-height: 30px;
+    display: block;
+    color: #fff
+}
+.mymusic-sh-grid-event .mymusic-shevent-content .sh-address i {
+    color: #d91f26;
+    margin-right: 10px
+}
+.mymusic-grid-header-events {
+    position: relative;
+    padding-left: 128px
+}
+.mymusic-grid-header-events .icon {
+    position: absolute;
+    display: block;
+    background: #d91f26;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    border-bottom: 2px solid #b7181e
+}
+.mymusic-grid-header-events .icon i {
+    font-size: 50px;
+    color: #fff;
+    margin-top: 25px
+}
+@media (max-width: 767px) {
+    .mymusic-sh-grid-event .mymusic-shevent-content .sh-time-event {
+        display: block;
+        margin-left: 0
+    }
+    .mymusic-grid-header-events {
+        padding-left: 60px
+    }
+    .mymusic-grid-header-events .icon {
+        width: 50px;
+        height: 50px;
+        line-height: 50px
+    }
+    .mymusic-grid-header-events .icon i {
+        font-size: 24px;
+        margin-top: 15px
+    }
+}
+.mymusic-grid-header-events .sh-event-title {
+    text-align: left;
+    margin: 0 0 21px;
+    line-height: 30px
+}
+.mymusic-grid-header-events .sh-ds {
+    text-align: left;
+    padding: 0;
+    font-weight: 300
+}
+.mymusic-grid-header-events {
+    margin-bottom: 136px
+}
+.mymusic-grid-header-events.header-news {
+    margin-bottom: 110px
+}
+.mymusic-featured-albums {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 18px
+}
+.mymusic-featured-albums li {
+    position: relative
+}
+.mymusic-featured-albums li.active {
+    z-index: 9999
+}
+.mymusic-featured-albums li.active figure .wp-post-image {
+    -webkit-filter: none;
+    filter: none
+}
+.mymusic-featured-albums li:hover figure figcaption {
+    background: #262626;
+    bottom: 0
+}
+
+.mymusic-shevent-content>h4>a {
+    color:white;
+}
+.mymusic-shevent-content>h4>a:hover {
+    color:red;
 }

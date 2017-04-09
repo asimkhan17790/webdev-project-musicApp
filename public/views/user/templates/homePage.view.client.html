@@ -1,4 +1,5 @@
-<div class="container-fluid pageBackground">
+<div class=" pageBackground">
+    <div class="container-fluid">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -13,7 +14,7 @@
                 </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse ">
-                <ul class="nav navbar-nav pull-right visible-md visible-lg">
+                <ul class="nav navbar-nav pull-right  visible-sm visible-md visible-lg">
 
                     <li class="dropdown">
                         <a href="#" target="_self"
@@ -24,30 +25,36 @@
                            aria-expanded="false">Search <span class="caret"></span></a>
 
                         <ul class="dropdown-menu">
-                            <li><a data-toggle="collapse" href="#nav-collapse3" target="_self" aria-expanded="false" aria-controls="nav-collapse3">Profiles</a></li>
-                            <li><a data-toggle="collapse" href="#nav-collapse3" target="_self" aria-expanded="false" aria-controls="nav-collapse3">Music</a></li>
-                            <!--<li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                           &lt;!&ndash; <li class="dropdown-header">Nav header</li>&ndash;&gt;
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>-->
+                            <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                            <li><a target="_self" aria-expanded="false">Music</a></li>
+
                         </ul>
                     </li>
                     <li class="nav-item"><a>Home</a></li>
                     <li class="nav-item"><a>Playlists</a></li>
-                    <li class="nav-item"><a>Followers</a></li>
-                    <li class="nav-item"><a>Following</a></li>
+                    <li class="nav-item"><a>Followers <span class="badge">42</span></a></li>
+                    <li class="nav-item"><a>Following <span class="badge">12</span></a></li>
                     <li class="nav-item"><a>Events</a></li>
-                    <li class="nav-item"><a>Events</a></li>
-                    <li class="nav-item"><a style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
 
-                    <li class="nav-item" role="separator"></li>
+                    <li class="nav-item"><a style="font-size: 20px" class="fa fa-microphone"></a></li>
+
                     <li class="nav-item">
-                        <a> <span class="glyphicon glyphicon-cog"> </span> </a>
+                        <a class="glyphicon glyphicon-cog dropdown-toggle"
+                           target="_self"
+                           data-toggle="dropdown"
+                           role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false"></a>
+
+                        <ul class="dropdown-menu" id="profileHeaderCog">
+                            <li><a target="_self">Edit Profile</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a target="_self" >Logout</a></li>
+                        </ul>
                     </li>
                 </ul>
 
-                <ul class="nav navbar-nav pull-left hidden-md hidden-lg visible-xs visible-sm">
+                <ul class="nav navbar-nav pull-left hidden-md visible-xs hidden-lg">
                     <li class="dropdown">
                         <a href="#" target="_self"
                            class="dropdown-toggle"
@@ -57,7 +64,7 @@
                            aria-expanded="false">Search <span class="caret"></span></a>
 
                         <ul class="dropdown-menu">
-                            <li><a target="_self">Profiles</a></li>
+                            <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
                             <li><a target="_self">Music</a></li>
                             <!--<li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
@@ -73,60 +80,116 @@
                     <li class="nav-item"><a>Events</a></li>
                     <li class="nav-item"><a>Search</a></li>
                     <li class="nav-item"><a style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
+                    <li class="nav-item">
+                        <a class="glyphicon glyphicon-cog dropdown-toggle"
+                           target="_self"
+                           data-toggle="dropdown"
+                           role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false"></a>
+
+                        <ul class="dropdown-menu" id="profileHeaderCogPhone">
+                            <li><a target="_self">Edit Profile</a></li>
+
+                            <li><a target="_self" >Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
+                <!--<div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search" />
                         </div>
                         <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </form>
-                </div>
+                </div>-->
             </div>
 
         </div>
     </nav>
-<div class="container-fluid">
-    <div class="row row-offcanvas row-offcanvas-right">
-        <div class="col-xs-12 col-sm-9 col-sm-push-3">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas" title="Toggle sidebar"><i class="fa fa-chevron-right"></i></button>
-            </p>
-            <div class="jumbotron">
-                <h1>Hello, world!</h1>
-                <p>asdasdasdadsasd.</p>
-            </div>
+    </div>
+    <div class="jumbotron">
+        <div class="container-fluid" style="margin-top: 50px">
             <div class="row">
-                <div class="col-xs-6 col-lg-4">
+                <div class="col-xs-6">
+                    <h1><span style="color: red">Hello </span>, Asim</h1>
+                </div>
+                <div class="col-xs-6">
+
+                    <div class="pull-right">
+                    <img class="img-circle" width="140px" height="140px"
+                         ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12" style="margin-top:50px ">
+            <!--<p class="pull-right visible-xs">
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas" title="Toggle sidebar"><i class="fa fa-chevron-right"></i></button>
+            </p>-->
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
                     <h2>Heading</h2>
                     <p>asdassdsds </p>
                 </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
+                <div class="col-xs-12 col-sm-6">
                     <h2>Heading</h2>
                     <p>asdasdads </p>
                 </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
+                <div class="col-xs-12 col-sm-6">
                     <h2>Heading</h2>
                     <p>asdasda</p>
                 </div><!--/.col-xs-6.col-lg-4-->
-                <div class="col-xs-6 col-lg-4">
+                <div class="col-xs-12 col-sm-6">
                     <h2>Heading</h2>
                     <p>asdasds</p>
-                </div><!--/.col-xs-6.col-lg-4-->
-                <!--/.col-xs-6.col-lg-4-->
-            </div><!--/row-->
-        </div><!--/.col-xs-12.col-sm-9-->
-
-        <div class="col-xs-6 col-sm-3 col-sm-pull-9 sidebar-offcanvas" id="sidebar">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">Your options</a>
-                <a href="#" class="list-group-item">Album1</a>
-                <a href="#" class="list-group-item">Album2</a>
-                <a href="#" class="list-group-item">Album3</a>
+                </div>
             </div>
-        </div><!--/.sidebar-offcanvas-->
-    </div><!--/row-->
+        </div>
+    </div>
+
+
+    <ng-include src="'views/user/templates/upcomingEvents.view.client.html'"></ng-include>
+
+       <!-- <div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 event-homePage-item" ng-repeat="event in model.events">
+                    <div class="">
+                        <img height="241px" width="200px" ng-src="{{event.logo.original.url || '../../../resources/images/defaultEvent.png'}} ">
+                        <div class="caption">
+                            <h3>
+                                <a target="_blank" ng-href="{{event.url}}">
+                                {{event.name.text}}
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
 </div>
+
+    <!-- Profile Search Modal-->
+    <div id="profileSearchModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Search Users/Artists</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/user/templates/searchUser.view.client.html'"></ng-include>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <nav class="navbar navbar-default navbar-fixed-bottom">
 
     </nav>
