@@ -23,18 +23,14 @@
             $('.modal').modal('hide');
         }
 
-
         function redirectToForgotPassword() {
-            $('.modal').modal('hide');
-
-        }
-
-      /*  function signInUser () {
+            closeModal();
             $timeout(function () {
-                $location.url("/user/userHomePage");
+                $location.url("/landingPage/forgetpass");
             }, 250);
+
         }
-*/
+
         function login(userId, password) {
             var promise = UserService.findUserByCredentials(userId, password);
             promise.success(function(user) {
@@ -60,7 +56,6 @@
         }
 
         function createUser() {
-
             vm.user.userType = vm.userType.userType;
             var promise = UserService.createUser(vm.user);
 

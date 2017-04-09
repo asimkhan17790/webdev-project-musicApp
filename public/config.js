@@ -90,6 +90,14 @@
                     pageTitle: 'My playlists',
                 }
             })
+            .when("/landingPage/forgetpass", {
+                templateUrl:"/views/user/templates/forgotpassword.view.client.html",
+                controller:"ForgotPasswordController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Forgot password',
+                }
+            })
             .otherwise({
                 redirectTo:"/"
             });
