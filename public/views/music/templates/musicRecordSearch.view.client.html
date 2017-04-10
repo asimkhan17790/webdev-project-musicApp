@@ -161,25 +161,31 @@
 
                     <div class="">
                         <img class="img-rounded" width="200px" height="200px"
-                             ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                             ng-src="{{model.music.imageUrl || '../../../resources/images/mard.jpg'}} ">
                     </div>
                 </div>
 
                 <div class="col-xs-12 col-sm-6">
 
-                    <h1>Song Title</h1>
-                    <a type="button" class="glyphicon glyphicon-heart pull-right like-button">
-
-                    </a>
-                    <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button">
-
-                    </a>
-                    <h2>Album Name</h2>
-                    <h3>Artists, artists</h3>
-
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                        <h1>{{model.music.trackName}}</h1>
+                        <h2>{{model.music.albumName}}</h2>
+                            <h4>Artists:</h4>
+                        <h5 ng-repeat="artist in model.music.artists">
+                            {{artist.name}}
+                        </h5>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <a type="button" class="glyphicon glyphicon-heart pull-right like-button">
+                            </a>
+                            <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button">
+                            </a>
+                        </div>
+                    </div>
                     <div id="nowPlay">
                         <div id="audio0" style="margin-top: 5px">
-                            <audio style="width: 100%;" preload id="audio1" preload controls="controls">Your browser does not support HTML5 Audio!>
+                            <audio src="{{model.music.previewURL}}" style="width: 100%;" preload id="audio1" preload controls="controls">Your browser does not support HTML5 Audio!>
 
                             </audio>
 

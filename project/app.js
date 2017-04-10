@@ -11,10 +11,7 @@ module.exports = function (app) {
     require("./services/user.service.server")(app,modelList);
     require("./services/album.service.server")(app,modelList);
     require("./services/uploadMusicAws")(app,modelList);
-   // require("./services/quickstart");
+    //require("./services/quickstart");
 
-    var spotifyObject = require('./apis/spotify.api.server')();
 
-    spotifyObject.findtrackDetails('asd');
-    console.log("Application is started");
 }

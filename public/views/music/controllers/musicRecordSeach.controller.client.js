@@ -47,38 +47,41 @@
                 }).then(function (resp) { //upload function returns a promise
                     vm.recordingFlag = false;
                     console.log(resp.data);
-                    if (resp &&
-                        resp.data) {
 
-                        var data = JSON.parse(resp.data);
-                        if (data &&
-                            data.metadata &&
-                            data.metadata.music) {
+                    if (resp && resp.status==200 && resp.data && resp.data.status==='OK') {
+                        vm.music = resp.data;
+                        if (vm.music.previewURL) {
+                            vm.music.previewURL =  $sce.trustAsResourceUrl(vm.music.previewURL);
+                        }
 
-                            vm.music = data.metadata.music;
-                            vm.success= true;
-                            vm.error = null;
+                        vm.success= true;
+                        vm.error = null;
+                    }
+                    else if (resp && resp.status==200 && resp.data && resp.data.status==='KO') {
+                        if (resp.description) {
+                            vm.error = resp.data.description;
                         }
                         else {
                             vm.error = "Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!";
-                            vm.success= false;
                         }
-
+                        vm.success= false;
                     }
                     else {
                         vm.error = "Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!";
                         vm.success= false;
                     }
-                    // vm.error = 'An error occurred';
-
-                }, function (resp) {
+                }, function (err) {
                     vm.recordingFlag = false;
-                    console.log(resp);
-                    vm.error =  "Some Error Occurred";
+                    if (err && err.data && err.data.description) {
+                        vm.error =  err.data.description;
+                    }
+                    else {
+                        vm.error =  "Some Error Occurred";
+                    }
                     vm.success= false;
 
                 }, function (evt) {
-                    console.log("In progress");
+                    console.log("In progress" + evt);
                 });
             }, 50);
 

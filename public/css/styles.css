@@ -163,7 +163,7 @@ a {
     margin-right: 20px;
 }
 .like-button:hover {
-    font-size: xx-large;
+   /* font-size: xx-large;*/
     color: red;
 }
 
@@ -172,7 +172,7 @@ a {
     color: white;
 }
 .lyrics-button:hover {
-    font-size: xx-large;
+    /*font-size: xx-large;*/
     color: red;
 }
 
