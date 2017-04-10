@@ -186,6 +186,15 @@ a {
     .header-ul {
         float : left;
     }
+    .profile-image {
+        text-align: center;
+    //float: none;
+
+    }
+    .profile-name {
+        text-align: center;
+    // float: none;
+    }
 
 }
 @media (min-width: 768px) {
@@ -193,6 +202,13 @@ a {
         float : right;
     }
 
+}
+
+.profile-image {
+   // float: left;
+}
+.profile-name {
+   // float: right;
 }
 .lyrics-div {
     background: rgba(0,0,0,0.8);

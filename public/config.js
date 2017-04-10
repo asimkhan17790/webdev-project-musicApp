@@ -34,6 +34,14 @@
                     pageTitle: 'Home Page'
                 }
             })
+            .when("/user/singerProfile", {
+                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+                controller:"SingerProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Forgot Password'
+                }
+            })
             .when("/user/userHomePageSinger/:uid", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
                 controller:"HomePageSingerController",
