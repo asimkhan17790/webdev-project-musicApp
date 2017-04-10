@@ -10,7 +10,7 @@ module.exports = function (app) {
     var q = require('q');
     var AWS = require('aws-sdk');
     var uuid = require('uuid');
-    var mm = require('music-metadata');
+
     var fs = require('fs');
     const util = require('util');
     var s3 = new AWS.S3();

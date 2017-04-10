@@ -17,11 +17,7 @@
         vm.showSpinner = showSpinner;
         function init() {
 
-           /* vm.audioButton = angular.
-                        element(document.querySelector('#audioInput11')).trigger('click');*/
-           // showSpinner();
-          //  $( "#audioInput11" ).trigger( "click" );
-           // console.log(vm.audioButton);
+
         }
         init();
 
