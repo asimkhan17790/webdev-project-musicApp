@@ -62,16 +62,16 @@
     color: #fff;
     padding: 0;
     margin: 0 0 10px;
-    text-align: center
+    text-align: center;
 }
 @media (max-width: 767px) {
     .ak-event-title {
         font-size: 24px;
-        line-height: 100%
+        line-height: 100%;
     }
 }
 .ak-event-title span {
-    color: #d91f26
+    color: #d91f26;
 }
 .ak-ds {
     font-size: 18px;
@@ -80,10 +80,10 @@
     padding: 0 10%;
     margin: 0;
     font-weight: 400;
-    text-align: center
+    text-align: center;
 }
 .mymusic-ak-event-content {
-    margin-top: 80px
+    margin-top: 80px;
 }
 .mymusic-ak-list-event {
     position: relative;
@@ -92,12 +92,12 @@
     margin-left: 48px;
     -webkit-transition: all .3s ease 0s;
     -o-transition: all .3s ease 0s;
-    transition: all .3s ease 0s
+    transition: all .3s ease 0s;
 }
 .mymusic-ak-list-event:after {
     clear: both;
     display: block;
-    content: ''
+    content: '';
 }
 .mymusic-ak-list-event:first-child {
     border-top: 0
@@ -127,7 +127,7 @@
     display: block;
     border-top: 1px solid #fff;
     font-size: 14px;
-    margin-top: 8px
+    margin-top: 8px;
 }
 .mymusic-ak-list-event .mymusic-thumbnail {
     width: 200px;

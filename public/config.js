@@ -39,7 +39,7 @@
                 controller:"SingerProfileController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Forgot Password'
+                    pageTitle: 'View Profile'
                 }
             })
             .when("/user/userHomePageSinger/:uid", {
