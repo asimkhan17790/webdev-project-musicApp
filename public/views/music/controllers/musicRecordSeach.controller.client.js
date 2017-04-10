@@ -7,7 +7,7 @@
         })
         .controller("MusicRecorderController", MusicRecorderController);
 
-    function MusicRecorderController ($scope, $sce,$timeout,Upload) {
+    function MusicRecorderController ($scope, $sce,$timeout,Upload,MusicService) {
 
         var vm = this;
         vm.recordAudio = recordAudio;
@@ -15,6 +15,7 @@
         vm.getTrustedHtml = getTrustedHtml;
         vm.recordAndSearch = recordAndSearch;
         vm.showSpinner = showSpinner;
+        vm.findLyrics = findLyrics;
         function init() {
 
 
@@ -38,7 +39,7 @@
             console.log(vm.recordedInput);
         }
         function recordAndSearch() {
-
+            vm.lyricsData= null;
             $timeout(function () {
                 console.log(vm.recordedInput);
                 Upload.upload({
@@ -87,7 +88,34 @@
 
         }
 
+        function findLyrics (songTitle, artists) {
+            console.log(artists[0]);
+            if (songTitle && artists && artists[0] != null) {
+                var promise =  MusicService.searchLyrics(songTitle, artists[0].name);
 
+                promise.success(function (data) {
+                    if (data.message && data.message.header
+                        && data.message.header.status_code && data.message.header.status_code === 200) {
+                        //console.log(data.message.body.lyrics.lyrics_body);
+                        vm.lyricsData = data.message.body.lyrics.lyrics_body;
+                        console.log(vm.lyricsData);
+                    }
+                    else {
+                        console.log("No Data Found");
+                        vm.lyricsData =null;
+                        vm.error = "Lyrics does not exist in Database";
+                    }
+                })
+                    .error(function () {
+                        vm.error = "Error Occurred";
+                        vm.lyricsData =null;
+                    });
+            }
+            else {
+                console.log("No input Data");
+            }
+
+        }
 
     }
 

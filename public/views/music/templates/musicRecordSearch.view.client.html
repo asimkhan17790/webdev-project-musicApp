@@ -168,19 +168,34 @@
                 <div class="col-xs-12 col-sm-6">
 
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                        <h1>{{model.music.trackName}}</h1>
-                        <h2>{{model.music.albumName}}</h2>
-                            <h4>Artists:</h4>
-                        <h5 ng-repeat="artist in model.music.artists">
-                            {{artist.name}}
-                        </h5>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
+
+                        <div class="col-xs-12" style="margin-top:10px">
                             <a type="button" class="glyphicon glyphicon-heart pull-right like-button">
                             </a>
                             <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button">
                             </a>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <h4> Title:</h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                            <h2 style="margin-top: 2px">{{model.music.trackName}}</h2>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <h4>Album: </h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                            <h3 style="margin-top: 2px">{{model.music.albumName}}</h3>
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <h4>Artists:</h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                            <h5 ng-repeat="artist in model.music.artists">
+                                {{artist.name}}
+                            </h5>
                         </div>
                     </div>
                     <div id="nowPlay">
@@ -198,8 +213,9 @@
                 <div class="row">
 
                     <div class="col-xs-12 col-sm-6">
-                        <button type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px">
-                            Go to Spotify
+                        <button type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px"
+                        ng-click="model.findLyrics(model.music.trackName, model.music.artists)">
+                            Find Lyrics
                         </button>
                     </div>
                     <div class="col-xs-12 col-sm-6" >
@@ -227,6 +243,10 @@
             <span class="closebtn" ng-click="model.error=null;">&times;</span>
             {{model.error}}
         </div>
+
+
+        <div ng-bind-html="model.getTrustedHtml(model.lyricsData)"
+             class="form-group lyrics-div" ng-show="model.lyricsData"></div>
 
     </div>
 

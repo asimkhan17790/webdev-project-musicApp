@@ -1,6 +1,6 @@
 .pageBackground {
 
-    background: url('../resources/images/IMG_16566.jpg');
+    background: url('../resources/images/IMG_16566.jpg') no-repeat scroll center top;
     background-size: cover;
     position: absolute;
     top:0;
@@ -193,4 +193,13 @@ a {
         float : right;
     }
 
+}
+.lyrics-div {
+    background: rgba(0,0,0,0.8);
+    color: white;
+    font-size: 15px;
+    text-align : center;
+    margin-bottom: 100px;
+    height: 500px;
+    overflow-y: auto;
 }
