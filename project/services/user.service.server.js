@@ -14,10 +14,24 @@ module.exports = function (app ,listOfModel) {
     app.put("/api/user/:userId",updateUser);
     app.get("/api/user/album/:userId",findAlbumsForUser);
     app.get("/api/user/playList/:userId",findPlayListForUser)
+    app.get("/api/user/:userId",findUserById);
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
+
+
+    function findUserById(req , res) {
+        var userId = req.params.userId;
+        userModel
+            .findUserById(userId)
+            .then(function (user) {
+                res.send(user);
+            } , function (err) {
+                console.log("the particular user not found according to the given username and password");
+                res.send(400);
+            });
+    }
 
     function findAlbumsForUser(req, res) {
         var userId = req.params.userId;

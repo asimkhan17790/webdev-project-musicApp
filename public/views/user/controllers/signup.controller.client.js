@@ -9,7 +9,6 @@
 
         var vm = this;
 
-
         function init() {
 
         }

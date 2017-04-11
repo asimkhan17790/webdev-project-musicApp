@@ -21,7 +21,6 @@
                 console.log("some error occured " + err);
                 vm.albums = null ;
             })
-
         }
         init();
 
@@ -39,8 +38,6 @@
             promise.error(function (err) {
                 vm.error = "Album Not found";
             })
-
-
         }
 
         // recently added code check this end to end clearly and maybe this should go in the init block

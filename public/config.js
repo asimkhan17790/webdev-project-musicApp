@@ -42,6 +42,14 @@
                     pageTitle: 'Home Page'
                 }
             })
+            .when("/user/editProfile/:uid", {
+                templateUrl:"/views/user/templates/editprofile.view.client.html",
+                controller:"EditProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Edit Profile'
+                }
+            })
             .when("/login", {
                 templateUrl:"/views/user/templates/login.view.client.html",
                 controller:"LoginController",

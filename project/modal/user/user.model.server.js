@@ -16,7 +16,8 @@ module.exports = function () {
         deleteAlbum : deleteAlbum,
         addplayList : addplayList,
         findAllplayLists : findAllplayLists,
-        deleteplayList : deleteplayList
+        deleteplayList : deleteplayList,
+        findUserById: findUserById
     };
 
     var mongoose = require('mongoose');
@@ -24,6 +25,17 @@ module.exports = function () {
     var UserSchema = require('./user.schema.server.js')();
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
+
+    function findUserById(userId) {
+        var q1 = q.defer();
+        UserModel.findOne({_id:userId} ,function (err ,User) {
+            if(err)
+                q1.reject();
+            else if(User)
+                q1.resolve(User);
+        });
+        return q1.promise;
+    }
 
     function deleteplayList(userId , playListId) {
         var q1 =  q.defer();

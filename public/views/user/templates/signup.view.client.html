@@ -18,13 +18,15 @@
                     </div>
                     <div class="col-xs-6 col-md-6">
                         <select class = "form-control" name="singleSelect" ng-model="model.userType" ng-options="x.label for x in model.userOptions">
-
                         </select>
                         <br>
                     </div>
                 </div>
                 <input type="password" name="password" value="" class="form-control input-lg" ng-model="model.user.password" placeholder="Password"/>
                 <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password"  />
+
+                <div  ng-show = "model.userType.userType == 'U'">
+
                 <label>Gender : </label>
                 <label class="radio-inline">
                     <input type="radio" name="gender" ng-model="model.user.gender" value="M" id=male />Male
@@ -32,6 +34,7 @@
                 <label class="radio-inline">
                     <input type="radio" name="gender" ng-model="model.user.gender" value="F" id=female />Female
                 </label>
+                </div>
                 <br/>
                 <button class="btn btn-lg btn-primary btn-block signup-btn" ng-click="model.createUser()" type="submit">Create my account</button>
             </form>

@@ -7,12 +7,13 @@
     })
     .controller("HomePageController",HomePageController);
 
-    function HomePageController ($scope,EventService ,UserService ,$routeParams ,StaticDataService,$timeout,playListService) {
+    function HomePageController ($scope,EventService ,UserService ,$routeParams ,StaticDataService,$timeout,playListService,$location) {
         var vm = this;
         vm.searchNearByEvents = searchNearByEvents;
         vm.userId = $routeParams.uid ;
         vm.createplayList = createplayList ;
         vm.deleteplayList = deleteplayList ;
+        vm.editProfile = editProfile ;
         function init() {
            // searchNearByEvents();
            // searchAllPlaylists();
@@ -29,6 +30,9 @@
         }
         init();
 
+        function editProfile() {
+            $location.url("/user/editProfile/"+vm.userId);
+        }
 
         function closeModal() {
             $('.modal').modal('hide');

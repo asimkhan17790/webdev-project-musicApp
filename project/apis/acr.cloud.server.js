@@ -31,7 +31,6 @@ module.exports = function () {
             .update(new Buffer(signString, 'utf-8'))
             .digest().toString('base64');
     }
-
     /**
      * Identifies a sample of bytes
      */

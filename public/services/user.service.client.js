@@ -19,7 +19,8 @@
             "updateUser" : updateUser,
             "deleteUser" : deleteUser,
             "findAllAlbums" : findAllAlbums,
-            "findAllplayList" : findAllplayList
+            "findAllplayList" : findAllplayList ,
+            "findUserById" : findUserById
         }
         return api;
 
@@ -44,6 +45,7 @@
         function findUserById(userId) {
             // calling the api on the server tp fetch data from the server
             // rather that from the local instance
+            console.log("inside this finding user by id");
             return $http.get("/api/user/"+userId);
         }
 
