@@ -22,7 +22,6 @@ module.exports = function (app) {
 
     var spotifyObject = require('../apis/spotify.api.server')();
 
-
     function findMusicFingerPrint(req, res) {
 
 

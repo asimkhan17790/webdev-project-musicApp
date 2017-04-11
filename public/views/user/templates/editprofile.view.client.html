@@ -4,11 +4,18 @@
   </div>
   <div class="row">
     <!-- left column  where the picture will be shown-->
+      <div ng-show="model.error" class="alert alert-danger" role="alert">
+          {{model.error}}
+      </div>
+      <div ng-show="model.success" class="alert alert-success" role="alert">
+          {{model.success}}
+      </div>
     <div class="col-md-4 col-sm-6 col-xs-12">
       <div class="text-center">
-        <img ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} " class="avatar img-circle img-thumbnail" alt="avatar">
-        <h6>Change you pictue</h6>
-        <input type="file" class="text-center center-block well well-sm">
+        <img ng-src="{{model.user.imageURL }} " class="avatar img-circle img-thumbnail" alt="avatar">
+        <h6>Change you picture</h6>
+          <input type="file" class="text-center center-block well well-sm"
+                 ngf-select name="file" id="file" ng-model="model.file">
       </div>
     </div>
     <!-- edit form column -->
@@ -62,7 +69,7 @@
           <div class="col-md-8">
             <input class="btn btn-primary" value="Save Changes" type="button" ng-click="model.saveChanges()">
             <span></span>
-            <input class="btn btn-primary" value="Cancel" >
+            <input class="btn btn-default" value="Cancel" type="reset">
           </div>
         </div>
       </form>

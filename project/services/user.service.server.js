@@ -115,8 +115,7 @@ module.exports = function (app ,listOfModel) {
             .then(function (user) {
                 res.send(user);
             }, function (err) {
-                console.log(err);
-                res.send(400);
+                res.status(500).send("Some Error Occurred!!");
             });
     }
 }

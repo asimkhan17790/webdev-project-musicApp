@@ -12,7 +12,7 @@ module.exports = function (app) {
     require("./services/album.service.server")(app,modelList);
     require("./services/playList.service.server")(app,modelList);
     require("./services/uploadMusicAws")(app,modelList);
+    require("./services/uploadImageAws")(app,modelList);
     //require("./services/quickstart");
-
-
+    console.log("Application is started ");
 }
