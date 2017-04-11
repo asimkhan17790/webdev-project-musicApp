@@ -15,6 +15,9 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/album/:userId",findAlbumsForUser);
     app.get("/api/user/playList/:userId",findPlayListForUser)
     app.get("/api/user/:userId",findUserById);
+    app.get("/api/user/followers/:userId",findFollowersById);
+    app.get("/api/user/following/:userId",findFollowingById);
+    app.get("/api/user/isfollowing/:userId1/:userId2",findIsFollowing);
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
@@ -28,10 +31,56 @@ module.exports = function (app ,listOfModel) {
             .then(function (user) {
                 res.send(user);
             } , function (err) {
-                console.log("the particular user not found according to the given username and password");
                 res.send(400);
             });
     }
+    
+    // below service will check if the second user(userId2) is following the
+    // first user (userId1)
+    function findIsFollowing (req ,res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        userModel
+            .findUserById(userId)
+            .then(function (user) {
+                res.send(user);
+            } , function (err) {
+                res.send(400);
+            });
+    }
+
+    function findFollowersById(req , res)
+    {
+        var userId = req.params.userId;
+       //var  userId = "58eaf72a9e67bc220a9b633c";
+        userModel
+            .findFollowersById(userId)
+            .then(function (users) {
+                console.log(users);
+                res.send(users);
+            },function (err) {
+                response.status="KO";
+                response.description="Unable to find follwers for the user";
+                res.json(response);
+            });
+    }
+    function findFollowingById(req , res)
+    {
+        var userId = req.params.userId;
+        //var  userId = "58eaf72a9e67bc220a9b633c";
+        userModel
+            .findFollowingById(userId)
+            .then(function (users) {
+                console.log(users);
+                res.send(users);
+            },function (err) {
+                response.status="KO";
+                response.description="Unable to find the users which this user is following";
+                res.json(response);
+            });
+    }
+
+
 
     function findAlbumsForUser(req, res) {
         var userId = req.params.userId;
