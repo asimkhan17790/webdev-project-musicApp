@@ -1,0 +1,61 @@
+<div class="col-sm-6" ng-show="model.musicArticles" style="margin-bottom:50px">
+    <div class="mymusic-shortcode-events" style="background: rgba(0, 0, 0, .7);">
+        <div >
+            <h2 class="ak-event-title" style="text-transform: uppercase;padding-top: 20px">
+                Trending <span>Now</span>
+            </h2>
+            <p class="ak-ds">
+                All the trending Topics from around the Music Industry
+            </p>
+        </div>
+        <hr size="30">
+        <div class="">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div>
+                        <div uib-carousel active="0" interval="5000" no-wrap="false" style="height: 350px;background:rgba(0,0,0,0.8);">
+                            <div uib-slide ng-repeat="article in model.musicArticles" index="$index" style="height: 400px;">
+                                <img class="img-responsive" ng-src="{{article.urlToImage}}" >
+                                <div class="carousel-caption">
+                                    <h4><a href="{{article.url}}">{{article.title}}</a></h4>
+                                    <p>By {{article.author}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6" ng-show="model.musicArticles" style="margin-bottom:50px">
+    <div class="mymusic-shortcode-events" style="background: rgba(0, 0, 0, .7);">
+        <div >
+            <h2 class="ak-event-title" style="text-transform: uppercase;padding-top: 20px">
+                Trending <span>Now</span>
+            </h2>
+            <p class="ak-ds">
+                All the trending Topics from around the Music Industry
+            </p>
+        </div>
+        <hr size="30">
+        <div class="">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div>
+                        <div uib-carousel active="0" interval="5000" no-wrap="false" style="height: 350px;background:rgba(0,0,0,0.8);">
+                            <div uib-slide ng-repeat="article in model.musicArticles" index="$index" style="height: 400px">
+                                <img class="img-responsive" ng-src="{{article.urlToImage}}" >
+                                <div class="carousel-caption">
+                                    <h4 ><a href="{{article.url}}">{{article.title}}</a></h4>
+                                    <p>By {{article.author}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

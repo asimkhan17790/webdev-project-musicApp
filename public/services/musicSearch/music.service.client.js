@@ -10,7 +10,8 @@
         var api= {
 
             "searchMusicFingerPrint" : searchMusicFingerPrint,
-            "searchLyrics" : searchLyrics
+            "searchLyrics" : searchLyrics,
+            "getMusicUpdates" : getMusicUpdates
         };
 
         return api;
@@ -25,6 +26,10 @@
 
         function searchLyrics(songTitle, artistName) {
             return $http.get("/api/music/lyrics/" + songTitle + "/" + artistName);
+        }
+
+        function getMusicUpdates () {
+            return $http.get("/api/music/musicNews");
         }
 
     }
