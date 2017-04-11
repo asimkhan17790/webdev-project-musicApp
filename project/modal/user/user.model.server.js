@@ -20,7 +20,12 @@ module.exports = function () {
         findUserById: findUserById,
         updateUser : updateUser,
         findFollowersById:findFollowersById,
-        findFollowingById : findFollowingById
+        findFollowingById : findFollowingById ,
+        followUser : followUser ,
+        findIsFollowing : findIsFollowing,
+        unfollowUser : unfollowUser,
+        followingUser : followingUser,
+        unfollowingUser : unfollowingUser
     };
 
     var mongoose = require('mongoose');
@@ -29,15 +34,138 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
 
+    // userID1 will be the one following the userId2
+
+    function unfollowingUser(userId2 , userId1) {
+        var q1 =  q.defer();
+        UserModel.findOne({_id:userId2}, function(err, User) {
+            if (err){
+                q1.reject();
+
+            }
+            else {
+                User.following.pull(userId1);
+                User.save(function (err, updatedUser) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(updatedUser);
+                    }
+                });
+            }
+        });
+        return q1.promise;
+    }
+    function followingUser(userId2 , userId1) {
+        var q1 =  q.defer();
+        UserModel.findOne({_id:userId2}, function(err, User) {
+            if (err){
+                q1.reject();
+
+            }
+            else {
+                User.following.push(userId1);
+                User.save(function (err, updatedUser) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(updatedUser);
+                    }
+                });
+            }
+        });
+        return q1.promise;
+    }
+
+
+    // checking if the userId2 is following the userId1
+    // strategy is to find all the followers of the userId1
+    // and check if the userId2 is present in that list or not.
+    function findIsFollowing(userId1 ,userId2) {
+        var q1 =  q.defer();
+        UserModel.findOne({_id:userId1}, function(err, User) {
+            if (err){
+                q1.reject();
+
+            }
+            else {
+                var followers = User.followers ;
+                var status = {
+                    isPresent : ""
+                }
+                if(followers.indexOf(userId2) > -1)
+                    status.isPresent = true;
+                else
+                    status.isPresent = false;
+                q1.resolve(status);
+            }
+        });
+        return q1.promise;
+
+    }
+
+    function unfollowUser(userId1 , userId2) {
+        var q1 =  q.defer();
+        UserModel.findOne({_id:userId1}, function(err, User) {
+            if (err){
+                q1.reject();
+
+            }
+            else {
+                User.followers.pull(userId2);
+                User.save(function (err, updatedUser) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(updatedUser);
+                    }
+                });
+            }
+        });
+        return q1.promise;
+    }
+
+    function followUser(userId1 , userId2) {
+        var q1 =  q.defer();
+        UserModel.findOne({_id:userId1}, function(err, User) {
+            if (err){
+                q1.reject();
+
+            }
+            else {
+                User.followers.push(userId2);
+                User.save(function (err, updatedUser) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(updatedUser);
+                    }
+                });
+            }
+        });
+        return q1.promise;
+    }
+
+
     function findFollowersById(userId)
     {
         var q1 = q.defer();
-        UserModel.findOne({_id:userId} ,function (err ,User) {
-            if(err)
-                q1.reject();
-            else if(User)
-                q1.resolve(User.followers);
-        });
+        UserModel
+            .findOne({ _id: userId })
+            .populate('followers')
+            .exec(function (err, user) {
+                if(user)
+                {
+                    q1.resolve(user);
+                }
+                else
+                    q1.reject ;
+            });
+
         return q1.promise;
     }
 
@@ -45,12 +173,18 @@ module.exports = function () {
     function findFollowingById(userId)
     {
         var q1 = q.defer();
-        UserModel.findOne({_id:userId} ,function (err ,User) {
-            if(err)
-                q1.reject();
-            else if(User)
-                q1.resolve(User.following);
-        });
+        UserModel
+            .findOne({ _id: userId })
+            .populate('following')
+            .exec(function (err, user) {
+                if(user)
+                {
+                    q1.resolve(user);
+                }
+                else
+                    q1.reject ;
+            });
+
         return q1.promise;
     }
 

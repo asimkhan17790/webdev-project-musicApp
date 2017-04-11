@@ -18,11 +18,63 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/followers/:userId",findFollowersById);
     app.get("/api/user/following/:userId",findFollowingById);
     app.get("/api/user/isfollowing/:userId1/:userId2",findIsFollowing);
+    // not sure about the syntax of the second
+    app.get("/api/user/follow/:userId1/:userId2",followUser);
+
+    app.get("/api/user/unfollow/:userId1/:userId2",unfollowUser);
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
 
+
+
+    // userID1 is the main follower
+    // userID2 is the second follower and which we have to unfollow
+    function unfollowUser(req ,res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        userModel
+            .unfollowUser(userId1 , userId2)
+            .then(function (user) {
+                userModel
+                    .unfollowingUser(userId2 , userId1)
+                    .then(function (fake) {
+                        res.send(user);
+                    },function (err) {
+                        response.status="KO";
+                        response.description="Unable to un follow the given user";
+                        res.json(response);
+                    });
+            } , function (err) {
+                response.status="KO";
+                response.description="Unable to unfollow the given user";
+                res.json(response);
+            });
+    }
+
+    // checked and tested and working fine
+    function followUser(req ,res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        userModel
+            .followUser(userId1 , userId2)
+            .then(function (user) {
+                userModel
+                    .followingUser(userId2 , userId1)
+                    .then(function (fake) {
+                        res.send(user);
+                    },function (err) {
+                        response.status="KO";
+                        response.description="Unable to follow the given user";
+                        res.json(response);
+                    });
+            } , function (err) {
+                response.status="KO";
+                response.description="Unable to follow the given user";
+                res.json(response);
+            });
+    }
 
     function findUserById(req , res) {
         var userId = req.params.userId;
@@ -34,40 +86,42 @@ module.exports = function (app ,listOfModel) {
                 res.send(400);
             });
     }
-    
+
     // below service will check if the second user(userId2) is following the
     // first user (userId1)
     function findIsFollowing (req ,res) {
         var userId1 = req.params.userId1;
         var userId2 = req.params.userId2;
         userModel
-            .findUserById(userId)
-            .then(function (user) {
-                res.send(user);
+            .findIsFollowing(userId1 , userId2)
+            .then(function (status) {
+                res.send(status);
             } , function (err) {
-                res.send(400);
+                response.status="KO";
+                response.description="Some error occured while checking";
+                res.json(response);
             });
     }
-
+   // manipulate to send the entire user object rather that the array of ID
     function findFollowersById(req , res)
     {
         var userId = req.params.userId;
-       //var  userId = "58eaf72a9e67bc220a9b633c";
         userModel
             .findFollowersById(userId)
-            .then(function (users) {
-                console.log(users);
-                res.send(users);
+            .then(function (user) {
+                res.send(user);
             },function (err) {
                 response.status="KO";
                 response.description="Unable to find follwers for the user";
                 res.json(response);
             });
     }
+
+    // manipulate to send the entire user object rather that the array of ID
+
     function findFollowingById(req , res)
     {
         var userId = req.params.userId;
-        //var  userId = "58eaf72a9e67bc220a9b633c";
         userModel
             .findFollowingById(userId)
             .then(function (users) {
