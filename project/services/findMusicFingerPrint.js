@@ -20,21 +20,28 @@ module.exports = function (app) {
 
     app.post("/api/findmusic/musicFingerPrint",upload,findMusicFingerPrint);
 
+    var spotifyObject = require('../apis/spotify.api.server')();
+
 
     function findMusicFingerPrint(req, res) {
 
 
        arcCloud.findMusicFingerPrint(req.file.buffer).then(
-           function (fingerPrintResult) {
-               res.json(fingerPrintResult);
-               return;
-           },
+           function (fingerPrintResultTrackId) {
+
+               return spotifyObject.findtrackDetails(fingerPrintResultTrackId);
+
+           }).then (
+               function (musicData) {
+                   res.json(musicData);
+                   return;
+               },
            function (err) {
                res.json(err);
                return;
            }
        );
-      // console.log(data);
+
     }
 
 }

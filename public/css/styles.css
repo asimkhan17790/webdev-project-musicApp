@@ -1,6 +1,7 @@
 .pageBackground {
 
-    background: url('../resources/images/IMG_16566.jpg');
+    background: url('../resources/images/IMG_16566.jpg') no-repeat scroll center top;
+    
     background-size: cover;
     position: absolute;
     top:0;
@@ -125,7 +126,7 @@ a {
 }
 .alert {
 
-    margin-top: 40px;
+    margin-top: 80px;
     z-index: 22;
     padding: 20px;
     background-color: #f44336; /* Red */
@@ -154,4 +155,68 @@ a {
 .animate-top{position:relative;animation:animatetop 0.4s}
 @keyframes animatetop{
     from{top:-300px;opacity:0}
-    to{top:0;opacity:1}}
+    to{top:0;opacity:1}
+}
+
+.like-button{
+    font-size: x-large;
+    color: white;
+    margin-right: 20px;
+}
+.like-button:hover {
+   /* font-size: xx-large;*/
+    color: red;
+}
+
+.lyrics-button{
+    font-size: x-large;
+    color: white;
+}
+.lyrics-button:hover {
+    /*font-size: xx-large;*/
+    color: red;
+}
+
+@media (max-width: 767px) {
+    .recorderAlbumImage {
+        text-align : center;
+    }
+
+}
+@media (max-width: 767px) {
+    .header-ul {
+        float : left;
+    }
+    .profile-image {
+        text-align: center;
+    //float: none;
+
+    }
+    .profile-name {
+        text-align: center;
+    // float: none;
+    }
+
+}
+@media (min-width: 768px) {
+    .header-ul {
+        float : right;
+    }
+
+}
+
+.profile-image {
+   // float: left;
+}
+.profile-name {
+   // float: right;
+}
+.lyrics-div {
+    background: rgba(0,0,0,0.8);
+    color: white;
+    font-size: 15px;
+    text-align : center;
+    margin-bottom: 100px;
+    height: 500px;
+    overflow-y: auto;
+}

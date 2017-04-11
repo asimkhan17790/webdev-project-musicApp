@@ -53,3 +53,37 @@
 .current-song {
     background-color: #ff9200;
 }
+
+
+.mymusic-ak-playlist-item {
+    background:rgba(0,0,0,0.7);
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+.ak-playlist-button {
+
+    margin-top: 20px;
+}
+.mymusic-ak-playlist-data {
+    padding:20px;
+}
+@media (max-width: 767px) {
+    .ak-playlist-button {
+
+        margin-top: 20px;
+    }
+    .mymusic-ak-playlist-item {
+        background:rgba(0,0,0,0.7);
+        margin:-17px;
+        margin-bottom: 20px;
+
+    }
+    .album-image-thumb {
+        max-height: 150px;
+    }
+    .mymusic-ak-playlist-data {
+        padding:10px;
+    }
+
+}

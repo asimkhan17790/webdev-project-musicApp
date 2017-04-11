@@ -8,6 +8,7 @@ module.exports = function () {
     var url = require('url');
     var fs = require('fs');
     var crypto = require('crypto');
+
 //npm install request
     var request = require('request');
 
@@ -73,11 +74,39 @@ module.exports = function () {
             if (err)
             {
                 console.log(err);
-                defered.reject(err);
+                defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
             }
             else {
+                body = JSON.parse(body);
+                console.log(body);
 
-                defered.resolve(body);
+                if (body.status!=null && body.status.code!=null && body.status.code == 0) {
+                    //Found a Match
+                    if (body.metadata && body.metadata.music && body.metadata.music.length != 0) {
+
+                        var musicObject = body.metadata.music[0];
+
+                        if (musicObject.external_metadata
+                            && musicObject.external_metadata.spotify
+                            && musicObject.external_metadata.spotify.track
+                            && musicObject.external_metadata.spotify.track.id) {
+                            var spotifyTrackId = musicObject.external_metadata.spotify.track.id;
+                            defered.resolve(spotifyTrackId);
+                        }
+                        else {
+                            defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
+                        }
+
+
+                    }
+                    else {
+                        defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
+                    }
+                }
+                else {
+                    defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
+                }
+
             }
         });
         return defered.promise;
