@@ -42,6 +42,14 @@
                     pageTitle: 'View Profile'
                 }
             })
+            .when("/user/userProfile", {
+                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+                controller:"UserProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'View Profile'
+                }
+            })
             .when("/user/userHomePageSinger/:uid", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
                 controller:"HomePageSingerController",

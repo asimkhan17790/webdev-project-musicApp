@@ -14,13 +14,22 @@
         vm.error=null;
         vm.errorLogin = null;
         vm.clearUserFromModal = clearUserFromModal;
+        vm.openSignupModalFromLoginModal = openSignupModalFromLoginModal;
         function init() {
             //StaticDataService
             vm.user={};
-            vm.userType =  vm.userOptions[2];
+            vm.userType =  vm.userOptions[0];
         }
         init();
 
+        function openSignupModalFromLoginModal() {
+            vm.user=null;
+            vm.error = null;
+            vm.errorLogin = null;
+            $('.modal').modal('hide');
+            $('#myModalSignup').modal('show');
+
+        }
         function closeModal() {
             vm.user=null;
             vm.error = null;
@@ -37,6 +46,8 @@
 
         function clearUserFromModal() {
             vm.user = null;
+            vm.error = null;
+            vm.errorLogin = null;
         }
         function login(userId, password) {
             var promise = UserService.findUserByCredentials(userId, password);
@@ -85,7 +96,7 @@
             vm.user.userType = vm.userType.userType;
             var promise = UserService.createUser(vm.user);
             promise.success(function (response) {
-                    console.log(response.user);
+                    //console.log(response.user);
                     if (response.status && response.status==='OK') {
                         if(response.user){
                             closeModal();

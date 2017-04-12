@@ -85,5 +85,16 @@
     .mymusic-ak-playlist-data {
         padding:10px;
     }
+    .ak-album-container {
+        margin-top: 30px;
+        overflow-y: auto;
 
+    }
+
+}
+
+.ak-album-container {
+    margin-top: 30px;
+    overflow-y: auto;
+    max-height: 450px
 }

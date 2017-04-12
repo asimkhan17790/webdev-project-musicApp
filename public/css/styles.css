@@ -220,3 +220,18 @@ a {
     height: 500px;
     overflow-y: auto;
 }
+a {
+    color: white;
+    text-decoration: none;
+}
+a:focus, a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+input:required:invalid, input:focus:invalid {
+    /* insert your own styles for invalid form input */
+
+    background-color: #faf2cc;
+
+}
