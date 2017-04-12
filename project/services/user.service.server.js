@@ -18,16 +18,16 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/followers/:userId",findFollowersById);
     app.get("/api/user/following/:userId",findFollowingById);
     app.get("/api/user/isfollowing/:userId1/:userId2",findIsFollowing);
-    // not sure about the syntax of the second
     app.get("/api/user/follow/:userId1/:userId2",followUser);
-
     app.get("/api/user/unfollow/:userId1/:userId2",unfollowUser);
+    app.get("/api/user/forgotPassword/:emailAddress",forgotPasswordAndSendEmail);
+
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
 
-
+    var emailApi = require('../apis/email.api.server')();
 
     // userID1 is the main follower
     // userID2 is the second follower and which we have to unfollow
@@ -102,7 +102,7 @@ module.exports = function (app ,listOfModel) {
                 res.json(response);
             });
     }
-   // manipulate to send the entire user object rather that the array of ID
+    // manipulate to send the entire user object rather that the array of ID
     function findFollowersById(req , res)
     {
         var userId = req.params.userId;
@@ -167,32 +167,90 @@ module.exports = function (app ,listOfModel) {
     // possible bug that user gets created but the default playlist dont get cra
     function createUser(req,res) {
         var user = req.body;
+        var response = {};
         userModel
             .createUser(user)
             .then(function(user) {
-                if(user.userType == "U")
+
+                if (user) {
+                    var emailObject = {
+                        to: user.email,
+                        from: 'asim.khan17790@gmail.com',
+                        subject: 'Welcome to MyMusic',
+                        message: 'Hi <strong>'+ user.firstName+'</strong>,<br><br>'
+                        + 'Welcome to <strong>My Music</strong>,<br><br> Your username is :<strong>'+ user.username+ '</strong><br><br> <h2>Enjoy your musical Journey!!</h2>',
+                    };
+                    emailApi.sendEmailAsync(emailObject);
+                }
+                if(user && user.userType === "U")
                 {
                     var defaultplayList = {
-                        "playListName" : "Default",
+                        "playListName" : "Favorites",
                         "playListOwner" : user._id
                     }
                     playListModel
                         .createplayList(defaultplayList)
-                        .then(function (createplayList) {
+                        .then(function (createdplayList) {
                             userModel
-                                .addplayList(createplayList)
-                                .then(function (createplayList) {
-                                    res.send(createplayList);
+                                .addplayList(createdplayList)
+                                .then(function (updatedUser) {
+                                    if (updatedUser) {
+                                        response.status="OK";
+                                        response.description="User successfully created";
+                                        response.user = updatedUser;
+                                        res.json(response);
+                                    }
+                                    else {
+                                        response.status="KO";
+                                        response.description="Some Error Occurred!! Please try again";
+                                        // res.json(response);
+                                        res.status(500).send(response);
+                                        return;
+                                    }
+
                                 },function (error) {
-                                    res.sendStatus(500).send(error);
+                                    response.status="KO";
+                                    response.description="Some Error Occurred!! Please try again";
+                                    // res.json(response);
+                                    res.status(500).send(response);
+                                    return;
                                 });
                         },function (error) {
-                            res.sendStatus(500).send(error);
+
+                            response.status="KO";
+                            response.description="Some Error Occurred!! Please try again";
+                            // res.json(response);
+                            res.status(500).send(response);
+                            return;
                         });
                 }
-                res.send(user);
-            }, function (error) {
-                res.sendStatus(500).send(error);
+                else {
+                    if (user) {
+                        response.status="OK";
+                        response.description="User successfully created";
+                        response.user = user;
+                        res.json(response);
+                    }
+                    else {
+                        response.status="KO";
+                        response.description="Some Error Occurred!! Please try again";
+                        // res.json(response);
+                        res.status(500).send(response);
+                        return;
+                    }
+                }
+
+            }, function (err) {
+                response.status="KO";
+                if (err.code && err.code === 11000) {
+                    response.description="Username or Email already exists";
+                }
+                else {
+                    response.description="Some Error Occurred!! Please try again";
+                }
+                res.json(response);
+                return;
+
             });
     }
 
@@ -200,13 +258,27 @@ module.exports = function (app ,listOfModel) {
         var queryParams = req.query;
         var userName = queryParams.username;
         var passWord = queryParams.password;
+        var response = {};
         userModel
             .findUserByCredentials(userName, passWord)
             .then(function (user) {
-                res.send(user);
+                if (user) {
+                    response.status = "OK";
+                    response.user = user;
+                    response.description = "User Found";
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "Username or password is incorrect";
+                }
+                res.json(response);
+                return;
+
             } , function (err) {
-                console.log("the particular user not found according to the given username and password");
-                res.send(400);
+                response.status = "KO";
+                response.description = "Some Error Occurred!";
+                res.status(500).send(response);
+                return;
             });
     }
 
@@ -220,5 +292,37 @@ module.exports = function (app ,listOfModel) {
             }, function (err) {
                 res.status(500).send("Some Error Occurred!!");
             });
+    }
+
+    function forgotPasswordAndSendEmail(req, res) {
+        var emailAddress = req.params.emailAddress;
+        var response = {};
+        listOfModel.UserModel
+            .findUserByEmail(emailAddress)
+            .then(function (user) {
+                if (user) {
+                    var emailObject = {
+                        to: emailAddress,
+                        from: 'asim.khan17790@gmail.com',
+                        subject: 'Password Recovery',
+                        message: 'Your password is : <strong>' + user.password+ '</strong>',
+                    };
+                    return emailApi.sendEmail(emailObject);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "Email is not registered with us! Please enter correct Email.";
+                    res.json(response);
+                }
+
+            }).then(function () {
+                response.status = "OK";
+                response.description = "Your password has been sent to your registered Email. Please login again!";
+                res.json(response);
+        }, function (err) {
+            response.status = "KO";
+            response.description = "Some Error Occurred!!";
+            res.status(500).send(response);
+        });
     }
 }

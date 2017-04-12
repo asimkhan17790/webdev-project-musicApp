@@ -25,7 +25,8 @@ module.exports = function () {
         findIsFollowing : findIsFollowing,
         unfollowUser : unfollowUser,
         followingUser : followingUser,
-        unfollowingUser : unfollowingUser
+        unfollowingUser : unfollowingUser,
+        findUserByEmail : findUserByEmail
     };
 
     var mongoose = require('mongoose');
@@ -35,6 +36,20 @@ module.exports = function () {
     return api;
 
     // userID1 will be the one following the userId2
+
+    function findUserByEmail(emailAddress) {
+
+        var defer =  q.defer();
+        UserModel.findOne({email:emailAddress}, function(err, foundUser) {
+            if (err){
+                defer.reject(err);
+            }
+            else {
+                defer.resolve(foundUser);
+            }
+        });
+        return defer.promise;
+    }
 
     function unfollowingUser(userId2 , userId1) {
         var q1 =  q.defer();
@@ -271,10 +286,12 @@ module.exports = function () {
     function findUserByCredentials(userName , password) {
         var q1 =  q.defer() ;
         UserModel.findOne({username : userName ,password :password} , function (err , user) {
-            if(err)
-                q1.reject();
-            else
+            if(err) {
+                q1.reject(err);
+            }
+            else {
                 q1.resolve(user);
+            }
         });
         return q1.promise ;
     }
@@ -317,7 +334,7 @@ module.exports = function () {
         var q1 =  q.defer() ;
         UserModel.create(user ,function (err , user) {
             if(err){
-                q1.reject();
+                q1.reject(err);
             }
             else
             {
@@ -356,12 +373,12 @@ module.exports = function () {
             }
             else if (user){
                 user.playList.push(playList._id);
-                user.save(function (err, upplayList) {
+                user.save(function (err, updatedUser) {
                     if (err) {
-                        q1.reject();
+                        q1.reject(err);
                     }
                     else {
-                        q1.resolve(upplayList);
+                        q1.resolve(updatedUser);
                     }
                 });
             }

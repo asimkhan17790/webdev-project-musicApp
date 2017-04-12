@@ -20,9 +20,15 @@
             "deleteUser" : deleteUser,
             "findAllAlbums" : findAllAlbums,
             "findAllplayList" : findAllplayList ,
-            "findUserById" : findUserById
+            "findUserById" : findUserById,
+            "forgotPasswordEmail" : forgotPasswordEmail
         }
         return api;
+
+
+        function forgotPasswordEmail(emailAddress) {
+            return $http.get("/api/user/forgotPassword/" + emailAddress);
+        }
 
         function findAllAlbums(userId) {
             console.log("user id is" + userId);
