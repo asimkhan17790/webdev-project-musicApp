@@ -1,29 +1,27 @@
 <div class="col-sm-12">
     <div class="mymusic-shortcode-events" >
-
             <h2 class="ak-event-title" style="text-transform: uppercase;padding-top: 20px">
-                 <span style="color: red">Asim's</span> Playlists
+                 <span style="color: red">{{model.user.lastName +", " + model.user.firstName}}</span> Playlists
             </h2>
             <p class="ak-ds">
-                Listen to the playlists here and add songs in your own play lists.
+                Listen to the playlist here and add songs in your own play lists.
             </p>
         <hr size="30">
-        <div class="ak-album-container">
-
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
+        <!--ng-show="model.playlists.length > 0"-->
+        <div  class="ak-album-container">
+            <ul class="list-group" style="overflow-y: auto;height: 250px">
+                <li ng-repeat="playlist in model.playlists" class="list-group-item" class="col-xs-12 col-sm-3 col-md-2" style="">
                 <div class="mymusic-ak-playlist-item">
                     <div class="row">
-
                         <div class="col-xs-6 col-sm-12">
                             <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
+                                 ng-src="{{playlist.playListImageURL || '../../../resources/images/album_alt.png'}} ">
                         </div >
                         <div class="col-xs-6 col-sm-12">
                             <div>
                                 <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
+                                    <h6>{{playlist.playListName}}</h6>
+                                    <span>{{playlist.playlistmood}}</span>
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
@@ -39,280 +37,9 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2" style="">
-                <div class="mymusic-ak-playlist-item">
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-12">
-                            <img class="img-responsive album-image-thumb" width="100%"
-                                 ng-src="{{user.imageURL || '../../../resources/images/album_alt.png'}} ">
-                        </div >
-                        <div class="col-xs-6 col-sm-12">
-                            <div>
-                                <div class="mymusic-ak-playlist-data">
-                                    <h6>Album Name</h6>
-                                    <span> Genre</span>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Open</button>
-                                        </div>
-                                        <!--<div class="col-xs-12">
-                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
-                                                Add To Playlist</button>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-
-
-
-
-
+                </li>
+            </ul>
         </div>
-
     </div>
 </div>

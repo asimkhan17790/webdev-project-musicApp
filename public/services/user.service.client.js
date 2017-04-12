@@ -24,9 +24,25 @@
             "forgotPasswordEmail" : forgotPasswordEmail,
             "searchUsers" : searchUsers,
             "findFollowersById":findFollowersById,
-            "findFollowingById":findFollowingById
+            "findFollowingById":findFollowingById,
+            "isFollowing" : isFollowing,
+            "followUser": followUser,
+            "unfollowUser" :unfollowUser,
+            "findAllplayListAndFollowing":findAllplayListAndFollowing
         }
         return api;
+
+        function followUser(userId1 ,userId2) {
+            return $http.get("api/user/follow/"+userId1+"/"+userId2);
+        }
+
+        function unfollowUser(userId1 ,userId2) {
+            return $http.get("api/user/unfollow/"+userId1+"/"+userId2);
+        }
+
+        function isFollowing(userId1 , userId2) {
+            return $http.get("api/user/isfollowing/"+userId1+"/"+userId2);
+        }
 
         function findFollowersById(userId) {
             return $http.get("/api/user/followers/"+ userId)
@@ -48,6 +64,10 @@
             console.log("user id is" + userId);
             return $http.get("/api/user/album/"+userId);
         }
+
+       function findAllplayListAndFollowing(userId1 ,userId2) {
+           return $http.get("/api/user/follow/playList"+userId1 + "/" + userId2);
+       }
 
         function findAllplayList(userId) {
             console.log("user id is" + userId);

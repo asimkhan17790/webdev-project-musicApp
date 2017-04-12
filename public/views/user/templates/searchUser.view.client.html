@@ -42,9 +42,10 @@
                             </div>
 
                             <div class="pull-left col-xs-9">
-                                <a target="_blank" ng-href="{{event.url}}">
+                                <a ng-click="model.redirectToSearchedUser(user._id)" >
                                     {{user.lastName + ", " + user.firstName}}
                                 </a>
+                                <!--ng-href="{{event.url}}"-->
                                 <!--<a class="glyphicon glyphicon-bookmark pull-right" style="position: relative;right:-3px"></a>
                                 <a class="glyphicon glyphicon-resize-full pull-right"></a>-->
                             </div>

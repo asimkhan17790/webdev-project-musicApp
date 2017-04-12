@@ -115,8 +115,7 @@ module.exports = function () {
         var q1 =  q.defer();
         UserModel.findOne({_id:userId1}, function(err, User) {
             if (err){
-                q1.reject();
-
+                q1.reject(err);
             }
             else {
                 var followers = User.followers ;

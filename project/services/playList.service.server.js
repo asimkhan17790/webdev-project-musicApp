@@ -1,10 +1,6 @@
 /**
  * Created by sumitbhanwala on 4/9/17.
  */
-/**
- * Created by sumitbhanwala on 4/6/17.
- */
-
 module.exports = function (app ,listOfModel) {
 
 
@@ -31,6 +27,7 @@ module.exports = function (app ,listOfModel) {
     }
 
     function findAllSongsForplayList(req,res) {
+
     }
 
     // this function is not fully completed as how to add
@@ -52,5 +49,4 @@ module.exports = function (app ,listOfModel) {
               res.send(err);
             });
     }
-
 }

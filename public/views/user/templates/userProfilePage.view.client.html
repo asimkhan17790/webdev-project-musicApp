@@ -113,17 +113,17 @@
                 <div class="col-sm-6 col-xs-12" style="margin-bottom: 20px">
                     <div class="profile-image">
                         <img class="img-circle" width="200px" height="200px"
-                             ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                             ng-src="{{model.user.imageURL ||(model.user.gender=='M'?'../../../resources/images/mard.jpg':'../../../resources/images/aurat.jpg')}} ">
                     </div>
                 </div>
                 <div class="col-sm-6 col-xs-12 profile-name">
-                    <h1><span style="color: red">Asim </span>Khan</h1>
+                    <h1><span style="color: red">{{model.user.lastName}} </span>{{model.user.firstName}}</h1>
                 </div>
-                <div class="col-sm-6 col-xs-12 profile-name">
+                <div ng-show="!model.isFollowing.isPresent"class="col-sm-6 col-xs-12 profile-name">
                     <button class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.followUser()">
                         FOLLOW</button>
                 </div>
-                <div class="col-sm-6 col-xs-12 profile-name" style="margin-top: 25px">
+                <div ng-show="model.isFollowing.isPresent" class="col-sm-6 col-xs-12 profile-name" style="margin-top: 25px">
                     <button class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.unfollowUser()">
                         UNFOLLOW</button>
                 </div>
@@ -133,10 +133,7 @@
         </div>
     </div>
     <div class="container" style="margin-bottom: 100px;background: rgba(0, 0, 0, .8);">
-
         <ng-include src="'views/user/templates/playlistItems.template.client.html'"></ng-include>
-
-
     </div>
 
     <!-- Profile Search Modal-->

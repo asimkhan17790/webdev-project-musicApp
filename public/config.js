@@ -90,6 +90,22 @@
                     pageTitle: 'Forgot Password'
                 }
             })
+            .when("/user/userSearch/:uidP/:uidS", {
+                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+                controller:"UserProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Searched User'
+                }
+            })
+            .when("/user/singerSearch", {
+                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+                controller:"SingerProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Searched Singer/Music Company'
+                }
+            })
             .when("/user/followers/:uid", {
                 templateUrl:"/views/user/templates/followers.view.client.html",
                 controller:"FollowerController",

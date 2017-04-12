@@ -20,6 +20,7 @@
         vm.following = null ;
         vm.searchUsers = searchUsers ;
        vm.clearUserFromModal  = clearUserFromModal;
+        vm.redirectToSearchedUser  = redirectToSearchedUser
         function init() {
            // searchNearByEvents();
            // searchAllPlaylists();
@@ -34,6 +35,14 @@
             vm.error = null;
             vm.inputQuery = null;
         }
+        
+        function redirectToSearchedUser(userId2) {
+            closeModal();
+            $timeout(function () {
+                $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+            }, 250);
+        }
+
 
         function searchUsers () {
             var promise = UserService.searchUsers(vm.inputQuery);

@@ -22,6 +22,7 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/unfollow/:userId1/:userId2",unfollowUser);
     app.get("/api/searchUsers/:queryString" ,searchUsers);
     app.get("/api/user/forgotPassword/:emailAddress",forgotPasswordAndSendEmail);
+    app.get("/api/user/follow/playList/:userId1/:userId2",findAllplayListAndFollowing);
 
 
     var userModel = listOfModel.UserModel;
@@ -29,6 +30,32 @@ module.exports = function (app ,listOfModel) {
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
 
+    // userID1 is the person whose playlists we wanna find
+    // userID2 is the second person
+    function findAllplayListAndFollowing(req , res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        var response = {};
+        userModel
+            .findIsFollowing(userId1 , userId2)
+            .then(function (status1) {
+                userModel
+                    .findAllplayLists(userId1)
+                    .then(function (users) {
+                        response.status = "OK";
+                        response.data = users;
+                        res.send(response);
+                    }, function (error) {
+                        response.status="KO";
+                        response.description="Some error occurred while finding the playlists";
+                        res.json(response);
+                    })
+            }, function (err) {
+                response.status="KO";
+                response.description="Some error occurred while finding the playlists";
+                res.json(response);
+            });
+    }
 
     // if no input is coming than the search will fail
     function searchUsers(req , res) {
@@ -70,6 +97,8 @@ module.exports = function (app ,listOfModel) {
     }
 
     // checked and tested and working fine
+    // userID1 is the main person
+    // userID2 is the person which we have to add to the followers list
     function followUser(req ,res) {
         var userId1 = req.params.userId1;
         var userId2 = req.params.userId2;
@@ -96,8 +125,8 @@ module.exports = function (app ,listOfModel) {
         var userId = req.params.userId;
         userModel
             .findUserById(userId)
-            .then(function (user) {
-                res.json({status:'OK',data:user});
+            .then(function (User) {
+                res.json({status:'OK',data:User});
             } , function (err) {
                 res.json({status:'KO',data:err});
             });
@@ -110,8 +139,8 @@ module.exports = function (app ,listOfModel) {
         var userId2 = req.params.userId2;
         userModel
             .findIsFollowing(userId1 , userId2)
-            .then(function (status) {
-                res.send(status);
+            .then(function (status1) {
+                res.json({status:'OK',data:status1});
             } , function (err) {
                 response.status="KO";
                 response.description="Some error occurred while checking";
