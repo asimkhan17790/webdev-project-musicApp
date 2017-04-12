@@ -32,11 +32,14 @@ module.exports = function (app ,listOfModel) {
 
     // if no input is coming than the search will fail
     function searchUsers(req , res) {
+        var response = {};
     var searchTerm = req.params.queryString;
     userModel
         .searchUsers(searchTerm)
         .then(function (users) {
-            res.send(users);
+            response.status = "OK";
+            response.data = users;
+            res.send(response);
         },function (err) {
            res.send(err);
         });
@@ -111,21 +114,24 @@ module.exports = function (app ,listOfModel) {
                 res.send(status);
             } , function (err) {
                 response.status="KO";
-                response.description="Some error occured while checking";
+                response.description="Some error occurred while checking";
                 res.json(response);
             });
     }
     // manipulate to send the entire user object rather that the array of ID
     function findFollowersById(req , res)
     {
+        var response = {};
         var userId = req.params.userId;
         userModel
             .findFollowersById(userId)
-            .then(function (user) {
-                res.send(user);
+            .then(function (users) {
+                response.status = "OK";
+                response.data = users;
+                res.send(response);
             },function (err) {
                 response.status="KO";
-                response.description="Unable to find follwers for the user";
+                response.description="Some error occurred!!";
                 res.json(response);
             });
     }
@@ -134,15 +140,17 @@ module.exports = function (app ,listOfModel) {
 
     function findFollowingById(req , res)
     {
+        var response = {};
         var userId = req.params.userId;
         userModel
             .findFollowingById(userId)
             .then(function (users) {
-                console.log(users);
-                res.send(users);
+                response.status = "OK";
+                response.data = users;
+                res.send(response);
             },function (err) {
                 response.status="KO";
-                response.description="Unable to find the users which this user is following";
+                response.description="Some error occurred!!";
                 res.json(response);
             });
     }

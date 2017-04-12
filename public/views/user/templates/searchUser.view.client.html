@@ -11,7 +11,7 @@
                                    required autofocus>
                         </div>
                         <div class="col-xs-2">
-                            <button type="submit" class="btn btn-danger seach-button-lens"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            <button type="submit" class="btn btn-danger seach-button-lens" ng-click = "model.searchUsers()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                         </div>
 
 
@@ -31,10 +31,10 @@
             </div>
 
             <div class="container-fluid">
-                <h2 style="" ng-show="model.users">
+                <h2 style="" ng-show="model.users.length > 0">
                     Searched Results
                 </h2>
-                <ul ng-show="model.users" class="list-group" style="overflow-y: auto;height: 250px">
+                <ul ng-show="model.users.length > 0" class="list-group" style="overflow-y: auto;height: 250px">
                     <li ng-repeat="user in model.users" class="list-group-item">
                         <div class="row">
                             <div class="pull-left col-xs-3">
@@ -43,18 +43,19 @@
 
                             <div class="pull-left col-xs-9">
                                 <a target="_blank" ng-href="{{event.url}}">
-                                    {{user.firstName + " " + user.lastName}}
+                                    {{user.lastName + ", " + user.firstName}}
                                 </a>
                                 <!--<a class="glyphicon glyphicon-bookmark pull-right" style="position: relative;right:-3px"></a>
                                 <a class="glyphicon glyphicon-resize-full pull-right"></a>-->
-
-
                             </div>
                         </div>
                         <!--  <div ng-bind-html="model.getTrustedHtml(event.description.html)" style="background-color: black;opacity: 0.7;color: white;font-size: 15px"></div>
                       </div>-->
                     </li>
                 </ul>
+                <span ng-show="model.error"  class="text-center new-account" style="z-index: 100;color: red;font-size: x-large">
+        {{model.error}}
+                </span>
             </div>
         </div>
     </div>

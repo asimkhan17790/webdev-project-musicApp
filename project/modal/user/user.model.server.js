@@ -183,15 +183,15 @@ module.exports = function () {
     {
         var q1 = q.defer();
         UserModel
-            .findOne({ _id: userId })
-            .populate('followers')
+            .findOne({ _id: userId } )
+            .populate('followers',{password : 0})
             .exec(function (err, user) {
                 if(user)
                 {
-                    q1.resolve(user);
+                    q1.resolve(user.followers);
                 }
                 else
-                    q1.reject ;
+                    q1.reject(err) ;
             });
 
         return q1.promise;
@@ -203,14 +203,14 @@ module.exports = function () {
         var q1 = q.defer();
         UserModel
             .findOne({ _id: userId })
-            .populate('following')
+            .populate('following',{password : 0})
             .exec(function (err, user) {
                 if(user)
                 {
-                    q1.resolve(user);
+                    q1.resolve(user.following);
                 }
                 else
-                    q1.reject ;
+                    q1.reject(err) ;
             });
 
         return q1.promise;

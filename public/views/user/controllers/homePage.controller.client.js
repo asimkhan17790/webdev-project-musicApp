@@ -16,23 +16,48 @@
         vm.editProfile = editProfile ;
         vm.error = null;
         vm.getTrsustedURL = getTrsustedURL;
-
-
+        vm.followers = null ;
+        vm.following = null ;
+        vm.searchUsers = searchUsers ;
+       vm.clearUserFromModal  = clearUserFromModal;
         function init() {
            // searchNearByEvents();
            // searchAllPlaylists();
             getUserDetails ();
             getMusicUpdates();
             findAllPlayList();
-
         }
         init();
+
+        function clearUserFromModal() {
+            vm.users = null;
+            vm.error = null;
+            vm.inputQuery = null;
+        }
+
+        function searchUsers () {
+            var promise = UserService.searchUsers(vm.inputQuery);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data && result.data.length >0) {
+                    vm.users = result.data;
+                    vm.error = null;
+                } else {
+                    vm.users = null;
+                    vm.error = "No user found !!";
+                }
+            }).error(function () {
+                vm.users = null;
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
 
         function getUserDetails() {
             var promise = UserService.findUserById(vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data) {
                     vm.user = result.data;
+                    vm.followers = result.data.followers.length ;
+                    vm.following = result.data.following.length ;
                     vm.error = null;
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";

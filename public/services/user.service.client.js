@@ -21,10 +21,24 @@
             "findAllAlbums" : findAllAlbums,
             "findAllplayList" : findAllplayList ,
             "findUserById" : findUserById,
-            "forgotPasswordEmail" : forgotPasswordEmail
+            "forgotPasswordEmail" : forgotPasswordEmail,
+            "searchUsers" : searchUsers,
+            "findFollowersById":findFollowersById,
+            "findFollowingById":findFollowingById
         }
         return api;
 
+        function findFollowersById(userId) {
+            return $http.get("/api/user/followers/"+ userId)
+        }
+
+        function findFollowingById(userId) {
+            return $http.get("/api/user/following/" + userId)
+        }
+
+        function searchUsers(inputQuery) {
+            return $http.get("/api/searchUsers/" + inputQuery);
+        }
 
         function forgotPasswordEmail(emailAddress) {
             return $http.get("/api/user/forgotPassword/" + emailAddress);

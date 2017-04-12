@@ -32,8 +32,8 @@
                         </li>
                         <li class="nav-item"><a>Home</a></li>
                         <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a>Followers <span class="badge">ng-model = "model.followers"</span></a></li>
-                        <li class="nav-item"><a>Following <span class="badge">ng-model = "model.following"</span></a></li>
+                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
                         <li class="nav-item"><a>Events</a></li>
 
                         <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
@@ -47,7 +47,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a target="_self">Edit Profile</a></li>
+                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a target="_self" >Logout</a></li>
                             </ul>
@@ -75,10 +75,9 @@
                         </li>
                         <li class="nav-item"><a>Home</a></li>
                         <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a>Followers</a></li>
-                        <li class="nav-item"><a>Following</a></li>
+                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
                         <li class="nav-item"><a>Events</a></li>
-                        <li class="nav-item"><a>Search</a></li>
                         <li class="nav-item"><a href="#/music/recordAndSearch/{{model.userId}}" style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
@@ -89,7 +88,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCogPhone">
-                                <li><a target="_self">Edit Profile</a></li>
+                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
 
                                 <li><a target="_self" >Logout</a></li>
                             </ul>
@@ -138,7 +137,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
                     <h4 class="modal-title">Search Users/Artists</h4>
                 </div>
                 <div class="modal-body">

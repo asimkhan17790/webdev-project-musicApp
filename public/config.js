@@ -82,6 +82,22 @@
                     pageTitle: 'Forgot Password'
                 }
             })
+            .when("/user/followers/:uid", {
+                templateUrl:"/views/user/templates/followers.view.client.html",
+                controller:"FollowerController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My Followers'
+                }
+            })
+            .when("/user/following/:uid", {
+                templateUrl:"/views/user/templates/following.view.client.html",
+                controller:"FollowingController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Following'
+                }
+            })
             .when("/music/playlist", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
                 controller:"PlayListController",
