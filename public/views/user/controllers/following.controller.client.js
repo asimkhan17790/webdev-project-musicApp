@@ -11,6 +11,9 @@
         vm.userId = $routeParams['uid'];
         vm.following = null;
         vm.error = null ;
+        vm.users = null;
+        vm.searchUsers = searchUsers ;
+        vm.clearUserFromModal  = clearUserFromModal;
         function init() {
             var promise = UserService.findFollowingById(vm.userId);
             promise.success (function (result) {
@@ -28,5 +31,26 @@
 
         }
         init();
+        function searchUsers () {
+            var promise = UserService.searchUsers(vm.inputQuery);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data && result.data.length >0) {
+                    vm.users = result.data;
+                    vm.error = null;
+                } else {
+                    vm.users = null;
+                    vm.error = "No user found !!";
+                }
+            }).error(function () {
+                vm.users = null;
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
+        function clearUserFromModal() {
+            vm.users = null;
+            vm.error = null;
+            vm.inputQuery = null;
+        }
+
     }
 })();

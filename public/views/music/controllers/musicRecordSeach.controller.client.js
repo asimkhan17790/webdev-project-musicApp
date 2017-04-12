@@ -17,6 +17,7 @@
         vm.recordAndSearch = recordAndSearch;
         vm.showSpinner = showSpinner;
         vm.findLyrics = findLyrics;
+
         function init() {
 
 
