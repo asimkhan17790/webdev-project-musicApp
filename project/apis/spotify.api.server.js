@@ -7,8 +7,8 @@ module.exports = function () {
     var SpotifyWebApi = require('spotify-web-api-node');
     // credentials are optional
     var spotifyApi = new SpotifyWebApi({
-        clientId: 'd05c2a5ac5674e85b33d19c01d7cf235',
-        clientSecret: '25ce06975d8b410fa17d81f5d7a28ce3'
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret:  process.env.SPOTIFY_SECRET
     });
 
     function findtrackDetails(trackId) {

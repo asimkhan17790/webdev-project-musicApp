@@ -8,19 +8,17 @@ module.exports = function () {
     var url = require('url');
     var fs = require('fs');
     var crypto = require('crypto');
-
-//npm install request
     var request = require('request');
 
-// Replace "###...###" below with your project's host, access_key and access_secret.
+
     var defaultOptions = {
         host: 'us-west-2.api.acrcloud.com',
         endpoint: '/v1/identify',
         signature_version: '1',
         data_type:'audio',
         secure: true,
-        access_key: '427349855346bc8c08be334f3772c770',
-        access_secret: 'FWrxRoVHVbb8F9HhyCkQVAyrQ441DfwRG1jfk6zO'
+        access_key: process.env.ACR_ACCESS_KEY,
+        access_secret: process.env.ACR_ACCESS_SECRET
     };
 
     function buildStringToSign(method, uri, accessKey, dataType, signatureVersion, timestamp) {
@@ -32,9 +30,7 @@ module.exports = function () {
             .update(new Buffer(signString, 'utf-8'))
             .digest().toString('base64');
     }
-    /**
-     * Identifies a sample of bytes
-     */
+
     function identify(data, options, cb) {
 
         var current_data = new Date();
@@ -59,7 +55,7 @@ module.exports = function () {
             timestamp:timestamp,
         }
         request.post({
-            url: "http://"+options.host + options.endpoint,
+            url: "http://"+ options.host + options.endpoint,
             method: 'POST',
             formData: formData
         }, cb);
@@ -112,10 +108,3 @@ module.exports = function () {
         return defered.promise;
     }
 }
-
-
-
-
-
-
-
