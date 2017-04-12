@@ -1,0 +1,27 @@
+<div class="container-fluid" >
+    <a>
+        <span class="glyphicon glyphicon-plus pull-right" data-toggle="modal" data-target="#newPlayListModal" > </span>
+    </a>
+    <div class="modal fade" id="newPlayListModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="newform" enctype="multipart/form-data" role="form">
+                    <div class="container-fluid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Create Playlist</h4>
+                        </div>
+                        <label for="playlistname"> PlayList Name </label>
+                        <input  ng-model="model.playlist.playListName" type ="text" class = "form-control" id="playlistname" placeholder="PlayList Name"  ng-required="required">
+
+                        <label for="playlistmood"> PlayList Mood </label>
+                        <input ng-model="model.playlist.playlistmood" type ="text" class = "form-control"id="playlistmood" placeholder="Rock or high on life" ng-required="required" >
+                    </div>
+                    <div class="modal-footer" style="padding-top: 10px">
+                        <button type="submit" class="btn btn-primary" ng-click="model.createplayList()" >Create Playlist</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
