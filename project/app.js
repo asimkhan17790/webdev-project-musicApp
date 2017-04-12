@@ -10,11 +10,10 @@ module.exports = function (app) {
     require("./services/eventbrite.service.server")(app);
     require("./services/user.service.server")(app,modelList);
     require("./services/album.service.server")(app,modelList);
+    require("./services/playList.service.server")(app,modelList);
     require("./services/uploadMusicAws")(app,modelList);
-   // require("./services/quickstart");
+    require("./services/uploadImageAws")(app,modelList);
 
-    var spotifyObject = require('./apis/spotify.api.server')();
-
-    spotifyObject.findtrackDetails('asd');
-    console.log("Application is started");
+    //require("./services/quickstart");
+    console.log("Application is started ");
 }

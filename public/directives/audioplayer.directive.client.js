@@ -1,7 +1,7 @@
 (function () {
     angular
         .module('WebDevMusicApp')
-        .directive('wbdvAudioPlayer', audioPlayerDirective);
+        .directive('newsCarousal', audioPlayerDirective);
 
     function audioPlayerDirective() {
 
@@ -9,41 +9,30 @@
         var endIndex = -1;
         function linkFunc(scope, element, attributes) {
 
-            element.bind('play', scope.model.play).bind('pause', function () {
-                scope.model.playing = false;
-                scope.model.playStatus = "Paused...";
-            }).bind('ended', function () {
-                scope.model.playStatus = "Paused...";
-                if ((scope.model.index + 1) < scope.model.trackCount) {
-                    scope.model.index++;
-                    loadTrack(scope.model.index);
-                    element.play();
-                } else {
-                    element.pause();
-                    scope.model.index = 0;
-                    loadTrack(scope.model.index);
+            var boxheight = 450;
+            var itemlength = 10;
+            var triggerheight = Math.round(boxheight/itemlength+1);
+            $('.list-group-item').height(triggerheight);
+
+            var clickEvent = false;
+            element.carousel({
+                interval:   4000
+            }).on('click', '.list-group li', function() {
+                clickEvent = true;
+                $('.list-group li').removeClass('active');
+                $(this).addClass('active');
+            }).on('slid.bs.carousel', function(e) {
+                if(!clickEvent) {
+                    var count = $('.list-group').children().length -1;
+                    var current = $('.list-group li.active');
+                    current.removeClass('active').next().addClass('active');
+                    var id = parseInt(current.data('slide-to'));
+                    if(count == id) {
+                        $('.list-group li').first().addClass('active');
+                    }
                 }
-            }).get(0);
-
-            function loadTrack(id) {
-                //  $('.plSel').removeClass('plSel');
-                //  $('#plList li:eq(' + id + ')').addClass('plSel');
-                // npTitle.text(tracks[id].name);
-                scope.model.nowPlayingTitle = scope.model.playlist.songs[id].title;
-                scope.model.index = id;
-                scope.model.audio.src = scope.model.playlist.songs[id].url;
-            }
-
-            /*element.sortable({
-                handle: 'a.handler',
-                axis: 'y',
-                start: function (event, ui) {
-                    startIndex = ui.item.index();
-                },
-                stop: function (event, ui) {
-                    endIndex = ui.item.index();
-                    scope.model.reArrangeItems(startIndex,endIndex);
-                }});*/
+                clickEvent = false;
+            });
         }
         return {
             link: linkFunc

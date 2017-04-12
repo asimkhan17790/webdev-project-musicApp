@@ -6,14 +6,15 @@
     function StaticDataService() {
         var userTypeOptions = [
             {
+                "userType": "U",
+                "label": "Music Lover"
+            },
+            {
                 "userType": "M",
-                "label": "Music Company/Singer"
+                "label": "Music Company/Artist"
             }, {
                 "userType": "E",
                 "label": "Event Organiser"
-            }, {
-                "userType": "U",
-                "label": "Music Lover"
             }
         ];
         var api = {
@@ -26,14 +27,14 @@
 
         return api;
 
-        function getWidgetTypeLabelName(widgetType) {
+        /*function getWidgetTypeLabelName(widgetType) {
             var element = widgetOptions.find(function (element) {
                 if (element.widgetType === widgetType) {
                     return element;
                 }
             });
             return angular.copy(element.label);
-        }
+        }*/
 
     }
 

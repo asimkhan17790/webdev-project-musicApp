@@ -8,19 +8,17 @@ module.exports = function () {
     var url = require('url');
     var fs = require('fs');
     var crypto = require('crypto');
-
-//npm install request
     var request = require('request');
 
-// Replace "###...###" below with your project's host, access_key and access_secret.
+
     var defaultOptions = {
         host: 'us-west-2.api.acrcloud.com',
         endpoint: '/v1/identify',
         signature_version: '1',
         data_type:'audio',
         secure: true,
-        access_key: '427349855346bc8c08be334f3772c770',
-        access_secret: 'FWrxRoVHVbb8F9HhyCkQVAyrQ441DfwRG1jfk6zO'
+        access_key: process.env.ACR_ACCESS_KEY,
+        access_secret: process.env.ACR_ACCESS_SECRET
     };
 
     function buildStringToSign(method, uri, accessKey, dataType, signatureVersion, timestamp) {
@@ -33,9 +31,6 @@ module.exports = function () {
             .digest().toString('base64');
     }
 
-    /**
-     * Identifies a sample of bytes
-     */
     function identify(data, options, cb) {
 
         var current_data = new Date();
@@ -60,7 +55,7 @@ module.exports = function () {
             timestamp:timestamp,
         }
         request.post({
-            url: "http://"+options.host + options.endpoint,
+            url: "http://"+ options.host + options.endpoint,
             method: 'POST',
             formData: formData
         }, cb);
@@ -75,20 +70,41 @@ module.exports = function () {
             if (err)
             {
                 console.log(err);
-                defered.reject(err);
+                defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
             }
             else {
+                body = JSON.parse(body);
+                console.log(body);
 
-                defered.resolve(body);
+                if (body.status!=null && body.status.code!=null && body.status.code == 0) {
+                    //Found a Match
+                    if (body.metadata && body.metadata.music && body.metadata.music.length != 0) {
+
+                        var musicObject = body.metadata.music[0];
+
+                        if (musicObject.external_metadata
+                            && musicObject.external_metadata.spotify
+                            && musicObject.external_metadata.spotify.track
+                            && musicObject.external_metadata.spotify.track.id) {
+                            var spotifyTrackId = musicObject.external_metadata.spotify.track.id;
+                            defered.resolve(spotifyTrackId);
+                        }
+                        else {
+                            defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
+                        }
+
+
+                    }
+                    else {
+                        defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
+                    }
+                }
+                else {
+                    defered.reject({status:"KO",description:"Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!"});
+                }
+
             }
         });
         return defered.promise;
     }
 }
-
-
-
-
-
-
-

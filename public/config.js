@@ -11,11 +11,11 @@
 
         $routeProvider
             .when("/", {
-                templateUrl:"/views/music/templates/musicsearch.view.client.html",
-                controller:"MusicRecSearchController",
+                templateUrl:"/views/user/templates/landingPage.view.client.html",
+                controller:"LandingPageController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Search Music'
+                    pageTitle: 'My Music'
                 }
             })
             .when("/landingPage", {
@@ -26,12 +26,20 @@
                     pageTitle: 'My Music'
                 }
             })
-            .when("/user/userHomePage", {
+            .when("/user/userHomePage/:uid", {
                 templateUrl:"/views/user/templates/homePage.view.client.html",
                 controller:"HomePageController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Home Page'
+                }
+            })
+            .when("/user/singerProfile", {
+                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+                controller:"SingerProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'View Profile'
                 }
             })
             .when("/user/userHomePageSinger/:uid", {
@@ -40,6 +48,14 @@
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Home Page'
+                }
+            })
+            .when("/user/editProfile/:uid", {
+                templateUrl:"/views/user/templates/editprofile.view.client.html",
+                controller:"EditProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Edit Profile'
                 }
             })
             .when("/login", {
@@ -98,7 +114,7 @@
                 data: {
                     pageTitle: 'Forgot password'
                 }})
-            .when("/music/recordAndSearch", {
+            .when("/music/recordAndSearch/:uid", {
                 templateUrl:"/views/music/templates/musicRecordSearch.view.client.html",
                 controller:"MusicRecorderController",
                 controllerAs:"model",

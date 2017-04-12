@@ -1,9 +1,12 @@
 module.exports = function (app) {
     app.get("/api/music/lyrics/:songTitle/:artistName",findSongLyrics);
+    app.get("/api/music/musicNews", findMTVNews);
+
+
     const https = require('https');
 
     // model definitions here
-
+    var mtvObject = require('../apis/mtvNew.api.server')();
 
 
 
@@ -43,7 +46,16 @@ module.exports = function (app) {
     }
 
 
+    function findMTVNews (req, res) {
 
+        mtvObject.findLatestMusicNews()
+            .then(function(result) {
+                res.json(result);
+                return;
+            },function () {
+                res.json({status:'ko'});
+                return;
+            })
 
-
+    }
 }

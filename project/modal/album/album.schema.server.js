@@ -5,7 +5,6 @@ module.exports = function () {
     var mongoose = require('mongoose');
     var albumSchema = mongoose.Schema({
         albumname : {type :String , required: true},
-        id : String,
         dateCreated : {type : Date , default :Date.now()},
         albumOwner : String,
         albumgenre :String,

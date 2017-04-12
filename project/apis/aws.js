@@ -4,7 +4,8 @@
 
 module.exports = function (app) {
     var api = {
-        uploadMusicAws : uploadMusicAws
+        uploadMusicAws : uploadMusicAws ,
+        uploadImageAws : uploadImageAws
     }
 
     var q = require('q');
@@ -13,9 +14,12 @@ module.exports = function (app) {
 
     var fs = require('fs');
     const util = require('util');
-    var s3 = new AWS.S3();
+    var s31 = new AWS.S3();
+    var s32 = new AWS.S3();
+
 // Create a bucket and upload something into it
-    var bucketName = 'testbucketsumittest';
+    var musicbucketName = 'testbucketsumittest';
+    var imagebucketName = 'musicappimage';
     return api;
 
     function uploadMusicAws (musicObject , key) {
@@ -23,11 +27,29 @@ module.exports = function (app) {
         keyName =  key ;
         // console.log("Object is public at https://s3.amazonaws.com/" +
         //    params.Bucket + "/" + params.Key);
-        var params = {Bucket: bucketName,
+        var params = {Bucket: musicbucketName,
             Key: keyName,
             Body: new Buffer(musicObject),
             ACL: 'public-read'};
-        s3.putObject(params, function(err, data) {
+        s31.putObject(params, function(err, data) {
+            if (err)
+                q1.reject();
+            else
+                q1.resolve(data);
+        });
+        return q1.promise;
+    }
+
+    function uploadImageAws (imageObject , key) {
+        var q1 =  q.defer() ;
+        keyName =  key ;
+        // console.log("Object is public at https://s3.amazonaws.com/" +
+        //    params.Bucket + "/" + params.Key);
+        var params = {Bucket: imagebucketName,
+            Key: keyName,
+            Body: new Buffer(imageObject),
+            ACL: 'public-read'};
+        s32.putObject(params, function(err, data) {
             if (err)
                 q1.reject();
             else

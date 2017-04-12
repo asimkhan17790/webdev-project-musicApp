@@ -4,7 +4,6 @@
         .module("WebDevMusicApp")
         .controller("MusicRecSearchController",MusicRecSearchController);
 
-
     function MusicRecSearchController($location,Upload,$timeout,MusicService,$sce,EmailService,EventService) {
         console.log('Hello from music page');
 

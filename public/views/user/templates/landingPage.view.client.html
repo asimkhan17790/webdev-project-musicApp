@@ -27,6 +27,10 @@
             </div>
         </div>
     </nav>
+    <!--<div ng-show="model.error" class="alert alert-danger animate-top" role="alert" style="z-index: 100;">
+        <span class="closebtn" ng-click="model.error=null;">&times;</span>
+        {{model.error}}
+    </div>-->
     <div style="margin-top: 80px;">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
@@ -85,7 +89,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
                     <h4 class="modal-title">Login</h4>
                 </div>
                 <div class="modal-body">
@@ -102,7 +106,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
                     <h4 class="modal-title">Sign up</h4>
                 </div>
                 <div class="modal-body">
@@ -115,8 +119,6 @@
 
         </div>
     </div>
-
-
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
 

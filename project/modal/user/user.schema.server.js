@@ -5,20 +5,23 @@
 module.exports = function () {
     var mongoose = require('mongoose');
     var userSchema = mongoose.Schema({
-        username : {type :String , required: true},
+        username : {type :String , required: true, unique:true},
         password : String,
         firstName : String,
         lastName :  String,
-        email : String,
+        email : {type :String , required: true, unique:true},
         phone : String,
         gender : String,
         dateCreated : {type : Date , default :Date.now()},
+        imageURL : String ,
         userType : {type : String, enum : ['E', 'U', 'M', 'S','A']},
         playList : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}],
         album : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
         followers :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],
         following :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],
     },{collection: 'user'});
+
+    userSchema.index({ firstName: 'text', lastName: 'text', username: 'text'});
     return userSchema;
 };
 // playlist and songs will be created later as datamodel which this particular user

@@ -13,9 +13,141 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user" ,findUser);
     app.put("/api/user/:userId",updateUser);
     app.get("/api/user/album/:userId",findAlbumsForUser);
+    app.get("/api/user/playList/:userId",findPlayListForUser)
+    app.get("/api/user/:userId",findUserById);
+    app.get("/api/user/followers/:userId",findFollowersById);
+    app.get("/api/user/following/:userId",findFollowingById);
+    app.get("/api/user/isfollowing/:userId1/:userId2",findIsFollowing);
+    app.get("/api/user/follow/:userId1/:userId2",followUser);
+    app.get("/api/user/unfollow/:userId1/:userId2",unfollowUser);
+    app.get("/api/searchUsers/:queryString" ,searchUsers);
+    app.get("/api/user/forgotPassword/:emailAddress",forgotPasswordAndSendEmail);
+
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
+    var playListModel = listOfModel.playListModel;
+    var emailApi = require('../apis/email.api.server')();
+
+
+    // if no input is coming than the search will fail
+    function searchUsers(req , res) {
+    var searchTerm = req.params.queryString;
+    userModel
+        .searchUsers(searchTerm)
+        .then(function (users) {
+            res.send(users);
+        },function (err) {
+           res.send(err);
+        });
+    }
+
+    // userID1 is the main follower
+    // userID2 is the second follower and which we have to unfollow
+    function unfollowUser(req ,res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        userModel
+            .unfollowUser(userId1 , userId2)
+            .then(function (user) {
+                userModel
+                    .unfollowingUser(userId2 , userId1)
+                    .then(function (fake) {
+                        res.send(user);
+                    },function (err) {
+                        response.status="KO";
+                        response.description="Unable to un follow the given user";
+                        res.json(response);
+                    });
+            } , function (err) {
+                response.status="KO";
+                response.description="Unable to unfollow the given user";
+                res.json(response);
+            });
+    }
+
+    // checked and tested and working fine
+    function followUser(req ,res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        userModel
+            .followUser(userId1 , userId2)
+            .then(function (user) {
+                userModel
+                    .followingUser(userId2 , userId1)
+                    .then(function (fake) {
+                        res.send(user);
+                    },function (err) {
+                        response.status="KO";
+                        response.description="Unable to follow the given user";
+                        res.json(response);
+                    });
+            } , function (err) {
+                response.status="KO";
+                response.description="Unable to follow the given user";
+                res.json(response);
+            });
+    }
+
+    function findUserById(req , res) {
+        var userId = req.params.userId;
+        userModel
+            .findUserById(userId)
+            .then(function (user) {
+                res.json({status:'OK',data:user});
+            } , function (err) {
+                res.json({status:'KO',data:err});
+            });
+    }
+
+    // below service will check if the second user(userId2) is following the
+    // first user (userId1)
+    function findIsFollowing (req ,res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        userModel
+            .findIsFollowing(userId1 , userId2)
+            .then(function (status) {
+                res.send(status);
+            } , function (err) {
+                response.status="KO";
+                response.description="Some error occured while checking";
+                res.json(response);
+            });
+    }
+    // manipulate to send the entire user object rather that the array of ID
+    function findFollowersById(req , res)
+    {
+        var userId = req.params.userId;
+        userModel
+            .findFollowersById(userId)
+            .then(function (user) {
+                res.send(user);
+            },function (err) {
+                response.status="KO";
+                response.description="Unable to find follwers for the user";
+                res.json(response);
+            });
+    }
+
+    // manipulate to send the entire user object rather that the array of ID
+
+    function findFollowingById(req , res)
+    {
+        var userId = req.params.userId;
+        userModel
+            .findFollowingById(userId)
+            .then(function (users) {
+                console.log(users);
+                res.send(users);
+            },function (err) {
+                response.status="KO";
+                response.description="Unable to find the users which this user is following";
+                res.json(response);
+            });
+    }
+
+
 
     function findAlbumsForUser(req, res) {
         var userId = req.params.userId;
@@ -28,14 +160,110 @@ module.exports = function (app ,listOfModel) {
             })
         // hopefully we will be sending the entire user and albums will be embedded in it
     }
-    function createUser(req,res) {
-        var user = req.body;
+
+    function findPlayListForUser(req, res) {
+        var userId = req.params.userId;
         userModel
-            .createUser(user)
-            .then(function(user) {
+            .findAllplayLists(userId)
+            .then(function (user) {
                 res.send(user);
             }, function (error) {
                 res.sendStatus(500).send(error);
+            })
+    }
+
+    // create a default playlist for the user of type music lover which cant be deleted
+    // have to see how to make sure its not deleted ever okay creating a field called
+    // default playlist which can never be deleted
+
+    // NOTE :: creating default playlist in the particular playlist itself
+    // possible bug that user gets created but the default playlist dont get cra
+    function createUser(req,res) {
+        var user = req.body;
+        var response = {};
+        userModel
+            .createUser(user)
+            .then(function(user) {
+
+                if (user) {
+                    var emailObject = {
+                        to: user.email,
+                        from: 'asim.khan17790@gmail.com',
+                        subject: 'Welcome to MyMusic',
+                        message: 'Hi <strong>'+ user.firstName+'</strong>,<br><br>'
+                        + 'Welcome to <strong>My Music</strong>,<br><br> Your username is :<strong>'+ user.username+ '</strong><br><br> <h2>Enjoy your musical Journey!!</h2>',
+                    };
+                    emailApi.sendEmailAsync(emailObject);
+                }
+                if(user && user.userType === "U")
+                {
+                    var defaultplayList = {
+                        "playListName" : "Favorites",
+                        "playListOwner" : user._id
+                    }
+                    playListModel
+                        .createplayList(defaultplayList)
+                        .then(function (createdplayList) {
+                            userModel
+                                .addplayList(createdplayList)
+                                .then(function (updatedUser) {
+                                    if (updatedUser) {
+                                        response.status="OK";
+                                        response.description="User successfully created";
+                                        response.user = updatedUser;
+                                        res.json(response);
+                                    }
+                                    else {
+                                        response.status="KO";
+                                        response.description="Some Error Occurred!! Please try again";
+                                        // res.json(response);
+                                        res.status(500).send(response);
+                                        return;
+                                    }
+
+                                },function (error) {
+                                    response.status="KO";
+                                    response.description="Some Error Occurred!! Please try again";
+                                    // res.json(response);
+                                    res.status(500).send(response);
+                                    return;
+                                });
+                        },function (error) {
+
+                            response.status="KO";
+                            response.description="Some Error Occurred!! Please try again";
+                            // res.json(response);
+                            res.status(500).send(response);
+                            return;
+                        });
+                }
+                else {
+                    if (user) {
+                        response.status="OK";
+                        response.description="User successfully created";
+                        response.user = user;
+                        res.json(response);
+                    }
+                    else {
+                        response.status="KO";
+                        response.description="Some Error Occurred!! Please try again";
+                        // res.json(response);
+                        res.status(500).send(response);
+                        return;
+                    }
+                }
+
+            }, function (err) {
+                response.status="KO";
+                if (err.code && err.code === 11000) {
+                    response.description="Username or Email already exists";
+                }
+                else {
+                    response.description="Some Error Occurred!! Please try again";
+                }
+                res.json(response);
+                return;
+
             });
     }
 
@@ -43,13 +271,27 @@ module.exports = function (app ,listOfModel) {
         var queryParams = req.query;
         var userName = queryParams.username;
         var passWord = queryParams.password;
+        var response = {};
         userModel
             .findUserByCredentials(userName, passWord)
             .then(function (user) {
-                res.send(user);
+                if (user) {
+                    response.status = "OK";
+                    response.user = user;
+                    response.description = "User Found";
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "Username or password is incorrect";
+                }
+                res.json(response);
+                return;
+
             } , function (err) {
-                console.log("the particular user not found according to the given username and password");
-                res.send(400);
+                response.status = "KO";
+                response.description = "Some Error Occurred!";
+                res.status(500).send(response);
+                return;
             });
     }
 
@@ -61,8 +303,39 @@ module.exports = function (app ,listOfModel) {
             .then(function (user) {
                 res.send(user);
             }, function (err) {
-                console.log(err);
-                res.send(400);
+                res.status(500).send("Some Error Occurred!!");
             });
+    }
+
+    function forgotPasswordAndSendEmail(req, res) {
+        var emailAddress = req.params.emailAddress;
+        var response = {};
+        listOfModel.UserModel
+            .findUserByEmail(emailAddress)
+            .then(function (user) {
+                if (user) {
+                    var emailObject = {
+                        to: emailAddress,
+                        from: 'asim.khan17790@gmail.com',
+                        subject: 'Password Recovery',
+                        message: 'Your password is : <strong>' + user.password+ '</strong>',
+                    };
+                    return emailApi.sendEmail(emailObject);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "Email is not registered with us! Please enter correct Email.";
+                    res.json(response);
+                }
+
+            }).then(function () {
+                response.status = "OK";
+                response.description = "Your password has been sent to your registered Email. Please login again!";
+                res.json(response);
+        }, function (err) {
+            response.status = "KO";
+            response.description = "Some Error Occurred!!";
+            res.status(500).send(response);
+        });
     }
 }

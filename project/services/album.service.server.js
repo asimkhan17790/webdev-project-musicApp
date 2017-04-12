@@ -11,6 +11,7 @@ module.exports = function (app ,listOfModel) {
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
     var songModel = listOfModel.songModel;
+
     function deleteAlbum(req ,res) {
         console.log("inside the server side");
         var albumId = req.params.aid;
@@ -47,8 +48,6 @@ module.exports = function (app ,listOfModel) {
                 res.send(err);
             })
     }
-
-
 
     function findAllSongsForAlbum(req ,res) {
         var albumId = req.params.albumId;

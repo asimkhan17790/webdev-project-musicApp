@@ -4,7 +4,6 @@
 module.exports = function () {
     var mongoose = require('mongoose');
     var songSchema = mongoose.Schema({
-        id : String,
         title : String,
         artist : String ,
         genre : String ,

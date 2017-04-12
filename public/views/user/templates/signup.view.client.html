@@ -1,4 +1,7 @@
 <div class="container-fluid">
+    <span ng-show="model.error"  style="z-index: 100;color: red;font-size: x-large">
+        {{model.error}}
+    </span>
     <div class="row">
         <div class="col-sm-offset-1 col-sm-2">
         </div>
@@ -6,25 +9,27 @@
             <form class="form-group" role="form">
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
-                        <input type="text" name="firstname" value="" class="form-control input-lg" ng-model="model.user.firstName"  placeholder="First Name"/> </div>
+                        <input type="text" name="firstname"  class="form-control input-lg" ng-model="model.user.firstName"  placeholder="First Name"/> </div>
                     <div class="col-xs-6 col-md-6">
-                        <input type="text" name="lastname" value="" class="form-control input-lg"  ng-model="model.user.lastName" placeholder="Last Name"/> </div>
+                        <input type="text" name="lastname"  class="form-control input-lg"  ng-model="model.user.lastName" placeholder="Last Name"/> </div>
                 </div>
-                <input type="text" name="email" value="" class="form-control input-lg" ng-model="model.user.email" placeholder="Your Email"/>
-                <input type="text" name="username" value="" class="form-control input-lg" ng-model="model.user.username" placeholder="userName"/>
+                <input type="text" name="email"  class="form-control input-lg" ng-model="model.user.email" placeholder="Your Email"/>
+                <input type="text" name="username"  class="form-control input-lg" ng-model="model.user.username" placeholder="userName"/>
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
-                        <input type="text" name="phone" value="" class="form-control input-lg" pattern="\d*" ng-model="model.user.phone" placeholder="Your contact Number"/>
+                        <input type="text" name="phone"  class="form-control input-lg" ng-model="model.user.phone" placeholder="Your contact Number"/>
                     </div>
                     <div class="col-xs-6 col-md-6">
                         <select class = "form-control" name="singleSelect" ng-model="model.userType" ng-options="x.label for x in model.userOptions">
-
                         </select>
                         <br>
                     </div>
                 </div>
-                <input type="password" name="password" value="" class="form-control input-lg" ng-model="model.user.password" placeholder="Password"/>
-                <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password"  />
+                <input type="password" name="password" class="form-control input-lg" ng-model="model.user.password" placeholder="Password"/>
+                <input type="password" name="confirm_password" ng-model="model.user.cnfPassword" class="form-control input-lg" placeholder="Confirm Password"  />
+
+                <div  ng-show = "model.userType.userType == 'U'">
+
                 <label>Gender : </label>
                 <label class="radio-inline">
                     <input type="radio" name="gender" ng-model="model.user.gender" value="M" id=male />Male
@@ -32,6 +37,7 @@
                 <label class="radio-inline">
                     <input type="radio" name="gender" ng-model="model.user.gender" value="F" id=female />Female
                 </label>
+                </div>
                 <br/>
                 <button class="btn btn-lg btn-primary btn-block signup-btn" ng-click="model.createUser()" type="submit">Create my account</button>
             </form>
