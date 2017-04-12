@@ -22,11 +22,24 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/follow/:userId1/:userId2",followUser);
 
     app.get("/api/user/unfollow/:userId1/:userId2",unfollowUser);
+    app.get("/api/searchUsers/:queryString" ,searchUsers);
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
 
+
+    // if no input is coming than the search will fail
+    function searchUsers(req , res) {
+    var searchTerm = req.params.queryString;
+    userModel
+        .searchUsers(searchTerm)
+        .then(function (users) {
+            res.send(users);
+        },function (err) {
+           res.send(err);
+        });
+    }
 
 
     // userID1 is the main follower

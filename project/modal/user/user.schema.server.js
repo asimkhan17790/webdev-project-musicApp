@@ -20,6 +20,8 @@ module.exports = function () {
         followers :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],
         following :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],
     },{collection: 'user'});
+
+    userSchema.index({ firstName: 'text', lastName: 'text', username: 'text'});
     return userSchema;
 };
 // playlist and songs will be created later as datamodel which this particular user

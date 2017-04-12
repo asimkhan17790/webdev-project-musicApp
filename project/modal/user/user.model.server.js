@@ -25,7 +25,8 @@ module.exports = function () {
         findIsFollowing : findIsFollowing,
         unfollowUser : unfollowUser,
         followingUser : followingUser,
-        unfollowingUser : unfollowingUser
+        unfollowingUser : unfollowingUser,
+        searchUsers : searchUsers
     };
 
     var mongoose = require('mongoose');
@@ -33,6 +34,17 @@ module.exports = function () {
     var UserSchema = require('./user.schema.server.js')();
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
+
+    function searchUsers (searchArray) {
+        var q1 =  q.defer();
+        UserModel.find({ $text: { $search: searchArray }}, {password : 0},function (err ,users) {
+            if(err)
+                q1.reject();
+            else
+                q1.resolve(users);
+        });
+        return q1.promise;
+    }
 
     // userID1 will be the one following the userId2
 
