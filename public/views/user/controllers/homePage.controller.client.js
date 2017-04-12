@@ -14,7 +14,9 @@
         vm.createplayList = createplayList ;
         vm.deleteplayList = deleteplayList ;
         vm.editProfile = editProfile ;
+        vm.error = null;
         vm.getTrsustedURL = getTrsustedURL;
+
 
         function init() {
            // searchNearByEvents();
@@ -29,7 +31,13 @@
         function getUserDetails() {
             var promise = UserService.findUserById(vm.userId);
             promise.success (function (result) {
-                vm.user = result;
+                if (result && result.status==='OK' && result.data) {
+                    vm.user = result.data;
+                    vm.error = null;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+
             }).error(function () {
                     vm.error = "Some Error Occurred!! Please try again!";
                 });

@@ -81,9 +81,9 @@ module.exports = function (app ,listOfModel) {
         userModel
             .findUserById(userId)
             .then(function (user) {
-                res.send(user);
+                res.json({status:'OK',data:user});
             } , function (err) {
-                res.send(400);
+                res.json({status:'KO',data:err});
             });
     }
 
