@@ -20,9 +20,15 @@
             "deleteUser" : deleteUser,
             "findAllAlbums" : findAllAlbums,
             "findAllplayList" : findAllplayList ,
-            "findUserById" : findUserById
+            "findUserById" : findUserById,
+            "forgotPasswordEmail" : forgotPasswordEmail
         }
         return api;
+
+
+        function forgotPasswordEmail(emailAddress) {
+            return $http.get("/api/user/forgotPassword/" + emailAddress);
+        }
 
         function findAllAlbums(userId) {
             console.log("user id is" + userId);
@@ -43,10 +49,7 @@
         }
 
         function findUserById(userId) {
-            // calling the api on the server tp fetch data from the server
-            // rather that from the local instance
-            console.log("inside this finding user by id");
-            return $http.get("/api/user/"+userId);
+            return $http.get("/api/user/" + userId);
         }
 
         function findUserByCredentials(username , password) {

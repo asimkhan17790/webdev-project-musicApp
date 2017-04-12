@@ -11,11 +11,11 @@
 
         $routeProvider
             .when("/", {
-                templateUrl:"/views/music/templates/musicsearch.view.client.html",
-                controller:"MusicRecSearchController",
+                templateUrl:"/views/user/templates/landingPage.view.client.html",
+                controller:"LandingPageController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Search Music'
+                    pageTitle: 'My Music'
                 }
             })
             .when("/landingPage", {
@@ -114,7 +114,7 @@
                 data: {
                     pageTitle: 'Forgot password'
                 }})
-            .when("/music/recordAndSearch", {
+            .when("/music/recordAndSearch/:uid", {
                 templateUrl:"/views/music/templates/musicRecordSearch.view.client.html",
                 controller:"MusicRecorderController",
                 controllerAs:"model",

@@ -22,7 +22,7 @@ module.exports = function () {
     // delete an album
     // delete an song from an album  are the possible crud operations
 
-    function createplayList (newplayList ) {
+    function createplayList (newplayList) {
         var q1 =  q.defer();
         playListModel.create(newplayList , function(err, newplayList) {
             if (err){
