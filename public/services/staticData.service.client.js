@@ -27,14 +27,14 @@
 
         return api;
 
-        /*function getWidgetTypeLabelName(widgetType) {
+        function getWidgetTypeLabelName(widgetType) {
             var element = widgetOptions.find(function (element) {
                 if (element.widgetType === widgetType) {
                     return element;
                 }
             });
             return angular.copy(element.label);
-        }*/
+        }
 
     }
 
