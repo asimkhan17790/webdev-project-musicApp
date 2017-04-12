@@ -114,7 +114,7 @@
                 data: {
                     pageTitle: 'Forgot password'
                 }})
-            .when("/music/recordAndSearch", {
+            .when("/music/recordAndSearch/:uid", {
                 templateUrl:"/views/music/templates/musicRecordSearch.view.client.html",
                 controller:"MusicRecorderController",
                 controllerAs:"model",

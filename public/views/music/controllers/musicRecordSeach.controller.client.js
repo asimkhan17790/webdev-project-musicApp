@@ -7,9 +7,10 @@
         })
         .controller("MusicRecorderController", MusicRecorderController);
 
-    function MusicRecorderController ($scope, $sce,$timeout,Upload,MusicService) {
+    function MusicRecorderController ($scope, $sce,$timeout,Upload,MusicService,$routeParams) {
 
         var vm = this;
+        vm.userId = $routeParams.uid ;
         vm.recordAudio = recordAudio;
         vm.stopRecording = stopRecording;
         vm.getTrustedHtml = getTrustedHtml;

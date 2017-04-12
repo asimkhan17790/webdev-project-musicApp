@@ -232,7 +232,7 @@ module.exports = function () {
         var q1 = q.defer();
         UserModel.findOne({_id:userId} ,function (err ,User) {
             if(err)
-                q1.reject();
+                q1.reject(err);
             else if(User)
                 q1.resolve(User);
         });
