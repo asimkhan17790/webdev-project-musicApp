@@ -16,11 +16,15 @@
         vm.editProfile = editProfile ;
         vm.error = null;
         vm.getTrsustedURL = getTrsustedURL;
-
+        vm.followers = null;
+        vm.following = null;
 
         function init() {
            // searchNearByEvents();
            // searchAllPlaylists();
+
+            getMyFollowers();
+            getIamFollowing();
             getUserDetails ();
             getMusicUpdates();
             findAllPlayList();
