@@ -12,6 +12,7 @@
         vm.followUser = followUser;
         vm.unfollowUser = unfollowUser;
         vm.findPlayList = findPlayList;
+        vm.followUserThisPlayList = followUserThisPlayList;
         vm.notFollowing = null;
         function init() {
             getUserDetails();
@@ -19,6 +20,12 @@
             findPlayList();
         }
         init();
+
+        function followUserThisPlayList (playList) {
+            $location.url("/user/userSearch/playList/songs/"+ playList._id);
+            console.log(playList);
+        }
+
         function getUserDetails() {
             var promise = UserService.findUserById(userId);
             promise.success (function (result) {

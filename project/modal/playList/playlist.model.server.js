@@ -6,9 +6,9 @@ module.exports = function () {
 
     // expsoing this particular api
     var api = {
-        addSong : addSong ,
+        findplayListById : findplayListById ,
         createplayList : createplayList ,
-        findAllSongs : findAllSongs,
+       // findAllSongs : findAllSongs,
         deleteplayList : deleteplayList
     };
 
@@ -34,12 +34,25 @@ module.exports = function () {
         });
         return q1.promise;
     }
+
     function addSong() {
 
     }
 
-    function findAllSongs() {
-
+    function findplayListById(playListId) {
+        var q1 = q.defer();
+        playListModel
+            .findOne({ _id: playListId})
+            .populate('songs')
+            .exec(function (err, playList) {
+                if(playList)
+                {
+                    q1.resolve(playList);
+                }
+                else
+                    q1.reject(err) ;
+            });
+        return q1.promise;
     }
 
     function deleteplayList(playListId) {

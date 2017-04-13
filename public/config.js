@@ -42,6 +42,14 @@
                     pageTitle: 'View Profile'
                 }
             })
+            .when("/user/userSearch/playList/songs/:pid", {
+                templateUrl:"/views/playlists/templates/playlistaddsong.view.client.html",
+                controller:"PlayListAddSongController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Viewing playlist and add song'
+                }
+            })
             .when("/user/userProfile", {
                 templateUrl:"/views/user/templates/userProfilePage.view.client.html",
                 controller:"UserProfileController",

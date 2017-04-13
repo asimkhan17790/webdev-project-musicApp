@@ -8,8 +8,6 @@ module.exports = function (app) {
     // model definitions here
     var mtvObject = require('../apis/mtvNew.api.server')();
 
-
-
     function findSongLyrics (req,res) {
         var songTitle = req.params.songTitle;
         var artistName = req.params.artistName;

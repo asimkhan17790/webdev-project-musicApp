@@ -1,0 +1,50 @@
+<div class="pageBackground">
+                <div ng-show="model.noSongFound" class="container">
+                    <div  class="alert alert-danger animate-top" role="alert">
+                        <!-- <span data-dismiss="alert" aria-label="close" class="closebtn" ng-click="model.error=null;">&times;</span>-->
+                        {{model.noSongFound}}
+                    </div>
+                </div>
+    <div ng-show="! model.noSongFound" style="background-color: black; background:rgba(0,0,0,0.6);margin-top: 50px;" class="container">
+        <div class="row">
+            <div class="pull-left col-xs-6">
+                <h1> {{model.playlist.playListName}}</h1>
+            </div>
+            <div class="pull-right col-xs-6">
+                <img style="position: relative;right: -12px;top: 2px;" class="pull-right img-circle" width="100px" height="100px" ng-src="{{model.playlist.playlistThumbNail  || '../../../resources/images/MuiscAlt2.png'}}">
+            </div>
+        </div>
+        <hr size="30">
+        <!--Music Player here -->
+        <div id="nowPlay">
+            <div class="row">
+                <span class="col-xs-6" id="npAction">{{model.playStatus}}</span>
+                <span class="col-xs-6" id="npTitle">{{model.nowPlayingTitle}}</span>
+            </div>
+            <div id="audio0" style="margin-top: 5px">
+                <audio style="width: 100%;" preload id="audio1" preload controls="controls">Your browser does not support HTML5 Audio!>
+                </audio>
+                <div class="center">
+                    <span id="prev" ng-click="model.previousSong()" class="glyphicon glyphicon-step-backward pull-left"></span>
+                    <span id="next" ng-click="model.nextSong()" class="glyphicon glyphicon-step-forward pull-right"></span>
+                </div>
+            </div>
+        </div>
+        <hr size="30">
+        <div >
+            <ul class="list-group" style="overflow-y: auto;height: 250px">
+                <li ng-repeat="song in model.playlist.songs" class="list-group-item" ng-class="{'current-song' : $index===model.index}">
+                    <div class="row">
+                        <div class="pull-left col-xs-2">
+                            <a ng-click="model.playThisSong($index)" class="glyphicon glyphicon-play-circle play-button"></a>
+                            <!--   <span>{{$index+1}}</span>-->
+                        </div>
+                        <div class="col-xs-10">
+                            {{song.title}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

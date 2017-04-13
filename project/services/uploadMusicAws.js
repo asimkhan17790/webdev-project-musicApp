@@ -41,7 +41,6 @@ module.exports = function (app , listOfModel) {
                    }).then(function (updatedAlbum) {
                        res.json(updatedAlbum);
                        return;
-
                 }, function (err) {
                     res.json(err);
                     return;

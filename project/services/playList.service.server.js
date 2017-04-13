@@ -5,7 +5,7 @@ module.exports = function (app ,listOfModel) {
 
 
     app.post("/api/playList" ,createplayList);
-    app.get("/api/user/playList/song/:pid",findAllSongsForplayList);
+    app.get("/api/user/playList/song/:pid",findPlayListById);
     app.delete("/api/playList/:pid" ,deleteplayList);
     
     var albumModel = listOfModel.albumModel;
@@ -34,8 +34,20 @@ module.exports = function (app ,listOfModel) {
             })
     }
 
-    function findAllSongsForplayList(req,res) {
-
+    function findPlayListById(req,res) {
+        var response = {};
+        var playListId = req.params.pid;
+        playListModel
+            .findplayListById(playListId)
+            .then(function (playList) {
+                response.status = "OK";
+                response.data = playList;
+                res.send(response);
+            },function (err) {
+                response.status="KO";
+                response.description="Some error occurred!!";
+                res.json(response);
+            });
     }
 
     // this function is not fully completed as how to add
