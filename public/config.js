@@ -130,12 +130,12 @@
                     pageTitle: 'Play playlist'
                 }
             })
-            .when("/music/myplaylists", {
+            .when("/music/myplaylists/:uid", {
                 templateUrl:"/views/playlists/templates/allplaylists.view.client.html",
                 controller:"AllPlayListController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'My playlists'
+                    pageTitle: 'My Playlists'
                 }
             })
             .when("/user/:uid/album/:aid/songs", {

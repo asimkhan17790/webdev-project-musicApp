@@ -200,12 +200,25 @@ module.exports = function (app ,listOfModel) {
 
     function findPlayListForUser(req, res) {
         var userId = req.params.userId;
+        var response = {};
         userModel
             .findAllplayLists(userId)
             .then(function (user) {
-                res.send(user);
+                if (user && user.playList && user.playList.length > 0) {
+                    response.status = "OK";
+                    response.data = user.playList;
+                    res.json(response);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "No playlist created yet!";
+                    res.json(response);
+                }
+
             }, function (error) {
-                res.sendStatus(500).send(error);
+                response.status = "KO";
+                response.description = "Some Error Occurred!!";
+                res.status(500).send(response);
             })
     }
 

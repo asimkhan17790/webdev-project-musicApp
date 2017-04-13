@@ -71,7 +71,7 @@
 
         function findAllplayList(userId) {
             console.log("user id is" + userId);
-            return $http.get("/api/user/playList/"+userId);
+            return $http.get("/api/user/playList/"+ userId);
         }
 
         function createUser(user) {

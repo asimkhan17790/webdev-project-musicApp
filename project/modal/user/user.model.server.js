@@ -331,12 +331,12 @@ module.exports = function () {
             .findOne({ _id: userId })
             .populate('playList')
             .exec(function (err, user) {
-                if(user)
-                {
+                if (err) {
+                    q1.reject(err) ;
+                }
+                else {
                     q1.resolve(user);
                 }
-                else
-                    q1.reject ;
             });
 
         return q1.promise;
