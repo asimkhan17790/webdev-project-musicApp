@@ -5,8 +5,8 @@
                 <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
                      alt="">
                 <form class="form-signin form-group" name="newPlayListForm">
-                    <input ng-change="model.createError=null" type="text" class="form-control" placeholder="Playlist name" ng-model="model.newplayList.playListName" required autofocus>
-                    <input style="margin-top: 5px" ng-change="model.createError=null" type="text" class="form-control" placeholder="Mood" ng-model="model.newplayList.playlistmood" required>
+                    <input maxlength="10" ng-change="model.createError=null" type="text" class="form-control" placeholder="Playlist name" ng-model="model.newplayList.playListName" required autofocus>
+                    <input maxlength="10" style="margin-top: 5px" ng-change="model.createError=null" type="text" class="form-control" placeholder="Mood" ng-model="model.newplayList.playlistmood" required>
                     <button class="btn btn-lg btn-danger btn-block"
                             type="submit" style="margin-top: 20px"
                             ng-click="newPlayListForm.$valid && model.createPlayList()">

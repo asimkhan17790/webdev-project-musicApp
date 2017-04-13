@@ -34,6 +34,14 @@
                     pageTitle: 'Home Page'
                 }
             })
+            .when("/user/userHomeEventOrg/:uid", {
+                templateUrl:"/views/user/templates/homePageEventOrganiser.view.client.html",
+                controller:"EventOrgController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'HomePage'
+                }
+            })
             .when("/user/singerProfile", {
                 templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
                 controller:"SingerProfileController",
@@ -161,6 +169,22 @@
                 data: {
                     pageTitle: 'Record and Search'
 
+                }
+            })
+            .when("/music/musicTester", {
+                templateUrl:"/views/music/templates/musicsearch.view.client.html",
+                controller:"MusicRecSearchController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'API Tester'
+                }
+            })
+            .when("/events/upcomingEvents/:uid", {
+                templateUrl:"/views/events/templates/allEvents.view.client.html",
+                controller:"UpcomingEventsController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Upcoming Events'
                 }
             })
             .otherwise({

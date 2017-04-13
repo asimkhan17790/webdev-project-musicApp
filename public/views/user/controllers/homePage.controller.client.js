@@ -22,7 +22,7 @@
        vm.clearUserFromModal  = clearUserFromModal;
         vm.redirectToSearchedUser  = redirectToSearchedUser
         function init() {
-           // searchNearByEvents();
+            searchNearByEvents();
            // searchAllPlaylists();
             getUserDetails ();
             getMusicUpdates();
