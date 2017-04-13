@@ -15,14 +15,22 @@ module.exports = function (app ,listOfModel) {
 
     function createplayList(req,res) {
         var playList = req.body;
+        var response = {};
         playListModel.createplayList(playList)
             .then(function(newplayList) {
                 return userModel.addplayList(newplayList);
             })
-            .then(function (newplayList) {
-                res.send(newplayList);
+            .then(function (updatedUser) {
+                if (updatedUser) {
+                    response.status ="OK";
+                }
+                else {
+                    response.status ="KO";
+                }
+                res.json(response);
             },function (err) {
-                res.send(err);
+                response.status ="KO";
+                res.json(response);
             })
     }
 

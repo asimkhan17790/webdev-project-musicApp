@@ -91,6 +91,13 @@
 
     }
 
+    .ak-myplaylist-heading {
+        text-align: center;
+    }
+   /* .ak-createplaylist-button {
+        text-align: center;
+    }*/
+
 }
 
 .ak-album-container {
