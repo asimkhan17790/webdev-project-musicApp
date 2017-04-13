@@ -39,6 +39,8 @@ module.exports = function (app ,listOfModel) {
         userModel
             .findIsFollowing(userId1 , userId2)
             .then(function (status1) {
+                if(status1.isPresent)
+                {
                 userModel
                     .findAllplayLists(userId1)
                     .then(function (users) {
@@ -50,6 +52,14 @@ module.exports = function (app ,listOfModel) {
                         response.description="Some error occurred while finding the playlists";
                         res.json(response);
                     })
+                }
+                else
+                {
+                response.status = "OK";
+                response.data = null;
+                response.description="Please follow the user to see the playlist";
+                res.send(response);
+                }
             }, function (err) {
                 response.status="KO";
                 response.description="Some error occurred while finding the playlists";

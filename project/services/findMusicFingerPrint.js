@@ -23,8 +23,6 @@ module.exports = function (app) {
     var spotifyObject = require('../apis/spotify.api.server')();
 
     function findMusicFingerPrint(req, res) {
-
-
        arcCloud.findMusicFingerPrint(req.file.buffer).then(
            function (fingerPrintResultTrackId) {
 

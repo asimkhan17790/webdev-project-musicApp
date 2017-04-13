@@ -66,7 +66,7 @@
         }
 
        function findAllplayListAndFollowing(userId1 ,userId2) {
-           return $http.get("/api/user/follow/playList"+userId1 + "/" + userId2);
+           return $http.get("/api/user/follow/playList/"+userId1 + "/" + userId2);
        }
 
         function findAllplayList(userId) {

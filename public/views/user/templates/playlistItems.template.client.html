@@ -7,9 +7,49 @@
                 Listen to the playlist here and add songs in your own play lists.
             </p>
         <hr size="30">
-        <!--ng-show="model.playlists.length > 0"-->
+       <!-- ng-show="model.playlists.length > 0"-->
+        <div ng-show="model.notFollowing" style="padding: 30px;margin-top:20px;font-size: large;color: red" class="text-center">
+            {{model.notFollowing}}
+        </div>
+        </div>
         <div  class="ak-album-container">
-            <ul class="list-group" style="overflow-y: auto;height: 250px">
+
+            <div ng-repeat="playlist in model.playlists" class="col-xs-12 col-sm-3 col-md-2" style="">
+                <div class="mymusic-ak-playlist-item">
+                    <div class="row">
+
+                        <div class="col-xs-6 col-sm-12">
+                            <img class="img-responsive album-image-thumb" width="100%"
+                                 ng-src="{{playlist.playListImageURL || '../../../resources/images/album_alt.png'}} ">
+                        </div >
+                        <div class="col-xs-6 col-sm-12">
+                            <div>
+                                <div class="mymusic-ak-playlist-data">
+                                    <h6>{{playlist.playListName}}</h6>
+                                    <span>{{playlist.playlistmood}}</span>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
+                                                Open</button>
+                                        </div>
+                                        <!--<div class="col-xs-12">
+                                            <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
+                                                Add To Playlist</button>
+                                        </div>-->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <!--<ul class="list-group" style="overflow-y: auto;height: 250px">
                 <li ng-repeat="playlist in model.playlists" class="list-group-item" class="col-xs-12 col-sm-3 col-md-2" style="">
                 <div class="mymusic-ak-playlist-item">
                     <div class="row">
@@ -27,10 +67,10 @@
                                             <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
                                                 Open</button>
                                         </div>
-                                        <!--<div class="col-xs-12">
+                                        &lt;!&ndash;<div class="col-xs-12">
                                             <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit" ng-click="model.followUser()">
                                                 Add To Playlist</button>
-                                        </div>-->
+                                        </div>&ndash;&gt;
                                     </div>
                                 </div>
 
@@ -39,7 +79,7 @@
                     </div>
                 </div>
                 </li>
-            </ul>
+            </ul>-->
         </div>
     </div>
 </div>
