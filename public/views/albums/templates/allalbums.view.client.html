@@ -1,4 +1,4 @@
-<div class=" pageBackground">
+<div class="pageBackground">
     <div class="container-fluid">
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
@@ -31,11 +31,8 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a>Albums</a></li>
                         <li class="nav-item"><a>Events</a></li>
-
                         <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
@@ -74,9 +71,7 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a>Albums</a></li>
                         <li class="nav-item"><a>Events</a></li>
                         <li class="nav-item"><a href="#/music/recordAndSearch/{{model.userId}}" style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
                         <li class="nav-item">
@@ -94,57 +89,63 @@
                             </ul>
                         </li>
                     </ul>
-                    <!--<div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
-                        <form class="navbar-form navbar-right" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search" />
-                            </div>
-                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        </form>
-                    </div>-->
                 </div>
 
             </div>
         </nav>
     </div>
-    <div class="jumbotron">
-        <div class="container-fluid" style="margin-top: 50px">
-            <div class="row">
-                <div class="col-xs-6">
-                    <h1><span style="color: red">Hello </span>, {{model.user.firstName}}</h1>
-                </div>
-                <div class="col-xs-6">
+    <div style="background-color: black; background:rgba(0,0,0,0.8);margin-top: 50px;" class="container">
 
-                    <div class="pull-right">
-                        <img class="img-circle" width="140px" height="140px"
-                             ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
-                    </div>
-                </div>
+        <div class="row">
+            <div class="pull-left col-xs-12 col-sm-6">
+                <h1 class="ak-myplaylist-heading"> <span style="color: red;">My</span> albums </h1>
+            </div>
+            <div class="col-xs-12 col-sm-6 ak-createplaylist-button-div" style="padding: 20px">
+                <button style="width: 200px;" class="pull-right btn btn-lg btn-danger btn-block ak-createplaylist-button" data-toggle="modal" data-target="#myModal"
+                        type="button">
+                    Create Album</button>
             </div>
         </div>
+        <span ng-show="model.error" class="text-center new-account"  style="z-index: 100;color: red;font-size: large">
+                {{model.error}}
+         </span>
+
+        <hr size="30">
+        <!-- List -->
+        <div >
+            <ul class="list-group" style="overflow-y: auto;height: 250px">
+                <li ng-repeat="album in model.albums" class="list-group-item">
+
+                    <div class="row">
+                        <div class="pull-left col-xs-2">
+                            <a ng-click="model.openAlbum(album._id)" class="glyphicon glyphicon-play-circle play-button"></a>
+                            <!--   <span>{{$index+1}}</span>-->
+
+                        </div>
+                        <div class="col-xs-6">{{album.albumname}} </div>
+                        <div class="col-xs-2 pull-right">
+                            <a ng-click="model.deletethisAlbum(album)" class="glyphicon glyphicon-remove"></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="container">
 
 
-        <ng-include src="'views/user/templates/musicNews.view.client.html'"></ng-include>
-        <ng-include src="'views/user/templates/upcomingEvents.view.client.html'"></ng-include>
-
-    </div>
-
-    <!-- Profile Search Modal-->
-    <div id="profileSearchModal" class="modal fade" role="dialog">
+    <!-- modal -->
+    <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
-                    <h4 class="modal-title">Search Users/Artists</h4>
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearDataFromModal()">&times;</button>
+                    <h4 class="modal-title">Create Album</h4>
                 </div>
                 <div class="modal-body">
-                    <ng-include src="'views/user/templates/searchUser.view.client.html'"></ng-include>
+                    <ng-include src="'views/albums/templates/newAlbumCreateModal.view.client.html'"></ng-include>
                 </div>
             </div>
-
         </div>
     </div>
 

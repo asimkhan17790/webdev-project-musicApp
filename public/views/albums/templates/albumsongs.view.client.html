@@ -1,0 +1,101 @@
+<div class="pageBackground">
+                <div ng-show="model.noSongFound" class="container">
+                    <div class="row">
+                    <div  class="alert alert-danger animate-top pull-left col-xs-12" role="alert">
+                        <!-- <span data-dismiss="alert" aria-label="close" class="closebtn" ng-click="model.error=null;">&times;</span>-->
+                       <div class="col-xs-8 pull-left">
+                           {{model.noSongFound}}
+                       </div>
+                        <div class="col-xs-2 pull-right">
+                        <a class="btn btn-default pull right">Go Back</a>
+                        </div>
+                        <div class="col-xs-2 pull-right">
+                            <a class="btn btn-default pull right" data-toggle="modal" data-target="#newSongModal">Add Song </a>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+    <div ng-show="! model.noSongFound" style="background-color: black; background:rgba(0,0,0,0.6);margin-top: 50px;" class="container">
+        <div class="row">
+            <div class="pull-left col-xs-6">
+                <h1> {{model.album.albumname}}</h1>
+            </div>
+            <div class="pull-right col-xs-6">
+                <img style="position: relative;right: -12px;top: 2px;" class="pull-right img-circle" width="100px" height="100px" ng-src="{{model.album.albumThumbNail  || '../../../resources/images/MuiscAlt2.png'}}">
+            </div>
+        </div>
+        <hr size="30">
+        <!--Music Player here -->
+        <div class="container-fluid" >
+            <a>
+                <span class="glyphicon glyphicon-plus pull-right" data-toggle="modal" data-target="#newSongModal" > </span>
+            </a>
+
+        </div>
+        <div id="nowPlay">
+            <div class="row">
+                <span class="col-xs-6" id="npAction">{{model.playStatus}}</span>
+                <span class="col-xs-6" id="npTitle">{{model.nowPlayingTitle}}</span>
+            </div>
+            <div id="audio0" style="margin-top: 5px">
+                <audio style="width: 100%;" preload id="audio1" preload controls="controls">Your browser does not support HTML5 Audio!>
+                </audio>
+                <div class="center">
+                    <span id="prev" ng-click="model.previousSong()" class="glyphicon glyphicon-step-backward pull-left"></span>
+                    <span id="next" ng-click="model.nextSong()" class="glyphicon glyphicon-step-forward pull-right"></span>
+                </div>
+            </div>
+        </div>
+        <hr size="30">
+        <div >
+            <ul class="list-group" style="overflow-y: auto;height: 250px">
+                <li ng-repeat="song in model.album.songs" class="list-group-item" ng-class="{'current-song' : $index===model.index}">
+                    <div class="row">
+                        <div class="pull-left col-xs-2">
+                            <a ng-click="model.playThisSong($index)" class="glyphicon glyphicon-play-circle play-button"></a>
+                            <!--   <span>{{$index+1}}</span>-->
+                        </div>
+                        <div class="col-xs-8">
+                            {{song.title}}
+                        </div>
+                        <div class="col-xs-2 pull-right">
+                            <a ng-click="model.deletethisSong(song)" class="glyphicon glyphicon-remove"></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newSongModal">-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="newform" enctype="multipart/form-data" role="form">
+                    <div class="container-fluid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Upload song</h4>
+                        </div>
+                        <label for="songname"> SongName </label>
+                        <input  ng-model="model.song.name" type ="text" class = "form-control" id="songname" placeholder="Song Name"  ng-required="required">
+
+                        <label for="singer"> Singer </label>
+                        <input ng-model="model.song.title" type ="text" class = "form-control"id="singer" placeholder="Singer"  ng-required="required" >
+
+                        <label for="genre"> Genre </label>
+                        <input ng-model="model.song.genre" type ="text" class = "form-control"id="genre" placeholder="pop" ng-required="required" >
+                        <div class="modal-body">
+                            <div id="messages1"></div>
+                            <input type="file" ngf-select name="file" id="file" ng-model="model.file" ngf-pattern="'.mp3,audio/*'" accept=".mp3,audio/*">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" ng-click="model.sendtoserver()" >Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

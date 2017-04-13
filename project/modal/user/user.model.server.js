@@ -314,12 +314,12 @@ module.exports = function () {
             .findOne({ _id: userId })
             .populate('album')
             .exec(function (err, user) {
-                if(user)
+                if(err)
                 {
-                    q1.resolve(user);
+                    q1.reject(err) ;
                 }
                 else
-                    q1.reject ;
+                    q1.resolve(user);
             });
 
         return q1.promise;
@@ -364,12 +364,12 @@ module.exports = function () {
             }
             else if (user){
                 user.album.push(album._id);
-                user.save(function (err, upAlbum) {
+                user.save(function (err, updatedUser) {
                     if (err) {
                         q1.reject();
                     }
                     else {
-                        q1.resolve(upAlbum);
+                        q1.resolve(updatedUser);
                     }
                 });
             }

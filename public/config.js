@@ -34,36 +34,36 @@
                     pageTitle: 'Home Page'
                 }
             })
-            .when("/user/singerProfile", {
-                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
-                controller:"SingerProfileController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'View Profile'
-                }
-            })
-            .when("/user/userSearch/playList/songs/:pid", {
-                templateUrl:"/views/playlists/templates/playlistaddsong.view.client.html",
-                controller:"PlayListAddSongController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'Viewing playlist and add song'
-                }
-            })
-            .when("/user/userProfile", {
-                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
-                controller:"UserProfileController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'View Profile'
-                }
-            })
             .when("/user/userHomePageSinger/:uid", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
                 controller:"HomePageSingerController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Home Page'
+                }
+             })
+            // .when("/user/singerProfile", {
+            //     templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+            //     controller:"SingerProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            //  })
+            // .when("/user/userProfile", {
+            //     templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+            //     controller:"UserProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            // })
+            .when("/user/userSearch/playList/songs/:pid", {
+                templateUrl:"/views/playlists/templates/playlistaddsong.view.client.html",
+                controller:"PlayListAddSongController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Viewing playlist and add song'
                 }
             })
             .when("/user/editProfile/:uid", {
@@ -103,7 +103,7 @@
                 controller:"UserProfileController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Searched User'
+                    pageTitle: 'View Profile'
                 }
             })
             .when("/user/singerSearch", {
@@ -111,7 +111,7 @@
                 controller:"SingerProfileController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'Searched Singer/Music Company'
+                    pageTitle: 'View Profile'
                 }
             })
             .when("/user/followers/:uid", {
@@ -138,6 +138,14 @@
                     pageTitle: 'Play playlist'
                 }
             })
+            .when("/music/myalbums/:uid", {
+                templateUrl:"/views/albums/templates/allalbums.view.client.html",
+                controller:"AllAlbumListController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My albums'
+                }
+            })
             .when("/music/myplaylists/:uid", {
                 templateUrl:"/views/playlists/templates/allplaylists.view.client.html",
                 controller:"AllPlayListController",
@@ -146,15 +154,22 @@
                     pageTitle: 'My Playlists'
                 }
             })
-            .when("/user/:uid/album/:aid/songs", {
-                templateUrl:"/views/musiccompany/templates/musiclist.view.client.html",
-                controller:"SongsInAlbums",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'My playlists'
-                }
+            .when("/user/singer/album/songs/:uid/:aid", {
+            templateUrl:"/views/albums/templates/albumsongs.view.client.html",
+            controller:"SongsInAlbums",
+            controllerAs:"model",
+            data: {
+                pageTitle: 'My Songs'
+            }
             })
-
+            // .when("/user/:uid/album/:aid/songs", {
+            //     templateUrl:"/views/musiccompany/templates/musiclist.view.client.html",
+            //     controller:"SongsInAlbums",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'My playlists'
+            //     }
+            // })
             .when("/landingPage/forgetpass", {
                 templateUrl:"/views/user/templates/forgotpassword.view.client.html",
                 controller:"ForgotPasswordController",

@@ -166,6 +166,7 @@
                 return null;
             }
         }
+
         function callSearchEventService(inputFilter) {
             var promise =  EventService.searchNearByEvents(inputFilter);
             promise.success(function (response) {

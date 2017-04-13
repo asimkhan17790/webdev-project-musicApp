@@ -198,14 +198,26 @@ module.exports = function (app ,listOfModel) {
 
     function findAlbumsForUser(req, res) {
         var userId = req.params.userId;
+        var response = {};
         userModel
             .findAllAlbums(userId)
-            .then(function(user) {
-                res.send(user);
+            .then(function (user) {
+                if (user && user.album && user.album.length > 0) {
+                    response.status = "OK";
+                    response.data = user.album;
+                    res.json(response);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "No playlist created yet!";
+                    response.data = user.album;
+                    res.json(response);
+                }
             }, function (error) {
-                res.sendStatus(500).send(error);
+                response.status = "KO";
+                response.description = "Some Error Occurred!!";
+                res.status(500).send(response);
             })
-        // hopefully we will be sending the entire user and albums will be embedded in it
     }
 
     function findPlayListForUser(req, res) {

@@ -5,39 +5,66 @@
 
     angular
         .module("WebDevMusicApp")
-        .controller("AllPlayListController",PlayListController);
+        .controller("AllAlbumListController",AllAlbumListController);
 
-
-    function PlayListController($location,$timeout,$sce,UserService,$routeParams,playListService) {
+    function AllAlbumListController($location,$timeout,$sce,UserService,$routeParams,playListService,albumService) {
 
         var vm = this;
-
         vm.userId = $routeParams['uid'];
         vm.error = null;
         vm.createError = null;
         vm.closeModal = closeModal;
         vm.clearDataFromModal = clearDataFromModal;
-        vm.newplayList = null;
-        vm.createPlayList = createPlayList;
+        vm.newAlbum = null;
+        vm.openAlbum = openAlbum;
+        vm.createAlbum = createAlbum;
+        vm.deletethisAlbum = deletethisAlbum ;
         function init() {
-            findAllPlayList();
+            findAllAlbums();
         }
+
         init();
         function clearDataFromModal() {
             vm.error = null;
             vm.createError = null;
-            vm.newplayList = null;
+            vm.newAlbum = null;
         }
+
+        function openAlbum(albumId) {
+            $location.url("/user/singer/album/songs/" + vm.userId + "/" + albumId)
+        }
+
+        function deletethisAlbum (album) {
+            var promise = albumService.deleteAlbum(album);
+            promise.success(function (response) {
+                if (response && response.status ==='OK') {
+                    vm.createSuccess = "albums deleted successfully created!";
+                    init();
+                    $timeout(function () {
+                        closeModal();
+                    }, 250);
+                }
+                else {
+                    vm.error = "Some Error Occurred during deletion" ;
+                    vm.createSuccess = null;
+                }
+            }).error(function (err) {
+                vm.createSuccess = null;
+                vm.error = "Some Error Occurred during deletion" ;
+            })
+        }
+
         function closeModal() {
-            vm.newplayList = null;
+            vm.newAlbum = null;
             vm.createError = null;
             vm.createSuccess = null;
             vm.error = null;
             $('.modal').modal('hide');
         }
-        function createPlayList () {
-            vm.newplayList.playListOwner = vm.userId;
-            var promise = playListService.createplayList(vm.newplayList);
+
+        function createAlbum () {
+            vm.newAlbum.albumOwner = vm.userId;
+            var promise = albumService.createalbum(vm.newAlbum);
             promise.success(function (response) {
                 if (response && response.status ==='OK') {
                     vm.createSuccess = "Playlist Successfully created!"
@@ -57,23 +84,21 @@
             })
         }
 
-        function findAllPlayList() {
-            var promise = UserService.findAllplayList(vm.userId);
+        function findAllAlbums() {
+            var promise = UserService.findAllAlbums(vm.userId);
             promise.success(function (response) {
-
                 if (response && response.status ==='OK') {
-                    vm.playLists = response.data;
+                    vm.albums = response.data;
                     vm.error = null;
                 }
                 else {
-                    vm.playLists = null;
+                    vm.albums = null;
                     if (response.description) {
                         vm.error = response.description;
                     }
                     else {
                         vm.error = "Some Error Occurred" ;
                     }
-
                 }
 
             }).error(function (err) {
