@@ -67,7 +67,7 @@
                             else {
                                 $location.url("/user/forgotPassword");
                             }
-                        }, 250);
+                        }, 350);
                     }
 
                 }else {

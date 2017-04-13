@@ -114,7 +114,7 @@
                 <h1 class="ak-myplaylist-heading"> <span style="color: red;">My</span> Playlists </h1>
             </div>
             <div class="col-xs-12 col-sm-6 ak-createplaylist-button-div" style="padding: 20px">
-                <button style="width: 200px;" class="pull-right btn btn-lg btn-danger btn-block ak-createplaylist-button" data-toggle="modal" data-target="#myModal"
+                <button class="pull-right btn btn-lg btn-danger btn-block ak-createplaylist-button" data-toggle="modal" data-target="#myModal"
                         type="button">
                     Create Playlist</button>
             </div>
@@ -124,7 +124,7 @@
         <hr size="30">
         <!-- List -->
         <div >
-            <ul class="list-group" style="overflow-y: auto;height: 250px">
+            <ul class="list-group" style="overflow-y: auto;max-height: 300px">
                 <li ng-repeat="playlist in model.playLists" class="list-group-item">
 
                     <div class="row">
@@ -134,8 +134,6 @@
 
                         </div>
                         <div class="col-xs-6">{{playlist.playListName}} </div>
-
-
                     </div>
                 </li>
             </ul>
