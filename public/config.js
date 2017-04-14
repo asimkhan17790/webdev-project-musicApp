@@ -34,6 +34,31 @@
                     pageTitle: 'Home Page'
                 }
             })
+            .when("/user/userHomeEventOrg/:uid", {
+                templateUrl:"/views/user/templates/homePageEventOrganiser.view.client.html",
+                controller:"EventOrgController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'HomePage'
+                }
+            })
+            .when("/user/singerProfile", {
+                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+                controller:"SingerProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'View Profile'
+                }
+            })
+            .when("/user/userProfile", {
+                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+                controller:"UserProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'View Profile'
+                }
+            })
+
             .when("/user/userHomePageSinger/:uid", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
                 controller:"HomePageSingerController",
@@ -171,12 +196,12 @@
                 }
             })
             .when("/user/singer/album/songs/:uid/:aid", {
-            templateUrl:"/views/albums/templates/albumsongs.view.client.html",
-            controller:"SongsInAlbums",
-            controllerAs:"model",
-            data: {
-                pageTitle: 'My Songs'
-            }
+                templateUrl:"/views/albums/templates/albumsongs.view.client.html",
+                controller:"SongsInAlbums",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My Songs'
+                }
             })
             .when("/user/singer/album/songs/:pid/:uid/:aid", {
                 templateUrl:"/views/albums/templates/albumsongs.view.client.html",
@@ -208,6 +233,22 @@
                 data: {
                     pageTitle: 'Record and Search'
 
+                }
+            })
+            .when("/music/musicTester", {
+                templateUrl:"/views/music/templates/musicsearch.view.client.html",
+                controller:"MusicRecSearchController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'API Tester'
+                }
+            })
+            .when("/events/upcomingEvents/:uid", {
+                templateUrl:"/views/events/templates/allEvents.view.client.html",
+                controller:"UpcomingEventsController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Upcoming Events'
                 }
             })
             .otherwise({

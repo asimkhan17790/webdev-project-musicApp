@@ -1,4 +1,4 @@
-<div class="col-sm-12">
+<div class="col-sm-12" style="margin-bottom: 80px;">
     <div class="mymusic-shortcode-events" style="background: rgba(0, 0, 0, .7);">
         <div >
         <h2 class="ak-event-title" style="text-transform: uppercase;padding-top: 20px">
@@ -7,82 +7,52 @@
         <p class="ak-ds">
             Get to know about all music events near your location. Grab your tickets now!
         </p>
+            <p class="ak-ds">
+                <span style="font-size: x-small"><a href="https://www.eventbrite.com/" target="_blank">Powered by Eventbrite</a></span>
+            </p>
         </div>
-
+        <hr size="30">
         <div class="mymusic-ak-event-content">
-            <div class="mymusic-ak-list-event">
+            <div ng-repeat="event in model.events | limitTo:3" class="mymusic-ak-list-event">
                 <span class="entry-date">
-                    29 <span class="month">March </span>
+                    {{event.start.local | date : "dd"}} <span class="month">{{event.start.local | date : "MMMM"}} </span>
                 </span>
                 <div >
-                    <img  class="mymusic-thumbnail" ng-src="{{event.logo.original.url || '../../../resources/images/MuiscAlt2.png'}} ">
+                    <img  class="mymusic-thumbnail" ng-src="{{event.logo.original.url || '../../../resources/images/defaultEvent.jpg'}} ">
                 </div>
                 <div class="mymusic-shevent-content">
-                    <h4><a href="#">Credit Union Centre</a></h4>
+                    <h4><a target="_blank" ng-href="{{event.url}}">{{event.name.text}}</a></h4>
                     <div class="ak-meta">
 														<span class="ak-date">
 															<i class="fa fa-clock-o"></i>
 															<span class="date-start dtstart">
-																March 29-8:00 pm
+																 {{event.start.local | date : "MMMM dd-h:mm a"}}
 															</span>
 															-
 															<span class="date-end dtend">
-																September 30-5:00 pm
+																 {{event.end.local | date : "MMMM dd-h:mm a"}}
 															</span>
 														</span>
-                        <span class="ak-address">
+                                                        <!--<span class="ak-address">
 															<i class="fa fa-map-marker"></i>
 															Gramercy Park Hotel, NewYork
-														</span>
+														</span>-->
                     </div>
                     <div class="ak-excerpt">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        <p style="color: grey" ng-bind-html="event.description.text | excerpt:300">
+
+                        <!--{{event.description.text}}-->
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div class="mymusic-ak-list-event">
-                <span class="entry-date">
-                    29 <span class="month">March </span>
-                </span>
-                <div >
-                    <img  class="mymusic-thumbnail" ng-src="{{event.logo.original.url || '../../../resources/images/MuiscAlt2.png'}} ">
-                </div>
-                <div class="mymusic-shevent-content">
-                    <h4><a href="#">Credit Union Centre</a></h4>
-                    <div class="ak-meta">
-														<span class="ak-date">
-															<i class="fa fa-clock-o"></i>
-															<span class="date-start dtstart">
-																March 29-8:00 pm
-															</span>
-															-
-															<span class="date-end dtend">
-																September 30-5:00 pm
-															</span>
-														</span>
-                        <span class="ak-address">
-															<i class="fa fa-map-marker"></i>
-															Gramercy Park Hotel, NewYork
-														</span>
-                    </div>
-                    <div class="ak-excerpt">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </p>
-                    </div>
-                </div>
-            </div>
 
+            <!!-- Button -->
             <div class="mymusic-view-event">
-                <a href="#">View all events</a>
+                <a href="#/events/upcomingEvents/{{model.userId}}">View all events</a>
             </div>
+
         </div>
-
-        <!-- 2 -->
-
-
     </div>
 </div>

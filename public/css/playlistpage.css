@@ -100,6 +100,16 @@
 
 }
 
+
+
+
+@media (min-width: 767px) {
+    .ak-createplaylist-button {
+        width:50%;
+        float: right;
+    }
+
+}
 .ak-album-container {
     margin-top: 30px;
     overflow-y: auto;

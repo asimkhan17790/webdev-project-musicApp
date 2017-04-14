@@ -27,7 +27,11 @@ module.exports = function () {
         followingUser : followingUser,
         unfollowingUser : unfollowingUser,
         searchUsers : searchUsers,
-        findUserByEmail : findUserByEmail
+        findUserByEmail : findUserByEmail,
+        deleteUser : deleteUser,
+        deleteEventIdFromUser : deleteEventIdFromUser,
+        addEventToUser : addEventToUser,
+        findAllEventsOfUser : findAllEventsOfUser
 
     };
 
@@ -37,6 +41,55 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
 
+
+    function findAllEventsOfUser (userId) {
+        var defer = q.defer();
+        UserModel
+            .findOne({ _id: userId } )
+            .populate('eventsCreated')
+            .exec(function (err, user) {
+                if (err) {
+                    defer.reject({status:"KO"}) ;
+                }
+                else {
+                    defer.resolve(user.eventsCreated);
+                }});
+
+        return defer.promise;
+
+    }
+
+
+    function addEventToUser (userId, eventId) {
+
+
+        var deferred =  q.defer();
+        UserModel.findOne({_id : userId}, function(err, User) {
+            if (err){
+                console.log("Page not found: " + pageId);
+                deferred.reject({status:"KO",
+                    description:"Some Error Occurred!!"});
+
+            }
+            else if (User){
+                User.eventsCreated.push(eventId);
+                User.save(function (err, updatedUser) {
+                    if (err) {
+                        deferred.reject({status:"KO",
+                            description:"Some Error Occurred!!"});
+                    }
+                    else {
+                        deferred.resolve(eventId);
+                    }
+                });
+            }
+            else {
+                deferred.reject({status:"KO",
+                    description:"Some Error Occurred!!"});
+            }
+        });
+        return deferred.promise;
+    }
     function searchUsers (searchArray) {
         var q1 =  q.defer();
         UserModel.find({ $text: { $search: searchArray }}, {password : 0},function (err ,users) {
@@ -192,7 +245,6 @@ module.exports = function () {
                 else
                     q1.reject(err) ;
             });
-
         return q1.promise;
     }
 
@@ -271,6 +323,20 @@ module.exports = function () {
             }
         });
         return q1.promise;
+    }
+    function deleteUser(userId) {
+        var deferred =  q.defer();
+        UserModel.findOneAndRemove({_id:userId}, function(err, foundUser) {
+            if (err){
+                deferred.reject(err);
+            }
+            else {
+
+                deferred.resolve(foundUser);
+            }
+
+        });
+        return deferred.promise;
     }
     
     function deleteAlbum(userId , albumId) {
@@ -396,5 +462,20 @@ module.exports = function () {
             }
         });
         return q1.promise;
+    }
+    function deleteEventIdFromUser(userId, eventId) {
+        var deferred=q.defer();
+        UserModel.update({_id: userId},
+            {$pull: {eventsCreated: eventId}},
+            function (err, result) {
+                if (err){
+                    deferred.reject();
+                }
+                else {
+                    deferred.resolve(result);
+                }
+            });
+
+        return deferred.promise;
     }
 };

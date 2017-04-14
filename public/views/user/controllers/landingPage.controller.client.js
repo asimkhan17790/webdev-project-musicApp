@@ -64,10 +64,13 @@
                             else if(response.user.userType === "U") {
                                 $location.url("/user/userHomePage/" + response.user._id);
                             }
+                            else if(response.user.userType === "E") {
+                                $location.url("/user/userHomeEventOrg/" + response.user._id);
+                            }
                             else {
                                 $location.url("/user/forgotPassword");
                             }
-                        }, 250);
+                        }, 350);
                     }
 
                 }else {
@@ -109,6 +112,9 @@
                                 // later for the admin too
                                 else if(response.user.userType == "U") {
                                     $location.url("/user/userHomePage/" + response.user._id);
+                                }
+                                else if(response.user.userType === "E") {
+                                    $location.url("/user/userHomeEventOrg/" + response.user._id);
                                 }
                                 else {
                                     //todo

@@ -14,6 +14,7 @@ module.exports = function () {
         gender : String,
         dateCreated : {type : Date , default :Date.now()},
         imageURL : String ,
+        eventsCreated : [{type :mongoose.Schema.Types.ObjectId , ref:'eventModel'}] ,
         userType : {type : String, enum : ['E', 'U', 'M', 'S','A']},
         playList : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}],
         album : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
