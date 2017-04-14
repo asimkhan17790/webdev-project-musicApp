@@ -7,10 +7,12 @@
         })
         .controller("UpcomingEventsController", UpcomingEventsController);
 
-    function UpcomingEventsController ($scope,EventService, $sce,$timeout,Upload,MusicService,$routeParams) {
+    function UpcomingEventsController ($location,UserService,EventService, $sce,$timeout,$routeParams) {
 
         var vm = this;
         vm.tab=null;
+        vm.followers = null ;
+        vm.following = null ;
         vm.userId = $routeParams.uid ;
         vm.searchNearByEvents = searchNearByEvents;
         vm.error = null;
@@ -19,7 +21,8 @@
         vm.dataLength =0;
         vm.userEvents = null;
         vm.noEventsFound = null;
-
+        vm.searchUsers = searchUsers;
+        vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.numberOfPages=0;
         function showSpinner() {
             if (!vm.recordingFlag) {
@@ -31,12 +34,57 @@
 
         function init() {
             vm.tab='EVENTBRITE';
+            getUserDetails();
             showSpinner();
             searchNearByEvents();
             getAllEventsOfMyMusic();
 
         }
         init();
+
+        function redirectToSearchedUser(userId2) {
+            var promise = UserService.findUserById(userId2);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    var searchedUser = result.data;
+                    closeModal();
+                    $timeout(function () {
+                        if(searchedUser.userType == 'U')
+                            $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                        else if(searchedUser.userType == 'M')
+                        {
+                            $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
+                        }
+                    }, 250);
+                    vm.error = null;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
+        function closeModal() {
+
+            vm.error = null;
+            $('.modal').modal('hide');
+        }
+        function searchUsers () {
+            var promise = UserService.searchUsers(vm.inputQuery);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data && result.data.length >0) {
+                    vm.users = result.data;
+                    vm.error = null;
+                } else {
+                    vm.users = null;
+                    vm.error = "No user found !!";
+                }
+            }).error(function () {
+                vm.users = null;
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
         function getAllEventsOfMyMusic () {
 
             var promise = EventService.getAllEventsOfMyMusic();
@@ -113,6 +161,21 @@
         }
         function getTrustedHtml(html) {
             return $sce.trustAsHtml(html);
+        }
+        function getUserDetails() {
+            var promise = UserService.findUserById(vm.userId);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    vm.followers = result.data.followers.length ;
+                    vm.following = result.data.following.length ;
+                    vm.error = null;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
         }
     }
 

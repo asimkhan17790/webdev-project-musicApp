@@ -4,7 +4,7 @@
         <ng-audio-recorder id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-complete="model.sendToServer()">
             <!-- Start controls, exposed via recorder-->
             <div ng-if="recorder.isAvailable">
-                <button class="" ng-click="recorder.startRecord()" type="button" ng-disabled="recorder.status.isRecording">
+                <button class="" ng-click="recorder.startRecord();" type="button" ng-disabled="recorder.status.isRecording">
                     <div style="font-size: 25px">
                     <i style="color: red;" class="fa fa-microphone" aria-hidden="true"></i>
                     </div>

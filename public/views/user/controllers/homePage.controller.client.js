@@ -23,6 +23,7 @@
         vm.clearUserFromModal  = clearUserFromModal;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.sendEmailInvitation = sendEmailInvitation;
+        vm.closeModal = closeModal;
         function init() {
             searchNearByEvents();
            // searchAllPlaylists();

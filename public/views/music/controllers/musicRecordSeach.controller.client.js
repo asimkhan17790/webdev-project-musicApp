@@ -17,13 +17,15 @@
         vm.recordAndSearch = recordAndSearch;
         vm.showSpinner = showSpinner;
         vm.findLyrics = findLyrics;
-
+        vm.closeAlert = closeAlert;
         function init() {
 
 
         }
         init();
-
+        function closeAlert() {
+            vm.error=null;
+        }
         function showSpinner() {
             if (!vm.recordingFlag) {
                 vm.recordingFlag = true;
@@ -42,6 +44,7 @@
         }
         function recordAndSearch() {
             vm.lyricsData= null;
+            vm.error = null;
             $timeout(function () {
                 console.log(vm.recordedInput);
                 Upload.upload({
@@ -63,6 +66,7 @@
                     else if (resp && resp.status==200 && resp.data && resp.data.status==='KO') {
                         if (resp.description) {
                             vm.error = resp.data.description;
+                            console.log('hi');
                         }
                         else {
                             vm.error = "Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!";
