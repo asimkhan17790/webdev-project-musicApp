@@ -1,4 +1,4 @@
-<div class="pageBackground">
+<div class="event-pageBackground">
     <div class="container-fluid">
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
@@ -62,8 +62,8 @@
         <div class="col-sm-12" style="margin-bottom: 80px;">
             <ul class="nav nav-tabs nav-justified" role="tablist">
 
-                <li class="active"><a ng-click="model.tab='EVENTBRITE'">Eventbrite Events</a></li>
-                <li><a ng-click="model.tab='MYMUSIC'"><span style="color: red">My</span>Music Events</a></li>
+                <li ng-class="model.tab==='EVENTBRITE'?'active':''" style="font-size: large;font-weight: bold"><a ng-click="model.tab='EVENTBRITE'">Eventbrite Events</a></li>
+                <li ng-class="model.tab==='MYMUSIC'?'active':''" style="font-size: large;font-weight: bold"><a ng-click="model.tab='MYMUSIC'"><span style="color: red">My</span>Music Events</a></li>
 
             </ul>
             <div ng-show="model.tab==='EVENTBRITE'" class="mymusic-shortcode-events" style="background: rgba(0, 0, 0, .7);">

@@ -52,7 +52,7 @@
                                        class="fa fa-microphone"
                                        aria-hidden="true"
                                        id='audioInput11'
-                                       ng-click="!recorder.status.isRecording && recorder.startRecord()"
+                                       ng-click="!recorder.status.isRecording && recorder.startRecord();model.error=null"
                                        ng-disabled="recorder.status.isRecording">
                                     </a>
                                 </div>
@@ -172,7 +172,7 @@
         </div>
 
         <div ng-show="model.error" class="alert alert-danger animate-top" role="alert">
-            <span data-dismiss="alert" aria-label="close" class="closebtn" ng-click="model.error=null;">&times;</span>
+            <span aria-label="close" class="closebtn" ng-click="model.closeAlert()">&times;</span>
             {{model.error}}
         </div>
 
