@@ -28,6 +28,7 @@
             "isFollowing" : isFollowing,
             "followUser": followUser,
             "unfollowUser" :unfollowUser,
+            "searchNonAdminUsers" : searchNonAdminUsers ,
             "findAllplayListAndFollowing":findAllplayListAndFollowing
         }
         return api;
@@ -52,8 +53,11 @@
             return $http.get("/api/user/following/" + userId)
         }
 
-        function searchUsers(inputQuery) {
-            return $http.get("/api/searchUsers/" + inputQuery);
+        function searchUsers(inputQuery , userId) {
+            return $http.get("/api/searchUsers/" + inputQuery + "/" + userId);
+        }
+        function searchNonAdminUsers(inputQuery) {
+            return $http.get("/api/NonAdminUsers/" + inputQuery);
         }
 
         function forgotPasswordEmail(emailAddress) {

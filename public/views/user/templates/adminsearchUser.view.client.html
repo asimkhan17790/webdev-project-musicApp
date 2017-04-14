@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="">
+        <div class="account-wall">
+            <form class="form-signin form-group">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control search-field"
+                               placeholder="Search here"
+                               ng-model="model.inputQuery"
+                               required autofocus>
+                    </div>
+                    <div class="col-xs-2">
+                        <button type="submit" class="btn btn-danger seach-button-lens" ng-click = "model.searchUsers()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid">
+            <h2 style="" ng-show="model.users.length > 0">
+                Searched Results
+            </h2>
+            <ul ng-show="model.users.length > 0" class="list-group" style="overflow-y: auto;height: 250px">
+                <li ng-repeat="user in model.users" class="list-group-item">
+                    <div class="row">
+                        <div class="pull-left col-xs-3">
+                            <img class="thumb" width="50px" height="50px" ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                        </div>
+
+                        <div class="pull-left col-xs-9">
+                            <a ng-click="model.redirectToSearchedUser(user._id)" >
+                                {{user.firstName+ ", " + user.lastName}}
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <span ng-show="model.error"  class="text-center new-account" style="z-index: 100;color: red;font-size: x-large">
+        {{model.error}}
+                </span>
+        </div>
+    </div>
+</div>

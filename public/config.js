@@ -67,6 +67,14 @@
                     pageTitle: 'Home Page'
                 }
              })
+            .when("/user/adminHomePage/:uid", {
+                templateUrl:"/views/user/templates/adminHomepage.view.client.html",
+                controller:"adminPageController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Home Page Admin'
+                }
+            })
             // .when("/user/singerProfile", {
             //     templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
             //     controller:"SingerProfileController",

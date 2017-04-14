@@ -30,6 +30,9 @@
             vm.inputQuery = null;
         }
 
+
+        // most probably wont need this or will be redirecting to the edit profile
+        // page for the function as we wont be taking to the particular user
         function redirectToSearchedUser(userId2) {
             var promise = UserService.findUserById(userId2);
             promise.success (function (result) {
@@ -55,7 +58,8 @@
 
 
         function searchUsers () {
-            var promise = UserService.searchUsers(vm.inputQuery);
+            console.log(vm.inputQuery);
+            var promise = UserService.searchNonAdminUsers(vm.inputQuery);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.users = result.data;

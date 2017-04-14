@@ -95,7 +95,7 @@
         }
 
         function searchUsers () {
-            var promise = UserService.searchUsers(vm.inputQuery);
+            var promise = UserService.searchUsers(vm.inputQuery ,vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.users = result.data;
