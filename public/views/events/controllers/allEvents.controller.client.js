@@ -10,12 +10,15 @@
     function UpcomingEventsController ($scope,EventService, $sce,$timeout,Upload,MusicService,$routeParams) {
 
         var vm = this;
+        vm.tab=null;
         vm.userId = $routeParams.uid ;
         vm.searchNearByEvents = searchNearByEvents;
         vm.error = null;
         vm.currentPage =0;
         vm.pageSize = 3;
         vm.dataLength =0;
+        vm.userEvents = null;
+        vm.noEventsFound = null;
 
         vm.numberOfPages=0;
         function showSpinner() {
@@ -27,12 +30,40 @@
 
 
         function init() {
+            vm.tab='EVENTBRITE';
             showSpinner();
             searchNearByEvents();
+            getAllEventsOfMyMusic();
 
         }
         init();
+        function getAllEventsOfMyMusic () {
 
+            var promise = EventService.getAllEventsOfMyMusic();
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    vm.userEvents = result.data;
+                    vm.noEventsFound = null;
+                    console.log(vm.events);
+
+                } else {
+                    if (result.status==='KO') {
+                        if (result.description) {
+                            vm.noEventsFound = result.description;
+                        } else {
+                            vm.noEventsFound = "Some Error Occurred!!";
+                        }
+                    }
+                    else {
+                        vm.noEventsFound = "Some Error Occurred!!";
+                    }
+
+                }
+
+            }).error(function () {
+                vm.noEventsFound = "Some Error Occurred!!";
+            });
+        }
 
         function searchNearByEvents() {
             console.log('searchNearByEvents');

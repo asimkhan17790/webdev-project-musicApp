@@ -192,7 +192,7 @@
                     else {
                         vm.noEventsFound = "Some Error Occurred!!";
                     }
-                    vm.noEventsFound = "Some Error Occurred!!";
+
                 }
 
             }).error(function () {

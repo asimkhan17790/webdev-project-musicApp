@@ -8,6 +8,8 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/event/search/:albumId",findEventById);
     app.delete("/api/event/:eid" ,deleteEvent);
     app.put("/api/event/:eid" ,updateEvent);
+    app.get("/api/events/" ,findUpComingEvents);
+
 
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
@@ -15,7 +17,21 @@ module.exports = function (app ,listOfModel) {
     var eventModel = listOfModel.eventModel;
 
 
+    function findUpComingEvents (req, res) {
+        eventModel
+            .findUpComingEvents()
+            .then(function (eventsFound) {
+                if (eventsFound && eventsFound.length > 0) {
+                    res.json({status:'OK',data:eventsFound});
+                }
+                else {
+                    res.json({status:'KO',description:"No Event found!! Check this page again in a while"});
+                }
 
+            } , function (err) {
+                res.json({status:'KO',description:'Some error occurred!!'});
+            });
+    }
 
     function createEvent (req, res) {
         var response ={};
@@ -53,7 +69,7 @@ module.exports = function (app ,listOfModel) {
 
     }
     function deleteEvent(req, res) {
-        
+
         var eventId= req.params.eid;
         eventModel.findEventById(eventId)
             .then(function (event) {

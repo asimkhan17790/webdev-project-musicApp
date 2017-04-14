@@ -10,7 +10,8 @@ module.exports = function () {
         updateEvent : updateEvent ,
         deleteEvent : deleteEvent,
        /* searchEventByName : searchEventName,*/
-        findEventById : findEventById
+        findEventById : findEventById,
+        findUpComingEvents : findUpComingEvents
     };
 
     var mongoose = require('mongoose');
@@ -92,6 +93,19 @@ module.exports = function () {
             }
         });
 
+        return deferred.promise;
+    }
+
+    function findUpComingEvents() {
+        var deferred =  q.defer();
+        EventModel.find(function(err, events) {
+            if (err){
+                deferred.reject(err);
+            }
+            else {
+                deferred.resolve(events);
+            }
+        });
         return deferred.promise;
     }
 

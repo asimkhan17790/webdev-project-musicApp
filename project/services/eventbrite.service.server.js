@@ -42,7 +42,7 @@ module.exports = function (app) {
             });
             response.on('end', function() {
                 resBody = JSON.parse(resBody);
-                console.log(resBody);
+              //  console.log(resBody);
                 res.json(resBody);
                 return;
             });

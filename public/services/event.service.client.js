@@ -11,10 +11,15 @@
             createEvent : createEvent,
             getAllEventsOfUser : getAllEventsOfUser,
             updateEvent : updateEvent,
-            deleteEvent : deleteEvent
+            deleteEvent : deleteEvent,
+            getAllEventsOfMyMusic : getAllEventsOfMyMusic
         };
 
         return api;
+
+        function getAllEventsOfMyMusic() {
+            return $http.get("/api/events/");
+        }
 
         function getAllEventsOfUser(userId) {
             return $http.get("/api/user/findAllEventsOfUser/" + userId);
