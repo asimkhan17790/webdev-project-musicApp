@@ -15,7 +15,7 @@
         var vm = this;
         vm.userId = $routeParams.uid ;
         vm.editProfile = editProfile ;
-        vm.userOptions = StaticDataService.userTypeOptions;
+        vm.userOptionsad = StaticDataService.userTypeOptions;
         vm.error = null;
         vm.getTrsustedURL = getTrsustedURL;
         vm.searchUsers = searchUsers ;
@@ -27,6 +27,8 @@
         vm.createUser = createUser ;
         function init() {
             getUserDetails ();
+            vm.userad={};
+            vm.userTypead =  vm.userOptionsad[0];
         }
         init();
 
@@ -93,7 +95,7 @@
         }
 
         function createUser() {
-           // vm.userad.userType = vm.userTypead.userType;
+            vm.userad.userType = vm.userTypead.userType;
             var promise = UserService.createUser(vm.userad);
             promise.success(function (response) {
                     //console.log(response.user);

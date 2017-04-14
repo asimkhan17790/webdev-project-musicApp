@@ -20,7 +20,7 @@
                         <input ng-change="model.errorad =null" type="text" name="phone" required class="form-control input-lg" ng-model="model.userad.phone" placeholder="Phone #"/>
                     </div>
                     <div class="col-xs-6 col-md-6">
-                        <select ng-change="model.errorad =null" required class = "form-control" style="height: 46px;"  name="singleSelect" ng-model="model.useradType" ng-options="x.label for x in model.userOptions">
+                        <select ng-change="model.errorad =null" required class = "form-control" style="height: 46px;"  name="singleSelect" ng-model="model.userTypead" ng-options="x.label for x in model.userOptionsad">
                         </select>
                         <br>
                     </div>
@@ -41,7 +41,7 @@
                 </div>
                 </div>
                 <br/>
-                <button class="btn btn-lg btn-primary btn-block signup-btn" ng-click="signUpForm.$valid && model.createUser()" type="submit">Create my account</button>
+                <button class="btn btn-lg btn-primary btn-block signup-btn" ng-click="signUpForm.$valid && model.createUser()" type="submit">Create Account</button>
             </form>
         </div>
     </div>
