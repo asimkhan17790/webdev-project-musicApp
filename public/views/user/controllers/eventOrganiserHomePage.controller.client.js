@@ -35,11 +35,9 @@
             if (vm.event) {
                 var promise = EventService.deleteEvent(vm.event);
                 promise.success(function (response) {
-
                         if (response && response==='OK') {
                             vm.success = "Event deleted successfully";
                             vm.error= null;
-
                             $timeout(function () {
                                 closeModal();
                                 vm.success = null;
@@ -58,6 +56,7 @@
                 vm.error = "Some Error Occurred";
             }
         }
+
         function selectEventToDelete(selectedEvent) {
             vm.event = angular.copy(selectedEvent);
             vm.event.startDate = new Date(vm.event.startDate);

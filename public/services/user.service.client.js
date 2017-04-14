@@ -82,7 +82,7 @@
             return $http.post("/api/user", user);
         }
 
-        function deleteUser(userId) {
+        function deleteUser(userId ) {
             return $http.delete("/api/user/"+userId);
         }
 

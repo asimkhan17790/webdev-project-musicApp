@@ -141,7 +141,6 @@
 
                 }
             ).error(function (err) {
-
                 if (err && err.description) {
                     vm.error = err.description;
                 }

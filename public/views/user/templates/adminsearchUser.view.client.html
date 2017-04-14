@@ -31,13 +31,42 @@
                             <a ng-click="model.redirectToSearchedUser(user._id)" >
                                 {{user.firstName+ ", " + user.lastName}}
                             </a>
+                            <a  style="font-size: xx-large"
+                                class="glyphicon glyphicon-remove pull-right"
+                                ng-click="model.deleteUser(user)">
+                            </a>
+                            <a  style="font-size: xx-large"
+                                class="glyphicon glyphicon-cog pull-right"
+                                ng-click="model.editUser(user)">
+                            </a>
                         </div>
                     </div>
                 </li>
             </ul>
+            <!--Stuff for deleting the user  and editing the user for now doing it this wasy-->
+            <!--data-toggle="modal"-->
+            <!--data-target="#myModalDelete"
+            data-toggle="modal"
+            data-target="#myModalSignup"
+              target="_self"-->
             <span ng-show="model.error"  class="text-center new-account" style="z-index: 100;color: red;font-size: x-large">
         {{model.error}}
                 </span>
+        </div>
+    </div>
+    <div id="myModalDelete" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Delete User</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/admin/deleteUser.view.client.html'"></ng-include>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

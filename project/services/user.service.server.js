@@ -12,6 +12,7 @@ module.exports = function (app ,listOfModel) {
     app.post("/api/user" ,createUser);
     app.get("/api/user" ,findUser);
     app.put("/api/user/:userId",updateUser);
+    app.delete("/api/user/:userId",deleteUser);
     app.get("/api/user/album/:userId",findAlbumsForUser);
     app.get("/api/user/playList/:userId",findPlayListForUser)
     app.get("/api/user/:userId",findUserById);
@@ -32,6 +33,42 @@ module.exports = function (app ,listOfModel) {
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
+
+
+    function deleteUser(req , res) {
+        var userId = req.params.userId;
+        userModel.deleteUser(userId)
+            .then(function (user) {
+                    var followers = user.followers;
+                    var following = user.following ;
+                    var playLists = user.playList;
+                    var albums = user.album ;
+                    if(user.userType === "U")
+                    {
+                        playListModel.deleteallplayLists(playLists)
+                            .then(function (playLists) {
+                                res.status(200).send("OK");
+                            },function (err) {
+                                res.status(500).send("Some Error Occurred!!");
+                            });
+                    }
+                    else if(user.userType === "M")
+                    {
+                        albumModel.deleteallalbums(albums)
+                            .then(function (albums) {
+                                res.status(200).send("OK");
+                            },function (err) {
+                                res.status(500).send("Some Error Occurred!!");
+                            });
+                    }
+
+                },
+                function(err) {
+                    res.status(500).send("Some Error Occurred!!");
+                });
+
+    }
+
 
     function sendInvitationToNonUsers (req, res) {
         var requestObject = req.body;

@@ -10,15 +10,21 @@
         })
         .controller("adminPageController",adminPageController);
 
-    function adminPageController ($scope,EventService ,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location) {
+    function adminPageController ($scope,EventService,StaticDataService ,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location)
+    {
         var vm = this;
         vm.userId = $routeParams.uid ;
         vm.editProfile = editProfile ;
+        vm.userOptions = StaticDataService.userTypeOptions;
         vm.error = null;
         vm.getTrsustedURL = getTrsustedURL;
         vm.searchUsers = searchUsers ;
         vm.clearUserFromModal  = clearUserFromModal;
-        vm.redirectToSearchedUser  = redirectToSearchedUser
+      //  vm.selectUserToDelete = selectUserToDelete ;
+        vm.deleteUser = deleteUser ;
+        vm.editUser = editUser ;
+        vm.redirectToSearchedUser  = redirectToSearchedUser;
+        vm.createUser = createUser ;
         function init() {
             getUserDetails ();
         }
@@ -27,9 +33,96 @@
         function clearUserFromModal() {
             vm.users = null;
             vm.error = null;
+            // we have to clear modal here to but cant use vm.user as vm.user is already bind to the
             vm.inputQuery = null;
+            vm.userad = null;
         }
 
+        function deleteUser(user) {
+            console.log(user);
+                var promise = UserService.deleteUser(user._id);
+                promise.success(function (response) {
+                    if (response && response==='OK') {
+                        vm.success = "User deleted successfully";
+                        vm.error= null;
+                        $timeout(function () {
+                            closeModal();
+                            vm.success = null;
+                            // again fetch that list for the particular search entry
+                            searchUsers();
+                        }, 550);
+                    }
+                    else {
+                        vm.error= "Some error occurred";
+                        vm.success = null;
+                    }
+                }).error(function (err) {
+                    vm.error = "Some Error Occurred!!";
+                });
+        }
+
+        function editUser(user) {
+                var promise = UserService.updateUser(user._id);
+                promise.success(function (response) {
+                    if (response) {
+                        if (response.status === "OK" && response.data) {
+                            vm.success = "Event updated successfully";
+                            vm.error= null;
+
+                            $timeout(function () {
+                                closeModal();
+                                searchUsers ();
+                            }, 550);
+                        }
+                        else {
+                            if (response.description) {
+                                vm.error= response.description;
+                            }else {
+                                vm.error = "Some error occurred";
+                            }
+                            vm.success = null;
+                        }
+                    }
+                    else {
+                        vm.error= "Some error occurred";
+                        vm.success = null;
+                    }
+                }).error(function (err) {
+                    vm.error = "Some Error Occurred!!";
+                });;
+        }
+
+        function createUser() {
+           // vm.userad.userType = vm.userTypead.userType;
+            var promise = UserService.createUser(vm.userad);
+            promise.success(function (response) {
+                    //console.log(response.user);
+                    if (response.status && response.status==='OK') {
+                        if(response.user){
+                            closeModal();
+                            $timeout(function () {
+                            }, 250);
+                        } else {
+                            vm.errorad = "Some Error Occurred!! Please try again.";
+                        }
+                    }
+                    else {
+                        if (response.description) {
+                            vm.errorad = response.description;
+                        } else {
+                            vm.errorad = "Some Error Occurred!! Please try again.";
+                        }
+                    }
+                }
+            ).error(function (err) {
+                if (err && err.description) {
+                    vm.errorad = err.description;
+                }
+                else {
+                    vm.errorad = "Some Error Occurred!!"
+                }
+            })
+        }
 
         // most probably wont need this or will be redirecting to the edit profile
         // page for the function as we wont be taking to the particular user
@@ -56,9 +149,7 @@
             });
         }
 
-
         function searchUsers () {
-            console.log(vm.inputQuery);
             var promise = UserService.searchNonAdminUsers(vm.inputQuery);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
@@ -95,6 +186,7 @@
 
         function closeModal() {
             $('.modal').modal('hide');
+            vm.userad = null;
         }
 
 
