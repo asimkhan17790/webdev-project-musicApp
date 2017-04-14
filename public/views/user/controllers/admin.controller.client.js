@@ -25,12 +25,37 @@
         vm.editUser = editUser ;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.createUser = createUser ;
+        vm.openEditModalFromAdmin = openEditModalFromAdmin ;
+        vm.saveChanges = saveChanges ;
+        vm.toEditUser ;
         function init() {
             getUserDetails ();
             vm.userad={};
             vm.userTypead =  vm.userOptionsad[0];
         }
         init();
+
+        function saveChanges() {
+            var promise =  UserService.updateUser(vm.toEditUser._id ,vm.toEditUser);
+            promise.success (function (user) {
+                vm.user = user ;
+                vm.successEdit="User successfully updated";
+                $timeout(function () {
+                    vm.successEdit = null ;
+                    $('#editUserModal').modal('hide');
+                }, 500);
+            }).error(function (err) {
+                vm.errorEdit = "Some Error Occurred!! Please try again!";
+            });
+        }
+
+        function openEditModalFromAdmin(user) {
+            vm.toEditUser = user ;
+            $('#profileSearchModal').modal('hide');
+            $timeout(function () {
+                $('#editUserModal').modal('show');
+            }, 500);
+        }
 
         function clearUserFromModal() {
             vm.users = null;
@@ -70,7 +95,6 @@
                         if (response.status === "OK" && response.data) {
                             vm.success = "Event updated successfully";
                             vm.error= null;
-
                             $timeout(function () {
                                 closeModal();
                                 searchUsers ();

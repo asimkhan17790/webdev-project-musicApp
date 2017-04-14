@@ -34,11 +34,12 @@ module.exports = function (app ,listOfModel) {
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
 
-
     function deleteUser(req , res) {
         var userId = req.params.userId;
         userModel.deleteUser(userId)
             .then(function (user) {
+                // have to handle it seperately and remove the user  from
+                // the followers and following
                     var followers = user.followers;
                     var following = user.following ;
                     var playLists = user.playList;
