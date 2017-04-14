@@ -85,5 +85,33 @@
     .mymusic-ak-playlist-data {
         padding:10px;
     }
+    .ak-album-container {
+        margin-top: 30px;
+        overflow-y: auto;
 
+    }
+
+    .ak-myplaylist-heading {
+        text-align: center;
+    }
+   /* .ak-createplaylist-button {
+        text-align: center;
+    }*/
+
+}
+
+
+
+
+@media (min-width: 767px) {
+    .ak-createplaylist-button {
+        width:50%;
+        float: right;
+    }
+
+}
+.ak-album-container {
+    margin-top: 30px;
+    overflow-y: auto;
+    max-height: 450px
 }

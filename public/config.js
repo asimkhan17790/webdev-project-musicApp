@@ -34,6 +34,14 @@
                     pageTitle: 'Home Page'
                 }
             })
+            .when("/user/userHomeEventOrg/:uid", {
+                templateUrl:"/views/user/templates/homePageEventOrganiser.view.client.html",
+                controller:"EventOrgController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'HomePage'
+                }
+            })
             .when("/user/singerProfile", {
                 templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
                 controller:"SingerProfileController",
@@ -42,12 +50,45 @@
                     pageTitle: 'View Profile'
                 }
             })
+            .when("/user/userProfile", {
+                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+                controller:"UserProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'View Profile'
+                }
+            })
+
             .when("/user/userHomePageSinger/:uid", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
                 controller:"HomePageSingerController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Home Page'
+                }
+             })
+            // .when("/user/singerProfile", {
+            //     templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+            //     controller:"SingerProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            //  })
+            // .when("/user/userProfile", {
+            //     templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+            //     controller:"UserProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            // })
+            .when("/user/userSearch/playList/songs/:pid", {
+                templateUrl:"/views/playlists/templates/playlistaddsong.view.client.html",
+                controller:"PlayListAddSongController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Viewing playlist and add song'
                 }
             })
             .when("/user/editProfile/:uid", {
@@ -82,6 +123,38 @@
                     pageTitle: 'Forgot Password'
                 }
             })
+            .when("/user/userSearch/:uidP/:uidS", {
+                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+                controller:"UserProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'View Profile'
+                }
+            })
+            .when("/user/singerSearch/:uidP/:uidS", {
+                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+                controller:"SingerProfileController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'View Profile'
+                }
+            })
+            .when("/user/followers/:uid", {
+                templateUrl:"/views/user/templates/followers.view.client.html",
+                controller:"FollowerController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My Followers'
+                }
+            })
+            .when("/user/following/:uid", {
+                templateUrl:"/views/user/templates/following.view.client.html",
+                controller:"FollowingController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Following'
+                }
+            })
             .when("/music/playlist", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
                 controller:"PlayListController",
@@ -90,23 +163,62 @@
                     pageTitle: 'Play playlist'
                 }
             })
-            .when("/music/myplaylists", {
+            .when("/user/playlist/songs/:uid/:playListId", {
+                templateUrl:"/views/playlists/templates/playlist.view.client.html",
+                controller:"PlayListController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Play playlist'
+                }
+            })
+            .when("/user/userSearch/playList/songs/:pid/:uid/:playListId", {
+                templateUrl:"/views/playlists/templates/playlist.view.client.html",
+                controller:"PlayListController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Play playlist'
+                }
+            })
+            .when("/music/myalbums/:uid", {
+                templateUrl:"/views/albums/templates/allalbums.view.client.html",
+                controller:"AllAlbumListController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'My albums'
+                }
+            })
+            .when("/music/myplaylists/:uid", {
                 templateUrl:"/views/playlists/templates/allplaylists.view.client.html",
                 controller:"AllPlayListController",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'My playlists'
+                    pageTitle: 'My Playlists'
                 }
             })
-            .when("/user/:uid/album/:aid/songs", {
-                templateUrl:"/views/musiccompany/templates/musiclist.view.client.html",
+            .when("/user/singer/album/songs/:uid/:aid", {
+                templateUrl:"/views/albums/templates/albumsongs.view.client.html",
                 controller:"SongsInAlbums",
                 controllerAs:"model",
                 data: {
-                    pageTitle: 'My playlists'
+                    pageTitle: 'My Songs'
                 }
             })
-
+            .when("/user/singer/album/songs/:pid/:uid/:aid", {
+                templateUrl:"/views/albums/templates/albumsongs.view.client.html",
+                controller:"SongsInAlbums",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Album songs'
+                }
+            })
+            // .when("/user/:uid/album/:aid/songs", {
+            //     templateUrl:"/views/musiccompany/templates/musiclist.view.client.html",
+            //     controller:"SongsInAlbums",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'My playlists'
+            //     }
+            // })
             .when("/landingPage/forgetpass", {
                 templateUrl:"/views/user/templates/forgotpassword.view.client.html",
                 controller:"ForgotPasswordController",
@@ -121,6 +233,22 @@
                 data: {
                     pageTitle: 'Record and Search'
 
+                }
+            })
+            .when("/music/musicTester", {
+                templateUrl:"/views/music/templates/musicsearch.view.client.html",
+                controller:"MusicRecSearchController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'API Tester'
+                }
+            })
+            .when("/events/upcomingEvents/:uid", {
+                templateUrl:"/views/events/templates/allEvents.view.client.html",
+                controller:"UpcomingEventsController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Upcoming Events'
                 }
             })
             .otherwise({

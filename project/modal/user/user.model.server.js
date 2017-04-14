@@ -27,7 +27,11 @@ module.exports = function () {
         followingUser : followingUser,
         unfollowingUser : unfollowingUser,
         searchUsers : searchUsers,
-        findUserByEmail : findUserByEmail
+        findUserByEmail : findUserByEmail,
+        deleteUser : deleteUser,
+        deleteEventIdFromUser : deleteEventIdFromUser,
+        addEventToUser : addEventToUser,
+        findAllEventsOfUser : findAllEventsOfUser
 
     };
 
@@ -37,6 +41,55 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
 
+
+    function findAllEventsOfUser (userId) {
+        var defer = q.defer();
+        UserModel
+            .findOne({ _id: userId } )
+            .populate('eventsCreated')
+            .exec(function (err, user) {
+                if (err) {
+                    defer.reject({status:"KO"}) ;
+                }
+                else {
+                    defer.resolve(user.eventsCreated);
+                }});
+
+        return defer.promise;
+
+    }
+
+
+    function addEventToUser (userId, eventId) {
+
+
+        var deferred =  q.defer();
+        UserModel.findOne({_id : userId}, function(err, User) {
+            if (err){
+                console.log("Page not found: " + pageId);
+                deferred.reject({status:"KO",
+                    description:"Some Error Occurred!!"});
+
+            }
+            else if (User){
+                User.eventsCreated.push(eventId);
+                User.save(function (err, updatedUser) {
+                    if (err) {
+                        deferred.reject({status:"KO",
+                            description:"Some Error Occurred!!"});
+                    }
+                    else {
+                        deferred.resolve(eventId);
+                    }
+                });
+            }
+            else {
+                deferred.reject({status:"KO",
+                    description:"Some Error Occurred!!"});
+            }
+        });
+        return deferred.promise;
+    }
     function searchUsers (searchArray) {
         var q1 =  q.defer();
         UserModel.find({ $text: { $search: searchArray }}, {password : 0},function (err ,users) {
@@ -115,8 +168,7 @@ module.exports = function () {
         var q1 =  q.defer();
         UserModel.findOne({_id:userId1}, function(err, User) {
             if (err){
-                q1.reject();
-
+                q1.reject(err);
             }
             else {
                 var followers = User.followers ;
@@ -183,17 +235,16 @@ module.exports = function () {
     {
         var q1 = q.defer();
         UserModel
-            .findOne({ _id: userId })
-            .populate('followers')
+            .findOne({ _id: userId } )
+            .populate('followers',{password : 0})
             .exec(function (err, user) {
                 if(user)
                 {
-                    q1.resolve(user);
+                    q1.resolve(user.followers);
                 }
                 else
-                    q1.reject ;
+                    q1.reject(err) ;
             });
-
         return q1.promise;
     }
 
@@ -203,14 +254,14 @@ module.exports = function () {
         var q1 = q.defer();
         UserModel
             .findOne({ _id: userId })
-            .populate('following')
+            .populate('following',{password : 0})
             .exec(function (err, user) {
                 if(user)
                 {
-                    q1.resolve(user);
+                    q1.resolve(user.following);
                 }
                 else
-                    q1.reject ;
+                    q1.reject(err) ;
             });
 
         return q1.promise;
@@ -273,6 +324,20 @@ module.exports = function () {
         });
         return q1.promise;
     }
+    function deleteUser(userId) {
+        var deferred =  q.defer();
+        UserModel.findOneAndRemove({_id:userId}, function(err, foundUser) {
+            if (err){
+                deferred.reject(err);
+            }
+            else {
+
+                deferred.resolve(foundUser);
+            }
+
+        });
+        return deferred.promise;
+    }
     
     function deleteAlbum(userId , albumId) {
         var q1 =  q.defer();
@@ -315,12 +380,12 @@ module.exports = function () {
             .findOne({ _id: userId })
             .populate('album')
             .exec(function (err, user) {
-                if(user)
+                if(err)
                 {
-                    q1.resolve(user);
+                    q1.reject(err) ;
                 }
                 else
-                    q1.reject ;
+                    q1.resolve(user);
             });
 
         return q1.promise;
@@ -332,12 +397,12 @@ module.exports = function () {
             .findOne({ _id: userId })
             .populate('playList')
             .exec(function (err, user) {
-                if(user)
-                {
+                if (err) {
+                    q1.reject(err) ;
+                }
+                else {
                     q1.resolve(user);
                 }
-                else
-                    q1.reject ;
             });
 
         return q1.promise;
@@ -365,12 +430,12 @@ module.exports = function () {
             }
             else if (user){
                 user.album.push(album._id);
-                user.save(function (err, upAlbum) {
+                user.save(function (err, updatedUser) {
                     if (err) {
                         q1.reject();
                     }
                     else {
-                        q1.resolve(upAlbum);
+                        q1.resolve(updatedUser);
                     }
                 });
             }
@@ -397,5 +462,20 @@ module.exports = function () {
             }
         });
         return q1.promise;
+    }
+    function deleteEventIdFromUser(userId, eventId) {
+        var deferred=q.defer();
+        UserModel.update({_id: userId},
+            {$pull: {eventsCreated: eventId}},
+            function (err, result) {
+                if (err){
+                    deferred.reject();
+                }
+                else {
+                    deferred.resolve(result);
+                }
+            });
+
+        return deferred.promise;
     }
 };

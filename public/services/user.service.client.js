@@ -21,10 +21,40 @@
             "findAllAlbums" : findAllAlbums,
             "findAllplayList" : findAllplayList ,
             "findUserById" : findUserById,
-            "forgotPasswordEmail" : forgotPasswordEmail
+            "forgotPasswordEmail" : forgotPasswordEmail,
+            "searchUsers" : searchUsers,
+            "findFollowersById":findFollowersById,
+            "findFollowingById":findFollowingById,
+            "isFollowing" : isFollowing,
+            "followUser": followUser,
+            "unfollowUser" :unfollowUser,
+            "findAllplayListAndFollowing":findAllplayListAndFollowing
         }
         return api;
 
+        function followUser(userId1 ,userId2) {
+            return $http.get("api/user/follow/"+userId1+"/"+userId2);
+        }
+
+        function unfollowUser(userId1 ,userId2) {
+            return $http.get("api/user/unfollow/"+userId1+"/"+userId2);
+        }
+
+        function isFollowing(userId1 , userId2) {
+            return $http.get("api/user/isfollowing/"+userId1+"/"+userId2);
+        }
+
+        function findFollowersById(userId) {
+            return $http.get("/api/user/followers/"+ userId)
+        }
+
+        function findFollowingById(userId) {
+            return $http.get("/api/user/following/" + userId)
+        }
+
+        function searchUsers(inputQuery) {
+            return $http.get("/api/searchUsers/" + inputQuery);
+        }
 
         function forgotPasswordEmail(emailAddress) {
             return $http.get("/api/user/forgotPassword/" + emailAddress);
@@ -35,9 +65,13 @@
             return $http.get("/api/user/album/"+userId);
         }
 
+       function findAllplayListAndFollowing(userId1 ,userId2) {
+           return $http.get("/api/user/follow/playList/"+userId1 + "/" + userId2);
+       }
+
         function findAllplayList(userId) {
             console.log("user id is" + userId);
-            return $http.get("/api/user/playList/"+userId);
+            return $http.get("/api/user/playList/"+ userId);
         }
 
         function createUser(user) {

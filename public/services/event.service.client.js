@@ -1,17 +1,40 @@
 (function () {
     angular
         .module("WebDevMusicApp")
-        .factory("EventService", EmailService);
+        .factory("EventService", EventService);
 
-    function EmailService($http) {
+    function EventService($http) {
 
         var api = {
             searchNearByEvents: searchNearByEvents,
-            searchEventCategories : searchEventCategories
+            searchEventCategories : searchEventCategories,
+            createEvent : createEvent,
+            getAllEventsOfUser : getAllEventsOfUser,
+            updateEvent : updateEvent,
+            deleteEvent : deleteEvent,
+            getAllEventsOfMyMusic : getAllEventsOfMyMusic
         };
 
         return api;
 
+        function getAllEventsOfMyMusic() {
+            return $http.get("/api/events/");
+        }
+
+        function getAllEventsOfUser(userId) {
+            return $http.get("/api/user/findAllEventsOfUser/" + userId);
+        }
+
+        function createEvent (event,userId) {
+            return $http.post("/api/event/"+userId, event);
+        }
+        function updateEvent (event) {
+            return $http.put("/api/event/" + event._id, event);
+        }
+        function deleteEvent(event) {
+            return $http.delete("/api/event/" + event._id, event);
+
+        }
         function searchNearByEvents (inputFilter) {
             return $http.post("/api/eventbrite/events", inputFilter);
         }

@@ -8,6 +8,7 @@ module.exports = function () {
         playListName : {type :String , required: true},
         dateCreated : {type : Date , default :Date.now()},
         playListOwner : String,
+        playListImageURL : String,
         playlistmood :String,
         songs : [{type :mongoose.Schema.Types.ObjectId , ref:'songModel'}]
     },{collection: 'playList'});

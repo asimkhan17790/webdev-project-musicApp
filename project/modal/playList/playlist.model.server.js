@@ -6,10 +6,12 @@ module.exports = function () {
 
     // expsoing this particular api
     var api = {
-        addSong : addSong ,
+        findplayListById : findplayListById ,
         createplayList : createplayList ,
-        findAllSongs : findAllSongs,
-        deleteplayList : deleteplayList
+       // findAllSongs : findAllSongs,
+        deleteplayList : deleteplayList,
+        addSongtoPlaylist : addSongtoPlaylist,
+        deleteSong :deleteSong
     };
 
     var mongoose = require('mongoose');
@@ -21,6 +23,43 @@ module.exports = function () {
     // create album
     // delete an album
     // delete an song from an album  are the possible crud operations
+    
+    function deleteSong(songId , playListId) {
+        var deferred=q.defer();
+        playListModel.update({_id: playListId},
+            {$pull: {songs: songId}},
+            function (err, result) {
+                if (err){
+                    deferred.reject(err);
+                }
+                else {
+                    deferred.resolve(result);
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function addSongtoPlaylist(songId , playListId) {
+        var q1 =  q.defer();
+        playListModel.findOne({_id:playListId}, function(err, playList) {
+            if (err){
+                q1.reject(err);
+            }
+            else if (playList){
+                playList.songs.push(songId);
+                playList.save(function (err, playList) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(playList);
+                    }
+                });
+            }
+        });
+        return q1.promise;
+    }
 
     function createplayList (newplayList) {
         var q1 =  q.defer();
@@ -34,12 +73,25 @@ module.exports = function () {
         });
         return q1.promise;
     }
+
     function addSong() {
 
     }
 
-    function findAllSongs() {
-
+    function findplayListById(playListId) {
+        var q1 = q.defer();
+        playListModel
+            .findOne({ _id: playListId})
+            .populate('songs')
+            .exec(function (err, playList) {
+                if(playList)
+                {
+                    q1.resolve(playList);
+                }
+                else
+                    q1.reject(err) ;
+            });
+        return q1.promise;
     }
 
     function deleteplayList(playListId) {

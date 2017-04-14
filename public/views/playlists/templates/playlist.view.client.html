@@ -37,16 +37,46 @@
                 <div class="row">
                     <div class="pull-left col-xs-2">
                         <a ng-click="model.playThisSong($index)" class="glyphicon glyphicon-play-circle play-button"></a>
-
                          <!--   <span>{{$index+1}}</span>-->
-
                     </div>
                     <div class="col-xs-10">
                         {{song.title}}
+                    </div>
+                    <div ng-show="model.isOwner" class="col-xs-2 pull-right">
+                        <a ng-click="model.deletethisSong(song)" class="glyphicon glyphicon-remove"></a>
+                    </div>
+
+                    <div  ng-show="!model.isOwner" class="col-xs-2 pull-right">
+                        <a ><span class="glyphicon glyphicon-plus pull-right" ng-click="model.loadAllMyList(song)" data-toggle="modal" data-target="#showAllPlayList" > </span></a>
                     </div>
                 </div>
             </li>
         </ul>
         </div>
     </div>
- </div>
+
+    <div id="showAllPlayList" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearDataFromModal()">&times;</button>
+                    <h4 class="modal-title">Your Available playlists </h4>
+                </div>
+                <!--adding ng-repeat this side  so that this can be repeated -->
+                <div >
+                    <ul class="list-group" style="overflow-y: auto;height: 250px">
+                        <li ng-click="model.addtothisplaylist(playlist)" ng-repeat=" playlist in model.availablePlaylist" class="list-group-item">
+                            <div class="row">
+                                <div class="pull-left col-xs-2">
+                                    <a  >{{playlist.playListName}}</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

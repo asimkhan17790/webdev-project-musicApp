@@ -5,6 +5,6 @@
             'ngFileUpload',
             'ui.bootstrap',
             'ui.bootstrap.carousel',
-            'ngTouch','ngAnimate','ngSanitize']);
+            'ngTouch','ngAnimate','ngSanitize','textAngular']);
         //
 })();

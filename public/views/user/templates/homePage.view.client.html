@@ -1,4 +1,4 @@
-<div class=" pageBackground">
+<div class="pageBackground">
     <div class="container-fluid">
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
@@ -14,8 +14,8 @@
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
-                    <ul class="nav navbar-nav pull-right  visible-sm visible-md visible-lg">
 
+                    <ul class="nav navbar-nav header-ul">
                         <li class="dropdown">
                             <a href="#" target="_self"
                                class="dropdown-toggle"
@@ -31,11 +31,10 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a>Followers <span class="badge">42</span></a></li>
-                        <li class="nav-item"><a>Following <span class="badge">12</span></a></li>
-                        <li class="nav-item"><a>Events</a></li>
-
+                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
                         <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
@@ -47,7 +46,8 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a target="_self">Edit Profile</a></li>
+                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a target="_self" >Logout</a></li>
                             </ul>
@@ -74,11 +74,10 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a>Followers</a></li>
-                        <li class="nav-item"><a>Following</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
                         <li class="nav-item"><a>Events</a></li>
-                        <li class="nav-item"><a>Search</a></li>
                         <li class="nav-item"><a href="#/music/recordAndSearch/{{model.userId}}" style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
@@ -89,22 +88,13 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCogPhone">
-                                <li><a target="_self">Edit Profile</a></li>
+                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
 
                                 <li><a target="_self" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <!--<div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
-                        <form class="navbar-form navbar-right" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search" />
-                            </div>
-                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        </form>
-                    </div>-->
                 </div>
-
             </div>
         </nav>
     </div>
@@ -130,6 +120,8 @@
         <ng-include src="'views/user/templates/musicNews.view.client.html'"></ng-include>
         <ng-include src="'views/user/templates/upcomingEvents.view.client.html'"></ng-include>
 
+
+
     </div>
 
     <!-- Profile Search Modal-->
@@ -138,11 +130,28 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
                     <h4 class="modal-title">Search Users/Artists</h4>
                 </div>
                 <div class="modal-body">
                     <ng-include src="'views/user/templates/searchUser.view.client.html'"></ng-include>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="inviteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Invite your friends</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/user/templates/invitation.view.client.html'"></ng-include>
                 </div>
             </div>
 

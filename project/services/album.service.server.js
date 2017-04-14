@@ -7,56 +7,91 @@ module.exports = function (app ,listOfModel) {
     app.post("/api/album" ,createalbum);
     app.get("/api/user/album/song/:albumId",findAllSongsForAlbum);
     app.delete("/api/album/:aid" ,deleteAlbum);
+    app.delete("/api/user/album/song/:albumId/:songId",deleteSongFromAlbum);
 
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
     var songModel = listOfModel.songModel;
 
+
+    function deleteSongFromAlbum(req , res) {
+        var albumId = req.params.albumId;
+        var songId = req.params.songId ;
+        var response = {};
+        albumModel
+            .deleteSong(songId ,albumId)
+            .then(function(album) {
+                response.status = "OK";
+                response.data = album;
+                res.send(response);
+            }, function (error) {
+                response.status="KO";
+                response.description="Some error occurred while deletion of song!!";
+                res.json(response);
+            });
+    }
+
+
+    // possibly some bug in the below code as we are deleting the songs from
+    // the song model which we shouldnt according to our functionality..
     function deleteAlbum(req ,res) {
-        console.log("inside the server side");
+        var response = {};
         var albumId = req.params.aid;
         albumModel.deleteAlbum(albumId)
             .then(function (album) {
-                var songs = album.songs ;
                 var userId = album.albumOwner;
-                songModel.deleteAllSongs(songs)
-                    .then(function (songs) {
-                        userModel.deleteAlbum(userId ,albumId)
+                userModel
+                    .deleteAlbum(userId ,albumId)
                             .then(function (user) {
-                                res.send(user);
+                                response.status ="OK";
+                                response.data = user ;
+                                res.send(response);
                             },function (err) {
-                                res.send(err);
+                                response.status ="KO";
+                                response.description = "Unable to delete the album";
+                                res.send(response);
                             });
-                    },function (err) {
-                        res.send(err);
-                    });
             },function (err) {
-                // maybe make the error more descriptive
-               res.send(200);
+                response.status ="KO";
+                response.description = "Unable to delete the album";
+                res.send(response);
             });
     }
 
     function createalbum(req,res) {
         var album = req.body;
+        var response = {};
         albumModel.createAlbum(album)
             .then(function(album) {
                return userModel.addalbum(album);
             })
-            .then(function (album) {
-                res.send(album);
+            .then(function (updatedUser) {
+                if (updatedUser) {
+                    response.status ="OK";
+                }
+                else {
+                    response.status ="KO";
+                }
+                res.json(response);
             },function (err) {
-                res.send(err);
+                response.status ="KO";
+                res.json(response);
             })
     }
 
     function findAllSongsForAlbum(req ,res) {
+        var response = {};
         var albumId = req.params.albumId;
         albumModel
             .findAllSongs(albumId)
             .then(function(album) {
-                res.send(album);
+                response.status = "OK";
+                response.data = album;
+                res.send(response);
             }, function (error) {
-                res.sendStatus(500).send(error);
+                response.status="KO";
+                response.description="Some error occurred!!";
+                res.json(response);
             })
 
     }

@@ -4,12 +4,12 @@
             <div class="account-wall">
                 <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
                      alt="">
-                <form class="form-signin form-group">
-                    <input type="text" class="form-control" placeholder="Username"   ng-model="model.user.username" required autofocus>
-                    <input type="password" class="form-control" placeholder="Password"ng-model="model.user.password"required>
+                <form class="form-signin form-group" name="loginForm">
+                    <input ng-change="model.errorLogin=null" type="text" class="form-control" placeholder="Username"   ng-model="model.user.username" required autofocus>
+                    <input ng-change="model.errorLogin=null" type="password" class="form-control" placeholder="Password"ng-model="model.user.password"required>
                     <button class="btn btn-lg btn-danger btn-block"
                             type="submit"
-                            ng-click="model.login(model.user.username,model.user.password)">
+                            ng-click="loginForm.$valid && model.login(model.user.username,model.user.password)">
                         Sign in</button>
                     <div class="row">
                         <!--<div class="col-xs-12 col-sm-6 col-md-6 text-center">
@@ -27,7 +27,7 @@
             <span ng-show="model.errorLogin" class="text-center new-account"  style="z-index: 100;color: red;font-size: large">
                 {{model.errorLogin}}
             </span>
-            <a style="color: white;font-size: 20px" class="text-center new-account">Create an Account </a>
+            <a style="font-size: 20px" class="text-center new-account" ng-click="model.openSignupModalFromLoginModal()">Create an Account </a>
         </div>
     </div>
 </div>

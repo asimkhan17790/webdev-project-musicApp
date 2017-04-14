@@ -9,7 +9,8 @@ module.exports = function () {
         addSong : addSong ,
         createAlbum : createAlbum ,
         findAllSongs : findAllSongs,
-        deleteAlbum : deleteAlbum
+        deleteAlbum : deleteAlbum ,
+        deleteSong : deleteSong
     };
 
     var mongoose = require('mongoose');
@@ -43,10 +44,25 @@ module.exports = function () {
                 else
                     q1.reject ;
             });
-
         return q1.promise;
     }
 
+    function deleteSong(songId ,albumId) {
+        var deferred=q.defer();
+        albumModel.update({_id: albumId},
+            {$pull: {songs: songId}},
+            function (err, result) {
+                if (err){
+                    deferred.reject(err);
+                }
+                else {
+                    deferred.resolve(result);
+                }
+            });
+
+        return deferred.promise;
+    }
+    
     function addSong(newSong , albumId) {
         var q1 =  q.defer();
         albumModel.findOne({_id:albumId}, function(err, album) {

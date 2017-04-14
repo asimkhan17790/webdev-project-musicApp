@@ -11,6 +11,7 @@ module.exports = function () {
         albumModel : require("./album/album.model.server.js")(),
         playListModel : require("./playList/playlist.model.server.js")(),
         songModel : require("./song/song.model.server.js")(),
+        eventModel : require("./event/event.model.server")(),
     }
     return model;
 }

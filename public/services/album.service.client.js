@@ -19,7 +19,8 @@
         var api = {
             "createalbum" : createalbum,
             "findAllSongs" : findAllSongs ,
-            "deleteAlbum" : deleteAlbum
+            "deleteAlbum" : deleteAlbum,
+            "deleteSongFromAlbum" : deleteSongFromAlbum
         }
         return api;
 
@@ -27,6 +28,13 @@
         function findAllSongs(albumId) {
             console.log("Album id is" + albumId);
             return $http.get("/api/user/album/song/"+albumId);
+
+        }
+
+        function deleteSongFromAlbum(albumId ,songId) {
+            console.log("Album id is" + albumId);
+            console.log("Song id is" + songId);
+            return $http.delete("/api/user/album/song/"+albumId +"/" +songId);
         }
 
         function createalbum(album) {

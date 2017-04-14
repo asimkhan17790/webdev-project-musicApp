@@ -22,6 +22,9 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/unfollow/:userId1/:userId2",unfollowUser);
     app.get("/api/searchUsers/:queryString" ,searchUsers);
     app.get("/api/user/forgotPassword/:emailAddress",forgotPasswordAndSendEmail);
+    app.get("/api/user/follow/playList/:userId1/:userId2",findAllplayListAndFollowing);
+    app.get("/api/user/findAllEventsOfUser/:uid", findAllEventsOfUser);
+    app.post("/api/user/sendInvite/", sendInvitationToNonUsers);
 
 
     var userModel = listOfModel.UserModel;
@@ -29,14 +32,104 @@ module.exports = function (app ,listOfModel) {
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
 
+    function sendInvitationToNonUsers (req, res) {
+        var requestObject = req.body;
+        var response = {};
+
+        var emailObject = {
+            to: requestObject.emailAddress,
+            from: 'asim.khan17790@gmail.com',
+            subject: 'MyMusic Invitation',
+            message: 'Hi,<br><br>' + requestObject.firstName + ' has sent you an invite to join <strong>MyMusic</strong>. Please follow the link provided below to sign up<br><br><a href="https://mymusicapp-webdev.herokuapp.com/#/"> MyMusic App </a>'
+        };
+        emailApi.sendEmail(emailObject)
+            .then(function () {
+                if (emailObject) {
+                    response.status = "OK";
+                    response.description = "Congrats...Your invitation has been sent successfully";
+                    res.json(response);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "Some Error Occured!!";
+                    res.json(response);
+                }
+
+            }, function (err) {
+            response.status = "KO";
+            response.description = "Some Error Occurred!!";
+            res.status(500).send(response);
+        });
+    }
+
+    function findAllEventsOfUser (req, res) {
+
+        var response = {};
+        var userId = req.params.uid;
+        userModel
+            .findAllEventsOfUser(userId)
+            .then(function (events) {
+                if (events) {
+                    response.status = "OK";
+                    response.data = events;
+                    res.send(response);
+                }
+                else {
+                    res.send({status:"KO",description:"No Events created yet!"});
+                }
+
+            },function (err) {
+                response.status="KO";
+                response.description="Some error occurred!!";
+                res.json(response);
+            });
+    }
+
+    function findAllplayListAndFollowing(req , res) {
+        var userId1 = req.params.userId1;
+        var userId2 = req.params.userId2;
+        var response = {};
+        userModel
+            .findIsFollowing(userId1 , userId2)
+            .then(function (status1) {
+                if(status1.isPresent)
+                {
+                userModel
+                    .findAllplayLists(userId1)
+                    .then(function (users) {
+                        response.status = "OK";
+                        response.data = users;
+                        res.send(response);
+                    }, function (error) {
+                        response.status="KO";
+                        response.description="Some error occurred while finding the playlists";
+                        res.json(response);
+                    })
+                }
+                else
+                {
+                response.status = "OK";
+                response.data = null;
+                response.description="Please follow the user to see the playlist";
+                res.send(response);
+                }
+            }, function (err) {
+                response.status="KO";
+                response.description="Some error occurred while finding the playlists";
+                res.json(response);
+            });
+    }
 
     // if no input is coming than the search will fail
     function searchUsers(req , res) {
-    var searchTerm = req.params.queryString;
+        var response = {};
+        var searchTerm = req.params.queryString;
     userModel
         .searchUsers(searchTerm)
         .then(function (users) {
-            res.send(users);
+            response.status = "OK";
+            response.data = users;
+            res.send(response);
         },function (err) {
            res.send(err);
         });
@@ -67,6 +160,8 @@ module.exports = function (app ,listOfModel) {
     }
 
     // checked and tested and working fine
+    // userID1 is the main person
+    // userID2 is the person which we have to add to the followers list
     function followUser(req ,res) {
         var userId1 = req.params.userId1;
         var userId2 = req.params.userId2;
@@ -93,8 +188,8 @@ module.exports = function (app ,listOfModel) {
         var userId = req.params.userId;
         userModel
             .findUserById(userId)
-            .then(function (user) {
-                res.json({status:'OK',data:user});
+            .then(function (User) {
+                res.json({status:'OK',data:User});
             } , function (err) {
                 res.json({status:'KO',data:err});
             });
@@ -107,25 +202,28 @@ module.exports = function (app ,listOfModel) {
         var userId2 = req.params.userId2;
         userModel
             .findIsFollowing(userId1 , userId2)
-            .then(function (status) {
-                res.send(status);
+            .then(function (status1) {
+                res.json({status:'OK',data:status1});
             } , function (err) {
                 response.status="KO";
-                response.description="Some error occured while checking";
+                response.description="Some error occurred while checking";
                 res.json(response);
             });
     }
     // manipulate to send the entire user object rather that the array of ID
     function findFollowersById(req , res)
     {
+        var response = {};
         var userId = req.params.userId;
         userModel
             .findFollowersById(userId)
-            .then(function (user) {
-                res.send(user);
+            .then(function (users) {
+                response.status = "OK";
+                response.data = users;
+                res.send(response);
             },function (err) {
                 response.status="KO";
-                response.description="Unable to find follwers for the user";
+                response.description="Some error occurred!!";
                 res.json(response);
             });
     }
@@ -134,15 +232,17 @@ module.exports = function (app ,listOfModel) {
 
     function findFollowingById(req , res)
     {
+        var response = {};
         var userId = req.params.userId;
         userModel
             .findFollowingById(userId)
             .then(function (users) {
-                console.log(users);
-                res.send(users);
+                response.status = "OK";
+                response.data = users;
+                res.send(response);
             },function (err) {
                 response.status="KO";
-                response.description="Unable to find the users which this user is following";
+                response.description="Some error occurred!!";
                 res.json(response);
             });
     }
@@ -151,24 +251,49 @@ module.exports = function (app ,listOfModel) {
 
     function findAlbumsForUser(req, res) {
         var userId = req.params.userId;
+        var response = {};
         userModel
             .findAllAlbums(userId)
-            .then(function(user) {
-                res.send(user);
+            .then(function (user) {
+                if (user && user.album && user.album.length > 0) {
+                    response.status = "OK";
+                    response.data = user.album;
+                    res.json(response);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "No albums created yet!";
+                    response.data = user.album;
+                    res.json(response);
+                }
             }, function (error) {
-                res.sendStatus(500).send(error);
+                response.status = "KO";
+                response.description = "Some Error Occurred!!";
+                res.status(500).send(response);
             })
-        // hopefully we will be sending the entire user and albums will be embedded in it
     }
 
     function findPlayListForUser(req, res) {
         var userId = req.params.userId;
+        var response = {};
         userModel
             .findAllplayLists(userId)
             .then(function (user) {
-                res.send(user);
+                if (user && user.playList && user.playList.length > 0) {
+                    response.status = "OK";
+                    response.data = user.playList;
+                    res.json(response);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "No playlist created yet!";
+                    res.json(response);
+                }
+
             }, function (error) {
-                res.sendStatus(500).send(error);
+                response.status = "KO";
+                response.description = "Some Error Occurred!!";
+                res.status(500).send(response);
             })
     }
 
@@ -184,7 +309,6 @@ module.exports = function (app ,listOfModel) {
         userModel
             .createUser(user)
             .then(function(user) {
-
                 if (user) {
                     var emailObject = {
                         to: user.email,
@@ -318,7 +442,7 @@ module.exports = function (app ,listOfModel) {
                         to: emailAddress,
                         from: 'asim.khan17790@gmail.com',
                         subject: 'Password Recovery',
-                        message: 'Your password is : <strong>' + user.password+ '</strong>',
+                        message:'Hi ' + user.firstName +',<br><br>Your username is : <strong>' + user.username + '</strong>' +'<br>Your password is : <strong>' + user.password+ '</strong>',
                     };
                     return emailApi.sendEmail(emailObject);
                 }

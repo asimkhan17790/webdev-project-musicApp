@@ -1,0 +1,27 @@
+<div class="">
+    <div class="row">
+        <div class="">
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                     alt="">
+                <form class="form-signin form-group" name="newPlayListForm">
+                    <input ng-change="model.createError=null" type="text" class="form-control" placeholder="Album name" ng-model="model.newAlbum.albumname" required autofocus>
+                    <input style="margin-top: 5px" ng-change="model.createError=null" type="text" class="form-control" placeholder="Genre" ng-model="model.newAlbum.albumgenre" required>
+                    <button class="btn btn-lg btn-danger btn-block"
+                            type="submit" style="margin-top: 20px"
+                            ng-click="newPlayListForm.$valid && model.createAlbum()">
+                        CREATE</button>
+                </form>
+            </div>
+            <span ng-show="model.createError" class="text-center new-account"  style="z-index: 100;color: red;font-size: large">
+                {{model.createError}}
+            </span>
+            <span ng-show="model.createSuccess" class="text-center new-account"  style="z-index: 100;color: green;font-size: large">
+                {{model.createSuccess}}
+            </span>
+            <span ng-show="model.error" class="text-center new-account"  style="z-index: 100;color: green;font-size: large">
+                {{model.error}}
+            </span>
+        </div>
+    </div>
+</div>

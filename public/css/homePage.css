@@ -220,16 +220,16 @@
 }
 .mymusic-view-event {
     text-align: center;
-    margin-top: 80px
+    margin-top: 50px
 }
 .mymusic-view-event a {
     display: inline-block;
     font-size: 1.125em;
-    color: #555;
+    color: white;
     text-transform: uppercase;
-    background: #1f1f1f;
+    background: darkred;
     padding: 0 27px;
-    border-bottom: 3px solid #191919;
+    border-bottom: 3px solid darkred;
     height: 50px;
     line-height: 50px;
     margin: 0

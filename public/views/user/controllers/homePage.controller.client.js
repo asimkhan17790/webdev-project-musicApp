@@ -7,7 +7,7 @@
     })
     .controller("HomePageController",HomePageController);
 
-    function HomePageController ($scope,EventService ,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location) {
+    function HomePageController (EmailService,EventService ,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location) {
         var vm = this;
         vm.searchNearByEvents = searchNearByEvents;
         vm.userId = $routeParams.uid ;
@@ -15,24 +15,107 @@
         vm.deleteplayList = deleteplayList ;
         vm.editProfile = editProfile ;
         vm.error = null;
+        vm.user = null;
         vm.getTrsustedURL = getTrsustedURL;
-
-
+        vm.followers = null ;
+        vm.following = null ;
+        vm.searchUsers = searchUsers ;
+        vm.clearUserFromModal  = clearUserFromModal;
+        vm.redirectToSearchedUser  = redirectToSearchedUser;
+        vm.sendEmailInvitation = sendEmailInvitation;
         function init() {
-           // searchNearByEvents();
+            searchNearByEvents();
            // searchAllPlaylists();
             getUserDetails ();
             getMusicUpdates();
             findAllPlayList();
-
         }
         init();
+
+        function sendEmailInvitation () {
+            var emailInput = {
+                emailAddress: vm.invitationEmail,
+                firstName : vm.user.firstName
+            };
+            var promise = EmailService.sendEmailInvitation(emailInput);
+            promise.success (function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.emailSuccess = result.description;
+                    }
+                    else {
+                        vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
+                    }
+
+                  /*  $timeout(function () {
+                            closeModal();
+                    }, 2000);*/
+                } else {
+                        vm.emailSuccess = null;
+                        vm.emailError = "Some Error Occurred";
+                }
+            }).error(function () {
+                vm.emailSuccess = null;
+                vm.emailError = "Some Error Occurred";
+            });
+        }
+
+        function clearUserFromModal() {
+            vm.users = null;
+            vm.error = null;
+            vm.inputQuery = null;
+            vm.invitationEmail = null;
+            vm.emailSuccess = null;
+            vm.emailError = null;
+        }
+        
+        function redirectToSearchedUser(userId2) {
+            var promise = UserService.findUserById(userId2);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    var searchedUser = result.data;
+                    closeModal();
+                    $timeout(function () {
+                        if(searchedUser.userType == 'U')
+                        $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                        else if(searchedUser.userType == 'M')
+                        {
+                            $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
+                        }
+                    }, 250);
+                    vm.error = null;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
+
+        function searchUsers () {
+            var promise = UserService.searchUsers(vm.inputQuery);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data && result.data.length >0) {
+                    vm.users = result.data;
+                    vm.error = null;
+                } else {
+                    vm.users = null;
+                    vm.error = "No user found !!";
+                }
+            }).error(function () {
+                vm.users = null;
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
 
         function getUserDetails() {
             var promise = UserService.findUserById(vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data) {
                     vm.user = result.data;
+                    vm.followers = result.data.followers.length ;
+                    vm.following = result.data.following.length ;
                     vm.error = null;
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
@@ -76,6 +159,11 @@
         }
 
         function closeModal() {
+
+            vm.inputQuery = null;
+            vm.invitationEmail = null;
+            vm.emailSuccess = null;
+            vm.emailError = null;
             $('.modal').modal('hide');
         }
         function deleteplayList(playList) {
@@ -132,6 +220,7 @@
                 return null;
             }
         }
+
         function callSearchEventService(inputFilter) {
             var promise =  EventService.searchNearByEvents(inputFilter);
             promise.success(function (response) {
