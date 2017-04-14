@@ -28,7 +28,7 @@ module.exports = function (app ,listOfModel) {
                 response.status="KO";
                 response.description="Some error occurred while deletion of song!!";
                 res.json(response);
-            })
+            });
     }
 
 

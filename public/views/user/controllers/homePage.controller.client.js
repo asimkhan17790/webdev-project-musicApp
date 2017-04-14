@@ -37,10 +37,27 @@
         }
         
         function redirectToSearchedUser(userId2) {
-            closeModal();
-            $timeout(function () {
-                $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
-            }, 250);
+            var promise = UserService.findUserById(userId2);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    var searchedUser = result.data;
+                    closeModal();
+                    $timeout(function () {
+                        if(searchedUser.userType == 'U')
+                        $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                        else if(searchedUser.userType == 'M')
+                        {
+                            $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
+                        }
+                    }, 250);
+                    vm.error = null;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
         }
 
 

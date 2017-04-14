@@ -9,7 +9,8 @@ module.exports = function () {
         findplayListById : findplayListById ,
         createplayList : createplayList ,
        // findAllSongs : findAllSongs,
-        deleteplayList : deleteplayList
+        deleteplayList : deleteplayList,
+        addSongtoPlaylist : addSongtoPlaylist
     };
 
     var mongoose = require('mongoose');
@@ -21,6 +22,27 @@ module.exports = function () {
     // create album
     // delete an album
     // delete an song from an album  are the possible crud operations
+
+    function addSongtoPlaylist(songId , playListId) {
+        var q1 =  q.defer();
+        playListModel.findOne({_id:playListId}, function(err, playList) {
+            if (err){
+                q1.reject(err);
+            }
+            else if (playList){
+                playList.songs.push(songId);
+                playList.save(function (err, playList) {
+                    if (err) {
+                        q1.reject();
+                    }
+                    else {
+                        q1.resolve(playList);
+                    }
+                });
+            }
+        });
+        return q1.promise;
+    }
 
     function createplayList (newplayList) {
         var q1 =  q.defer();

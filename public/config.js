@@ -106,7 +106,7 @@
                     pageTitle: 'View Profile'
                 }
             })
-            .when("/user/singerSearch", {
+            .when("/user/singerSearch/:uidP/:uidS", {
                 templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
                 controller:"SingerProfileController",
                 controllerAs:"model",
@@ -161,6 +161,14 @@
             data: {
                 pageTitle: 'My Songs'
             }
+            })
+            .when("/user/singer/album/songs/:pid/:uid/:aid", {
+                templateUrl:"/views/albums/templates/albumsongs.view.client.html",
+                controller:"SongsInAlbums",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Album songs'
+                }
             })
             // .when("/user/:uid/album/:aid/songs", {
             //     templateUrl:"/views/musiccompany/templates/musiclist.view.client.html",

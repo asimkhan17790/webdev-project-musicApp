@@ -7,11 +7,29 @@ module.exports = function (app ,listOfModel) {
     app.post("/api/playList" ,createplayList);
     app.get("/api/user/playList/song/:pid",findPlayListById);
     app.delete("/api/playList/:pid" ,deleteplayList);
+    app.get("/api/playList/new/:songid/:pid" ,addSongToPlayList);
     
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
     var songModel = listOfModel.songModel;
     var playListModel = listOfModel.playListModel;
+
+
+    function addSongToPlayList(req ,res) {
+        var songId = req.params.songid ;
+        var pid  = req.params.pid;
+        var response = {};
+        playListModel.addSongtoPlaylist(songId ,pid)
+            .then(function(playList) {
+                response.status = "OK";
+                response.data = playList;
+                res.send(response);
+            }, function (error) {
+                response.status="KO";
+                response.description="Some error occurred while addition of song!!";
+                res.json(response);
+            });
+    }
 
     function createplayList(req,res) {
         var playList = req.body;

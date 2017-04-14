@@ -19,6 +19,7 @@
         vm.openAlbum = openAlbum;
         vm.createAlbum = createAlbum;
         vm.deletethisAlbum = deletethisAlbum ;
+
         function init() {
             findAllAlbums();
         }

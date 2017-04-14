@@ -13,7 +13,8 @@
         var api = {
             "createplayList" : createplayList,
             "findAllSongs" : findAllSongs ,
-            "deleteplayList" : deleteplayList
+            "deleteplayList" : deleteplayList ,
+            "addSongtoPlayList": addSongtoPlayList
         }
         return api;
 
@@ -22,13 +23,18 @@
             return $http.get("/api/user/playList/song/"+playListId);
         }
 
+        function addSongtoPlayList(songid ,pid) {
+
+            return $http.get("/api/playList/new/"+songid+"/" +pid);
+        }
+
         function createplayList(playList) {
             console.log("playList is" + playList);
             return $http.post("/api/playList", playList);
         }
 
         function deleteplayList (playList) {
-            console.log("insid the delete part on the clinet side");
+            console.log("inside the delete part on the clinet side");
             return $http.delete("/api/playList/"+playList._id);
         }
 

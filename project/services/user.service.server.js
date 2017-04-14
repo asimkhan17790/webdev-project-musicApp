@@ -70,7 +70,7 @@ module.exports = function (app ,listOfModel) {
     // if no input is coming than the search will fail
     function searchUsers(req , res) {
         var response = {};
-    var searchTerm = req.params.queryString;
+        var searchTerm = req.params.queryString;
     userModel
         .searchUsers(searchTerm)
         .then(function (users) {
@@ -209,7 +209,7 @@ module.exports = function (app ,listOfModel) {
                 }
                 else {
                     response.status = "KO";
-                    response.description = "No playlist created yet!";
+                    response.description = "No albums created yet!";
                     response.data = user.album;
                     res.json(response);
                 }
@@ -256,7 +256,6 @@ module.exports = function (app ,listOfModel) {
         userModel
             .createUser(user)
             .then(function(user) {
-
                 if (user) {
                     var emailObject = {
                         to: user.email,
