@@ -19,6 +19,7 @@
         vm.clearDataFromModal = clearDataFromModal;
         vm.newplayList = null;
         vm.createPlayList = createPlayList;
+        vm.openPlaylist = openPlaylist
         function init() {
             findAllPlayList();
         }
@@ -35,6 +36,11 @@
             vm.error = null;
             $('.modal').modal('hide');
         }
+        
+        function openPlaylist(playlistid) {
+            $location.url("/user/playlist/songs/" + playlistid);
+        }
+
         function createPlayList () {
             vm.newplayList.playListOwner = vm.userId;
             var promise = playListService.createplayList(vm.newplayList);

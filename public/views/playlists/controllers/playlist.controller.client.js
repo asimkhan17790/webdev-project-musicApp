@@ -8,7 +8,7 @@
         .controller("PlayListController",PlayListController);
 
 
-    function PlayListController($location,Upload,$timeout,MusicService,$sce,EmailService,$scope) {
+    function PlayListController($routeParams,$location,Upload,$timeout,MusicService,$sce,EmailService,$scope,playListService) {
 
         var vm = this;
         vm.playing = false;
@@ -20,67 +20,19 @@
         vm.nextSong = nextSong;
         vm.playThisSong = playThisSong;
         vm.play = play;
+        vm.playListId = $routeParams.pid;
         vm.index = 0;
 
-
-
-        vm.playlist = {
-            playlistId:"123456",
-            ownerID :"123456789",
-            ownerName : "Asim Khan",
-            ownerUserName : "asimkhan17",
-            playListName : "Play List Name",
-            playlistThumbNail : "../../../resources/images/MuiscAlt2.png",
-            songs:[
-                {
-                    "title": "All This Is - Joe L.'s Studio",
-                    "length": "2:46", //?
-                    "url": "https://archive.org/download/mythium/JLS_ATI.mp3" // spotify ID
-                },
-                {
-                    "title": "All This Is 2",
-                    "length": "2:46", //?
-                    "url": "https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" // spotify ID
-                },
-                {
-                    "title": "All This Is - 3",
-                    "length": "2:46", //?
-                    "url": "https://archive.org/download/mythium/JLS_ATI.mp3" // spotify ID
-                },
-                {
-                    "title": "All This Is - 4",
-                    "length": "2:46", //?
-                    "url": "https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" // spotify ID
-                },
-                {
-                    "title": "All This Is - 5",
-                    "length": "2:46", //?
-                    "url": "https://archive.org/download/mythium/JLS_ATI.mp3" // spotify ID
-                },
-                {
-                    "title": "All This Is - 6",
-                    "length": "2:46", //?
-                    "url": "https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" // spotify ID
-                },
-                {
-                    "title": "All This Is - 7",
-                    "length": "2:46", //?
-                    "url": "https://p.scdn.co/mp3-preview/84462d8e1e4d0f9e5ccd06f0da390f65843774a2?cid=null" // spotify ID
-                }
-
-            ]
-        };
-
         function init () {
-            console.log('playlistController init');
+            findAllSongsForPlayList();
+        }
+        init();
 
-
+        function loadMp3Player() {
             if (vm.playlist && vm.playlist.songs && vm.playlist.songs.length > 0) {
                 vm.nowPlayingTitle = vm.playlist.songs[0].title;
                 vm.trackCount = vm.playlist.songs.length;
             }
-
-
             vm.audio = angular.element(document.querySelector('#audio1')).bind('play', vm.play).bind('pause', function () {
                 vm.playing = false;
                 vm.playStatus = "Paused...";
@@ -102,7 +54,27 @@
             }).get(0);
             loadTrack(vm.index);
         }
-        init();
+
+        function findAllSongsForPlayList() {
+            var promise = playListService.findAllSongs(vm.playListId);
+            promise.success (function (result) {
+                if (result && result.status ==='OK' && result.data && result.data.songs.length > 0) {
+                    //     console.log(result.data);
+                    vm.playlist = result.data;
+                    loadMp3Player();
+                }
+                else if(result && result.status==='OK' && result.data && result.data.songs.length == 0){
+                    if(vm.audio) {
+                        vm.audio.pause();
+                    }
+                    vm.noSongFound = "There are no songs to play in this album";
+                }else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
 
         function play () {
             vm.playing = true;
@@ -146,12 +118,9 @@
         }
 
         function loadTrack(id) {
-          //  $('.plSel').removeClass('plSel');
-          //  $('#plList li:eq(' + id + ')').addClass('plSel');
-           // npTitle.text(tracks[id].name);
             vm.nowPlayingTitle = vm.playlist.songs[id].title;
             vm.index = id;
-            vm.audio.src = $sce.trustAsResourceUrl(vm.playlist.songs[id].url);
+            vm.audio.src = $sce.trustAsResourceUrl(vm.playlist.songs[id].songURL);
         }
 
 
