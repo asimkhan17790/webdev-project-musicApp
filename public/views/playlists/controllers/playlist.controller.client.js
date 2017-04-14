@@ -8,7 +8,7 @@
         .controller("PlayListController",PlayListController);
 
 
-    function PlayListController($routeParams,$location,Upload,$timeout,MusicService,$sce,EmailService,$scope,playListService) {
+    function PlayListController($routeParams,$location,Upload,$timeout,MusicService,$sce,EmailService,$scope,playListService,UserService) {
 
         var vm = this;
         vm.playing = false;
@@ -114,7 +114,7 @@
                         vm.isOwner = true ;
                     else if((vm.pid !=null) && (vm.playlist.playListOwner ===  vm.pid))
                         vm.isOwner = true ;
-                    else if( (vm.pid !=null) &&(vm.album.playListOwner !=  vm.pid))
+                    else if( (vm.pid !=null) &&(vm.playlist.playListOwner !=  vm.pid))
                         vm.isOwner = false ;
                     loadMp3Player();
                 }
@@ -176,6 +176,11 @@
             vm.nowPlayingTitle = vm.playlist.songs[id].title;
             vm.index = id;
             vm.audio.src = $sce.trustAsResourceUrl(vm.playlist.songs[id].songURL);
+        }
+
+
+        function closeModal() {
+            $('.modal').modal('hide');
         }
 
 
