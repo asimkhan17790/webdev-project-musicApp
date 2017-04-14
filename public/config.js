@@ -138,7 +138,15 @@
                     pageTitle: 'Play playlist'
                 }
             })
-            .when("/user/playlist/songs/:pid", {
+            .when("/user/playlist/songs/:uid/:playListId", {
+                templateUrl:"/views/playlists/templates/playlist.view.client.html",
+                controller:"PlayListController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Play playlist'
+                }
+            })
+            .when("/user/userSearch/playList/songs/:pid/:uid/:playListId", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
                 controller:"PlayListController",
                 controllerAs:"model",

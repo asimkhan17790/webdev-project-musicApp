@@ -8,12 +8,30 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/playList/song/:pid",findPlayListById);
     app.delete("/api/playList/:pid" ,deleteplayList);
     app.get("/api/playList/new/:songid/:pid" ,addSongToPlayList);
+    app.delete("/api/user/playlist/song/:playListId/:songId" ,deleteSongFromPlayList);
     
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
     var songModel = listOfModel.songModel;
     var playListModel = listOfModel.playListModel;
 
+
+    function deleteSongFromPlayList (req ,res) {
+        var playListId = req.params.playListId;
+        var songId = req.params.songId ;
+        var response = {};
+        playListModel
+            .deleteSong(songId ,playListId)
+            .then(function() {
+                response.status = "OK";
+                response.data = playList;
+                res.send(response);
+            }, function (error) {
+                response.status="KO";
+                response.description="Some error occurred while deletion of song!!";
+                res.json(response);
+            });
+    }
 
     function addSongToPlayList(req ,res) {
         var songId = req.params.songid ;
@@ -68,9 +86,7 @@ module.exports = function (app ,listOfModel) {
             });
     }
 
-    // this function is not fully completed as how to add
-    // songs to the particular user as it wont make much sensee
-    // to write the deletion without addition functionality
+
     function deleteplayList(req,res) {
         console.log("inside the server side");
         var playListId = req.params.pid;

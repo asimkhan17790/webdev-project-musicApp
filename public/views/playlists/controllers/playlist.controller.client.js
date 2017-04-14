@@ -19,10 +19,16 @@
         vm.previousSong = previousSong;
         vm.nextSong = nextSong;
         vm.playThisSong = playThisSong;
+        vm.loadAllMyList = loadAllMyList ;
+        vm.deletethisSong = deletethisSong;
+        vm.addtothisplaylist =addtothisplaylist ;
         vm.play = play;
-        vm.playListId = $routeParams.pid;
+        vm.playListId = $routeParams.playListId;
+        vm.pid = $routeParams.pid;
+        vm.uid = $routeParams.uid;
+        vm.selectedSong = null ;
         vm.index = 0;
-
+        vm.isOwner ;
         function init () {
             findAllSongsForPlayList();
         }
@@ -55,12 +61,61 @@
             loadTrack(vm.index);
         }
 
+        function addtothisplaylist (playList) {
+            var songId = vm.selectedSong;
+            var playListId = playList._id ;
+            var promise = playListService.addSongtoPlayList(songId ,playListId);
+            promise.success(function(response) {
+                if(response){
+                    vm.songaddedsuccess = "song added to the playlist";
+                    closeModal() ;
+                    init();
+
+                }
+            }).error(function (err) {
+                vm.error = "Unable to add song in your album";
+            })
+        }
+
+        function deletethisSong(song) {
+            var songId = song._id;
+            var promise = playListService.deleteSongFromPlayList(vm.playListId ,songId );
+            promise.success(function(response) {
+                if(response){
+                    init();
+                }
+            }).error(function (err) {
+                vm.error = "Unable to delete the song in the album";
+            })
+        }
+
+        function loadAllMyList(song) {
+            if(vm.pid != null)
+            {
+                var promise  = UserService.findAllplayList(vm.pid);
+                promise.success(function (user) {
+                    vm.availablePlaylist = user.data ;
+                    console.log(vm.availablePlaylist);
+                    vm.selectedSong = song._id ;
+                })
+                promise.error(function (err) {
+                    console.log("some error occured " + err);
+                    vm.availablePlaylist = null ;
+                })
+            }
+        }
+
         function findAllSongsForPlayList() {
             var promise = playListService.findAllSongs(vm.playListId);
             promise.success (function (result) {
                 if (result && result.status ==='OK' && result.data && result.data.songs.length > 0) {
-                    //     console.log(result.data);
                     vm.playlist = result.data;
+                    if(!vm.pid)
+                        vm.isOwner = true ;
+                    else if((vm.pid !=null) && (vm.playlist.playListOwner ===  vm.pid))
+                        vm.isOwner = true ;
+                    else if( (vm.pid !=null) &&(vm.album.playListOwner !=  vm.pid))
+                        vm.isOwner = false ;
                     loadMp3Player();
                 }
                 else if(result && result.status==='OK' && result.data && result.data.songs.length == 0){

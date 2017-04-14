@@ -14,13 +14,18 @@
             "createplayList" : createplayList,
             "findAllSongs" : findAllSongs ,
             "deleteplayList" : deleteplayList ,
-            "addSongtoPlayList": addSongtoPlayList
+            "addSongtoPlayList": addSongtoPlayList,
+            "deleteSongFromPlayList" :deleteSongFromPlayList
         }
         return api;
 
         function findAllSongs(playListId) {
             console.log("playList id is" + playListId);
             return $http.get("/api/user/playList/song/"+playListId);
+        }
+
+        function deleteSongFromPlayList(playListId ,songId) {
+            return $http.delete("/api/user/playlist/song/"+playListId +"/" +songId);
         }
 
         function addSongtoPlayList(songid ,pid) {

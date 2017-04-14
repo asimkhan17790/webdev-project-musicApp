@@ -10,7 +10,8 @@ module.exports = function () {
         createplayList : createplayList ,
        // findAllSongs : findAllSongs,
         deleteplayList : deleteplayList,
-        addSongtoPlaylist : addSongtoPlaylist
+        addSongtoPlaylist : addSongtoPlaylist,
+        deleteSong :deleteSong
     };
 
     var mongoose = require('mongoose');
@@ -22,6 +23,22 @@ module.exports = function () {
     // create album
     // delete an album
     // delete an song from an album  are the possible crud operations
+    
+    function deleteSong(songId , playListId) {
+        var deferred=q.defer();
+        playListModel.update({_id: playListId},
+            {$pull: {songs: songId}},
+            function (err, result) {
+                if (err){
+                    deferred.reject(err);
+                }
+                else {
+                    deferred.resolve(result);
+                }
+            });
+
+        return deferred.promise;
+    }
 
     function addSongtoPlaylist(songId , playListId) {
         var q1 =  q.defer();

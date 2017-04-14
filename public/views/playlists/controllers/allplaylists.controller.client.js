@@ -39,8 +39,9 @@
         }
         
         function openPlaylist(playlistid) {
-            $location.url("/user/playlist/songs/" + playlistid);
+            $location.url("/user/playlist/songs/"+ vm.userId+"/"+ playlistid);
         }
+
         function deleteplayList(playList) {
             var promise = playListService.deleteplayList(playList);
             promise.success(function(playList) {

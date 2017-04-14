@@ -22,8 +22,7 @@
         init();
 
         function followUserThisPlayList (playList) {
-            $location.url("/user/userSearch/playList/songs/"+ playList._id);
-            console.log(playList);
+            $location.url("/user/userSearch/playList/songs/"+ pid +"/"+ userId+"/"+playList._id);
         }
 
         function getUserDetails() {
