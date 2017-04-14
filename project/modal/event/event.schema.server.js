@@ -10,7 +10,8 @@ module.exports = function () {
         longitude : {type : String},
         latitude : {type : String},
         dateCreated : {type : Date , default :Date.now()},
-        imageUrl : String
+        imageUrl : String,
+        _user : {type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}
 
     },{collection: 'event'});
     return eventSchema;

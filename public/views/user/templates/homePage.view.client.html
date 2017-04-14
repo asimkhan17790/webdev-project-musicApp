@@ -47,6 +47,7 @@
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
                                 <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a target="_self" >Logout</a></li>
                             </ul>
@@ -96,6 +97,23 @@
                 </div>
                 <div class="modal-body">
                     <ng-include src="'views/user/templates/searchUser.view.client.html'"></ng-include>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="inviteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Invite your friends</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/user/templates/invitation.view.client.html'"></ng-include>
                 </div>
             </div>
 

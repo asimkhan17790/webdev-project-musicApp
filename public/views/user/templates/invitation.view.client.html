@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="">
+        <div class="account-wall">
+            <form class="form-signin form-group" name="invitationForm">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <input ng-change="model.emailError=null;model.emailSuccess=null;" type="email" class="form-control search-field"
+                               placeholder="Enter Email"
+                               ng-model="model.invitationEmail"
+                               required autofocus>
+                    </div>
+                    <div class="col-xs-2">
+                        <button type="submit"
+                                class="btn btn-danger
+                                seach-button-lens"
+                                ng-click = "invitationForm.$valid && model.sendEmailInvitation()">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container-fluid">
+            <span ng-show="model.emailError"
+                  class="text-center new-account"
+                  style="z-index: 100;color: red;font-size: x-large">
+                 {{model.error}}
+            </span>
+            <span ng-show="model.emailSuccess"
+                  class="text-center new-account"
+                  style="z-index: 100;color: green;font-size: x-large">
+                {{model.emailSuccess}}
+            </span>
+        </div>
+    </div>
+</div>

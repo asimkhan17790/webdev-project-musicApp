@@ -1,0 +1,95 @@
+/**
+ * Created by sumitbhanwala on 4/6/17.
+ */
+
+module.exports = function (app ,listOfModel) {
+
+    app.post("/api/event/:uid" ,createEvent);
+    app.get("/api/event/search/:albumId",findEventById);
+    app.delete("/api/album/:eid" ,deleteEvent);
+    app.put("/api/album/:eid" ,updateEvent);
+
+    var albumModel = listOfModel.albumModel;
+    var userModel = listOfModel.UserModel;
+    var songModel = listOfModel.songModel;
+    var eventModel = listOfModel.eventModel;
+
+
+
+
+    function createEvent (req, res) {
+        var response ={};
+        // checking for existing user name
+        var event = req.body;
+        var uid = req.params.uid;
+        eventModel.createEvent(uid,event)
+
+            .then(function (createdEventId) {
+                return userModel.addEventToUser(uid, createdEventId);
+            })
+            .then(function (createdEventId) {
+                    response = {status:"OK",
+                        description:"Widget successfully created",
+                        data:createdEventId};
+                    res.json(response);
+                    return;
+                },
+                function(err) {
+                    res.json(err);
+                    return;
+                });
+
+    }
+    function findEventById(req, res) {
+
+        var eventId = req.params.eid;
+        userModel
+            .findEventById(eventId)
+            .then(function (eventFound) {
+                res.json({status:'OK',data:eventFound});
+            } , function (err) {
+                res.json({status:'KO',data:err});
+            });
+
+    }
+    function deleteEvent(req, res) {
+
+        var eventId= req.params.eid;
+        eventModel.findEventById(eventId)
+            .then(function (event) {
+                var userId=event._user;
+                eventModel.deleteEvent(eventId)
+                    .then(function () {
+                        userModel.deleteEventIdFromUser(userId, eventId)
+                            .then(function () {
+                                res.status(200).send("OK");
+                            }, function () {
+                                res.status(500).send("Some Error Occurred!!");
+                                return;
+                            })
+                    }, function () {
+                        res.status(500).send("Some Error Occurred!!");
+                        return;
+                    });
+            }, function () {
+                res.status(500).send("Some Error Occurred!!");
+                return;
+            });
+    }
+
+    function updateEvent(req, res) {
+
+        var eventId = req.params.eid;
+        var newEvent = req.body;
+
+        eventModel.updateEvent(eventId, newEvent)
+            .then(function (updatedEvent) {
+                    res.json(updatedEvent);
+                    return;
+                },
+                function(err) {
+                    res.status(500).send("Some Error Occurred!!");
+                    return;
+                });
+    }
+}

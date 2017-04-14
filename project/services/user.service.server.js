@@ -23,6 +23,8 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/searchUsers/:queryString" ,searchUsers);
     app.get("/api/user/forgotPassword/:emailAddress",forgotPasswordAndSendEmail);
     app.get("/api/user/follow/playList/:userId1/:userId2",findAllplayListAndFollowing);
+    app.get("/api/user/findAllEventsOfUser/:uid", findAllEventsOfUser);
+    app.post("/api/user/sendInvite/", sendInvitationToNonUsers);
 
 
     var userModel = listOfModel.UserModel;
@@ -30,8 +32,59 @@ module.exports = function (app ,listOfModel) {
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
 
-    // userID1 is the person whose playlists we wanna find
-    // userID2 is the second person
+    function sendInvitationToNonUsers (req, res) {
+        var requestObject = req.body;
+        var response = {};
+
+        var emailObject = {
+            to: requestObject.emailAddress,
+            from: 'asim.khan17790@gmail.com',
+            subject: 'MyMusic Invitation',
+            message: 'Hi,<br><br>' + requestObject.firstName + ' has sent you an invite to join <strong>MyMusic</strong>. Please follow the link provided below to sign up<br><br><a href="https://mymusicapp-webdev.herokuapp.com/#/"> MyMusic App </a>'
+        };
+        emailApi.sendEmail(emailObject)
+            .then(function () {
+                if (emailObject) {
+                    response.status = "OK";
+                    response.description = "Congrats...Your invitation has been sent successfully";
+                    res.json(response);
+                }
+                else {
+                    response.status = "KO";
+                    response.description = "Some Error Occured!!";
+                    res.json(response);
+                }
+
+            }, function (err) {
+            response.status = "KO";
+            response.description = "Some Error Occurred!!";
+            res.status(500).send(response);
+        });
+    }
+
+    function findAllEventsOfUser (req, res) {
+
+        var response = {};
+        var userId = req.params.uid;
+        userModel
+            .findAllEventsOfUser(userId)
+            .then(function (events) {
+                if (events) {
+                    response.status = "OK";
+                    response.data = events;
+                    res.send(response);
+                }
+                else {
+                    res.send({status:"KO",description:"No Events created yet!"});
+                }
+
+            },function (err) {
+                response.status="KO";
+                response.description="Some error occurred!!";
+                res.json(response);
+            });
+    }
+
     function findAllplayListAndFollowing(req , res) {
         var userId1 = req.params.userId1;
         var userId2 = req.params.userId2;
@@ -368,7 +421,7 @@ module.exports = function (app ,listOfModel) {
                         to: emailAddress,
                         from: 'asim.khan17790@gmail.com',
                         subject: 'Password Recovery',
-                        message: 'Your password is : <strong>' + user.password+ '</strong>',
+                        message:'Hi ' + user.firstName +',<br><br>Your username is : <strong>' + user.username + '</strong>' +'<br>Your password is : <strong>' + user.password+ '</strong>',
                     };
                     return emailApi.sendEmail(emailObject);
                 }
