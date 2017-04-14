@@ -1,10 +1,10 @@
 <div class="col-sm-6" ng-show="model.musicArticles" style="margin-bottom:50px">
     <div class="mymusic-shortcode-events" style="background: rgba(0, 0, 0, .7);">
         <div >
-            <h2 class="ak-event-title" style="text-transform: uppercase;padding-top: 20px">
+            <h2 class="ak-event-title glorify" style="text-transform: uppercase;padding-top: 20px">
                 Trending <span>Now</span>
             </h2>
-            <p class="ak-ds">
+            <p class="ak-ds glorify">
                 All the trending Topics from around the Music Industry
             </p>
         </div>
@@ -17,8 +17,9 @@
                             <div uib-slide ng-repeat="article in model.musicArticles" index="$index" style="height: 400px;">
                                 <img class="img-responsive" ng-src="{{article.urlToImage}}" >
                                 <div class="carousel-caption">
-                                    <h4><a href="{{article.url}}">{{article.title}}</a></h4>
-                                    <p>By {{article.author}}</p>
+                                    <a  target="_blank" href="{{article.url}}">
+                                    <h4 style="font-weight: bold;font-size: large">{{article.title}}</h4>
+                                    <p class="redify" style="font-size: medium;font-style: italic">By {{article.author}}</p></a>
                                 </div>
                             </div>
                         </div>

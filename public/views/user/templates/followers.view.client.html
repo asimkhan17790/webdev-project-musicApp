@@ -9,13 +9,13 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="navbar-header">
-                    <a class="navbar-brand">
+                    <a class="navbar-brand glorify">
                         <span style="color: red;font-family:Helvetica">My</span>Music
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
-                    <ul class="nav navbar-nav pull-right  visible-sm visible-md visible-lg">
 
+                    <ul class="nav navbar-nav header-ul">
                         <li class="dropdown">
                             <a href="#" target="_self"
                                class="dropdown-toggle"
@@ -25,17 +25,16 @@
                                aria-expanded="false">Search <span class="caret"></span></a>
 
                             <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self" aria-expanded="false">Music</a></li>
+                                <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
 
                             </ul>
                         </li>
-                        <li class="nav-item"><a href="#/">Home</a></li>
-                        <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
+                        <li class="nav-item glorifyExtra"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followersLength}}</span></a></li>
                         <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item"><a>Events</a></li>
-
+                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
                         <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
@@ -47,87 +46,30 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a target="_self" >Logout</a></li>
+                                <li><a style="color: white;" target="_self" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
-
-                    <ul class="nav navbar-nav pull-left hidden-md visible-xs hidden-lg">
-                        <li class="dropdown">
-                            <a href="#" target="_self"
-                               class="dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Search <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self">Music</a></li>
-                                <!--<li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                               &lt;!&ndash; <li class="dropdown-header">Nav header</li>&ndash;&gt;
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="#">One more separated link</a></li>-->
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item"><a>Events</a></li>
-                        <li class="nav-item"><a href="#/music/recordAndSearch/{{model.userId}}" style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
-                        <li class="nav-item">
-                            <a class="glyphicon glyphicon-cog dropdown-toggle"
-                               target="_self"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false"></a>
-
-                            <ul class="dropdown-menu" id="profileHeaderCogPhone">
-                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
-
-                                <li><a target="_self" >Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <!--<div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
-                        <form class="navbar-form navbar-right" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search" />
-                            </div>
-                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        </form>
-                    </div>-->
                 </div>
-
             </div>
         </nav>
     </div>
 
 
-    <div class="container">
-        <div ng-show="model.error" class="alert alert-danger animate-top" role="alert">
-           <!-- <span data-dismiss="alert" aria-label="close" class="closebtn" ng-click="model.error=null;">&times;</span>-->
-            {{model.error}}
-        </div>
-    </div>
 
-    <div ng-show="model.followers.length > 0"
-         style="background-color: black;
-         background:rgba(0,0,0,0.9);margin-top: 50px;"
-         class="container">
+
+    <div class="container black-container">
         <div class="row">
             <div class="pull-left col-xs-12">
-                <h1> My Followers </h1>
+                <h1 class="glorifyExtra"> <span class="redify">My</span> Followers </h1>
             </div>
         </div>
         <hr size="30">
         <!-- List -->
-        <div >
+        <div ng-show="model.followers.length > 0">
             <ul  class="list-group" style="overflow-y: auto;height: 250px">
                 <li ng-repeat="user in model.followers" class="list-group-item">
                     <div class="row">
@@ -147,6 +89,13 @@
                   </div>-->
                 </li>
             </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div ng-show="model.error" class="alert alert-danger animate-top" role="alert">
+            <!-- <span data-dismiss="alert" aria-label="close" class="closebtn" ng-click="model.error=null;">&times;</span>-->
+            {{model.error}}
         </div>
     </div>
 
