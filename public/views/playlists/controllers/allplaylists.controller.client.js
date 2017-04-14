@@ -20,6 +20,7 @@
         vm.newplayList = null;
         vm.createPlayList = createPlayList;
         vm.openPlaylist = openPlaylist
+        vm.deleteplayList = deleteplayList ;
         function init() {
             findAllPlayList();
         }
@@ -39,6 +40,17 @@
         
         function openPlaylist(playlistid) {
             $location.url("/user/playlist/songs/" + playlistid);
+        }
+        function deleteplayList(playList) {
+            var promise = playListService.deleteplayList(playList);
+            promise.success(function(playList) {
+                if(playList){
+                    init();
+                }
+            })
+            promise.error(function (err) {
+                vm.error = "PlayList Not found";
+            })
         }
 
         function createPlayList () {
