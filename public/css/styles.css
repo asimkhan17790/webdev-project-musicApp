@@ -260,6 +260,7 @@ a {
 a:focus, a:hover {
     color: red;
     text-decoration: underline;
+    text-shadow: 1px 4px 10px #fff;
 }
 
 input:required:invalid, input:focus:invalid {
