@@ -6,8 +6,8 @@ module.exports = function (app ,listOfModel) {
 
     app.post("/api/event/:uid" ,createEvent);
     app.get("/api/event/search/:albumId",findEventById);
-    app.delete("/api/album/:eid" ,deleteEvent);
-    app.put("/api/album/:eid" ,updateEvent);
+    app.delete("/api/event/:eid" ,deleteEvent);
+    app.put("/api/event/:eid" ,updateEvent);
 
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
@@ -29,7 +29,7 @@ module.exports = function (app ,listOfModel) {
             })
             .then(function (createdEventId) {
                     response = {status:"OK",
-                        description:"Widget successfully created",
+                        description:"Event successfully created",
                         data:createdEventId};
                     res.json(response);
                     return;
@@ -53,7 +53,7 @@ module.exports = function (app ,listOfModel) {
 
     }
     function deleteEvent(req, res) {
-
+        
         var eventId= req.params.eid;
         eventModel.findEventById(eventId)
             .then(function (event) {
@@ -81,10 +81,14 @@ module.exports = function (app ,listOfModel) {
 
         var eventId = req.params.eid;
         var newEvent = req.body;
-
+        var response = {};
         eventModel.updateEvent(eventId, newEvent)
             .then(function (updatedEvent) {
-                    res.json(updatedEvent);
+                    response = {
+                        status:"OK",
+                        description:"Event successfully updated",
+                        data:updatedEvent};
+                    res.json(response);
                     return;
                 },
                 function(err) {

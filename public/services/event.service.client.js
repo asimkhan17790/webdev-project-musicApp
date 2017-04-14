@@ -9,7 +9,9 @@
             searchNearByEvents: searchNearByEvents,
             searchEventCategories : searchEventCategories,
             createEvent : createEvent,
-            getAllEventsOfUser : getAllEventsOfUser
+            getAllEventsOfUser : getAllEventsOfUser,
+            updateEvent : updateEvent,
+            deleteEvent : deleteEvent
         };
 
         return api;
@@ -20,6 +22,13 @@
 
         function createEvent (event,userId) {
             return $http.post("/api/event/"+userId, event);
+        }
+        function updateEvent (event) {
+            return $http.put("/api/event/" + event._id, event);
+        }
+        function deleteEvent(event) {
+            return $http.delete("/api/event/" + event._id, event);
+
         }
         function searchNearByEvents (inputFilter) {
             return $http.post("/api/eventbrite/events", inputFilter);

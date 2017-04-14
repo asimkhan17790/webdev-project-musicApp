@@ -8,12 +8,20 @@
 
         var vm = this;
         vm.userId = $routeParams.uid ;
-        vm.createNewEvent = createNewEvent;
         vm.error = null;
         vm.success = null;
         vm.events = null;
         vm.noEventsFound = null;
+        vm.editMode = false;
+        vm.deleteEvent = deleteEvent;
+
+
+        vm.createNewEvent = createNewEvent;
         vm.closeModal = closeModal;
+        vm.editEvent = editEvent;
+        vm.updateEvent = updateEvent;
+        vm.createMode = createMode;
+        vm.selectEventToDelete = selectEventToDelete;
         function init() {
             console.log('Event Org Page controller');
             getUserDetails ();
@@ -22,12 +30,93 @@
         }
         init();
 
+        function deleteEvent() {
+
+            if (vm.event) {
+                var promise = EventService.deleteEvent(vm.event);
+                promise.success(function (response) {
+
+                        if (response && response==='OK') {
+                            vm.success = "Event deleted successfully";
+                            vm.error= null;
+
+                            $timeout(function () {
+                                closeModal();
+                                vm.success = null;
+                                getAllEventsOfUser ();
+                            }, 550);
+                        }
+                        else {
+                        vm.error= "Some error occurred";
+                        vm.success = null;
+                    }
+                }).error(function (err) {
+                    vm.error = "Some Error Occurred!!";
+                });
+            }
+            else {
+                vm.error = "Some Error Occurred";
+            }
+        }
+        function selectEventToDelete(selectedEvent) {
+            vm.event = angular.copy(selectedEvent);
+            vm.event.startDate = new Date(vm.event.startDate);
+            vm.event.endDate = new Date(vm.event.endDate);
+        }
         function closeModal() {
             vm.error = null;
             vm.success = null;
             vm.noEventsFound = null;
             vm.event = null;
             $('.modal').modal('hide');
+        }
+
+        function editEvent (selectedEvent) {
+            vm.editMode = true;
+            vm.event = angular.copy(selectedEvent);
+            vm.event.startDate = new Date(vm.event.startDate);
+            vm.event.endDate = new Date(vm.event.endDate);
+
+        }
+        function createMode (selectedEvent) {
+            vm.editMode = false;
+
+
+        }
+        function updateEvent() {
+            if (vm.event) {
+                var promise = EventService.updateEvent(vm.event);
+                promise.success(function (response) {
+                    if (response) {
+                        if (response.status === "OK" && response.data) {
+                            vm.success = "Event updated successfully";
+                            vm.error= null;
+
+                            $timeout(function () {
+                                closeModal();
+                                getAllEventsOfUser ();
+                            }, 550);
+                        }
+                        else {
+                            if (response.description) {
+                                vm.error= response.description;
+                            }else {
+                                vm.error = "Some error occurred";
+                            }
+                            vm.success = null;
+                        }
+                    }
+                    else {
+                        vm.error= "Some error occurred";
+                        vm.success = null;
+                    }
+                }).error(function (err) {
+                    vm.error = "Some Error Occurred!!";
+                });;
+            }
+            else {
+                vm.error = "Some Error Occurred";
+            }
         }
 
         function createNewEvent() {
@@ -57,12 +146,14 @@
                             vm.error= "Some error occurred";
                             vm.success = null;
                         }
+                    }).error(function (err) {
+                        vm.error = "Some Error Occurred!!";
                     });
 
 
             }
             else {
-                vm.error = "Field missing";
+                vm.error = "Some Error Occurred";
             }
         }
 

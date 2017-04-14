@@ -27,7 +27,8 @@
                  <div class="row">
                      <div class="col-xs-6 col-md-6">
                          <label for="startDate">Start Date</label>
-                         <input id="startDate" ng-change="model.error=null" type="datetime-local" name="startDate"  required class="form-control input-lg" ng-model="model.event.startDate" placeholder="Start Date"/>
+                         <input id="startDate" ng-change="model.error=null" type="datetime-local" name="startDate"  required class="form-control input-lg" ng-model="model.event.startDate" ng-bind="model.event.startDate"
+                               />
                      </div>
                      <div class="col-xs-6 col-md-6">
                          <label for="startDate">End Date</label>
@@ -59,8 +60,15 @@
                         <input  type="radio" name="gender" ng-model="model.user.gender" value="F" id=female ng-required="model.userType.userType == 'U'"/>Female
                     </label>
                 </div>-->
-                <br/>
-                <button class="btn btn-lg btn-primary btn-block signup-btn" ng-click="eventForm.$valid && model.createNewEvent()" type="submit">Create Event</button>
+                    <br/></div>
+                <button ng-show="!model.editMode"
+                        class="btn btn-lg btn-primary btn-block signup-btn"
+                        ng-click="eventForm.$valid && model.createNewEvent()"
+                        type="submit">Create Event</button>
+                <button ng-show="model.editMode"
+                        class="btn btn-lg btn-primary btn-block signup-btn"
+                        ng-click="eventForm.$valid && model.updateEvent()"
+                        type="submit">Update Event</button>
             </form>
         </div>
     </div>

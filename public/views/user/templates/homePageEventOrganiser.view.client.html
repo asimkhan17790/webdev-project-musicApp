@@ -82,7 +82,7 @@
 
                 <!!-- Button -->
                 <div class="mymusic-view-event" style="margin-top: 10px;margin-bottom:20px;">
-                    <a data-toggle="modal" data-target="#myModalSignup" target="_self">Create New Event</a>
+                    <a ng-click="model.createMode()" data-toggle="modal" data-target="#myModalSignup" target="_self">Create New Event</a>
                 </div>
                 <div ng-show="model.noEventsFound" class="text-center">
                     <span  style="z-index: 100;color: red;font-size: x-large">
@@ -96,10 +96,10 @@
                     {{event.startDate | date : "dd"}} <span class="month">{{event.startDate | date : "MMMM"}} </span>
                 </span>
                         <div >
-                            <img  class="mymusic-thumbnail" ng-src="{{event.logo.original.url || '../../../resources/images/defaultEvent.jpg'}} ">
+                            <img  class="mymusic-thumbnail" ng-src="{{event.imageUrl || '../../../resources/images/defaultEvent.jpg'}} ">
                         </div>
                         <div class="mymusic-shevent-content">
-                            <h4><a target="_blank" ng-href="{{event.url}}">{{event.name.text}}</a></h4>
+                            <h4><a target="_blank">{{event.eventName}}</a></h4>
                             <div class="ak-meta">
 														<span class="ak-date">
 															<i class="fa fa-clock-o"></i>
@@ -115,6 +115,21 @@
                                     <i class="fa fa-map-marker"></i>
                                     {{event.venue}}
                                 </span>
+                                <a  style="font-size: xx-large"
+                                    class="glyphicon glyphicon-remove pull-right"
+                                    data-toggle="modal"
+                                    data-target="#myModalDelete"
+                                    target="_self"
+                                    ng-click="model.selectEventToDelete(event)">
+                                </a>
+                                    <a  style="font-size: xx-large"
+                                        class="glyphicon glyphicon-cog pull-right"
+                                        data-toggle="modal"
+                                        data-target="#myModalSignup"
+                                        target="_self"
+                                        ng-click="model.editEvent(event)">
+                                    </a>
+
                             </div>
                             <div class="ak-excerpt">
                                 <p style="color: grey" ng-bind-html="event.description | excerpt:300">
@@ -131,16 +146,16 @@
     </div>
 
     <!-- Profile Search Modal-->
-    <div id="profileSearchModal" class="modal fade" role="dialog">
+    <div id="myModalDelete" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
-                    <h4 class="modal-title">Search Users/Artists</h4>
+                    <h4 class="modal-title">Delete Event</h4>
                 </div>
                 <div class="modal-body">
-                    <ng-include src="'views/user/templates/searchUser.view.client.html'"></ng-include>
+                    <ng-include src="'views/events/templates/deleteEvent.view.client.html'"></ng-include>
                 </div>
             </div>
 
