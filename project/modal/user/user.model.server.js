@@ -93,7 +93,7 @@ module.exports = function () {
     }
     function searchUsers (searchArray ,userId) {
         var q1 =  q.defer();
-        UserModel.find({ $and:[ { $text: { $search: searchArray }},{ _id:{ $ne: userId }} ,{userType:{ $ne: "A" }}]}, {password : 0},function (err ,users) {
+        UserModel.find({ $and:[ { $text: { $search: searchArray }},{ _id:{ $ne: userId }} ,{userType:{ $ne: "A" }},{userType:{ $ne: "E" }}]}, {password : 0},function (err ,users) {
             if(err)
                 q1.reject();
             else

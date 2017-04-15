@@ -6,7 +6,7 @@
         .module("WebDevMusicApp")
         .controller("FollowerController", FollowerController);
 
-    function FollowerController ($location ,$routeParams ,UserService ,Upload) {
+    function FollowerController ($location ,$routeParams ,UserService,$timeout,EmailService) {
         var vm = this;
         vm.userId = $routeParams['uid'];
         vm.followers = null;
@@ -15,24 +15,53 @@
         vm.searchUsers = searchUsers ;
         vm.clearUserFromModal  = clearUserFromModal;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
+        vm.sendEmailInvitation = sendEmailInvitation;
         function init() {
             getUserDetails();
             var promise = UserService.findFollowersById(vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.followers = result.data;
-                    vm.error = null;
+                    vm.follError = null;
                 } else {
                     vm.followers = null;
-                    vm.error = "You have no followers ";
+                    vm.follError = "You have no followers ";
                 }
             }).error(function () {
                 vm.followers = null;
-                vm.error = "Some Error Occurred!! Please try again!";
+                vm.follError = "Some Error Occurred!! Please try again!";
             });
 
         }
         init();
+
+        function sendEmailInvitation () {
+            var emailInput = {
+                emailAddress: vm.invitationEmail,
+                firstName : vm.user.firstName
+            };
+            var promise = EmailService.sendEmailInvitation(emailInput);
+            promise.success (function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.emailSuccess = result.description;
+                    }
+                    else {
+                        vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
+                    }
+                    vm.invitationEmail = null;
+                    /*  $timeout(function () {
+                     closeModal();
+                     }, 2000);*/
+                } else {
+                    vm.emailSuccess = null;
+                    vm.emailError = "Some Error Occurred";
+                }
+            }).error(function () {
+                vm.emailSuccess = null;
+                vm.emailError = "Some Error Occurred";
+            });
+        }
         function closeModal() {
 
             $('.modal').modal('hide');
@@ -52,18 +81,18 @@
                             $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
                         }
                     }, 250);
-                    vm.error = null;
+                    vm.follError = null;
                 } else {
-                    vm.error = "Some Error Occurred!! Please try again!";
+                    vm.follError = "Some Error Occurred!! Please try again!";
                 }
 
             }).error(function () {
-                vm.error = "Some Error Occurred!! Please try again!";
+                vm.follError = "Some Error Occurred!! Please try again!";
             });
         }
 
         function searchUsers () {
-            var promise = UserService.searchUsers(vm.inputQuery);
+            var promise = UserService.searchUsers(vm.inputQuery ,vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.users = result.data;
@@ -83,19 +112,23 @@
                 if (result && result.status==='OK' && result.data) {
                     vm.followersLength = result.data.followers.length ;
                     vm.following = result.data.following.length ;
-                    vm.error = null;
+                    vm.user = result.data;
+                    vm.follError = null;
                 } else {
-                    vm.error = "Some Error Occurred!! Please try again!";
+                    vm.follError = "Some Error Occurred!! Please try again!";
                 }
 
             }).error(function () {
-                vm.error = "Some Error Occurred!! Please try again!";
+                vm.follError = "Some Error Occurred!! Please try again!";
             });
         }
         function clearUserFromModal() {
             vm.users = null;
             vm.error = null;
             vm.inputQuery = null;
+            vm.emailSuccess = null;
+            vm.emailError = "null";
+
         }
 
     }

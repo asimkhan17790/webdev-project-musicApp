@@ -47,7 +47,7 @@
                     else {
                         vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
                     }
-
+                    vm.invitationEmail = null;
                   /*  $timeout(function () {
                             closeModal();
                     }, 2000);*/

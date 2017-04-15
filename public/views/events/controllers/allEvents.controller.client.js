@@ -7,7 +7,7 @@
         })
         .controller("UpcomingEventsController", UpcomingEventsController);
 
-    function UpcomingEventsController ($location,UserService,EventService, $sce,$timeout,$routeParams) {
+    function UpcomingEventsController ($location,UserService,EventService, $sce,$timeout,$routeParams,EmailService) {
 
         var vm = this;
         vm.tab=null;
@@ -24,6 +24,8 @@
         vm.searchUsers = searchUsers;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.numberOfPages=0;
+        vm.sendEmailInvitation = sendEmailInvitation;
+        vm.closeModal = closeModal;
         function showSpinner() {
             if (!vm.recordingFlag) {
                 vm.recordingFlag = true;
@@ -66,12 +68,13 @@
             });
         }
         function closeModal() {
-
+            vm.emailSuccess = null;
+            vm.emailError = null;
             vm.error = null;
             $('.modal').modal('hide');
         }
         function searchUsers () {
-            var promise = UserService.searchUsers(vm.inputQuery);
+            var promise = UserService.searchUsers(vm.inputQuery,vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.users = result.data;
@@ -110,6 +113,31 @@
 
             }).error(function () {
                 vm.noEventsFound = "Some Error Occurred!!";
+            });
+        }
+        function sendEmailInvitation () {
+            var emailInput = {
+                emailAddress: vm.invitationEmail,
+                firstName : vm.user.firstName
+            };
+            var promise = EmailService.sendEmailInvitation(emailInput);
+            promise.success (function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.emailSuccess = result.description;
+                    }
+                    else {
+                        vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
+                    }
+                    vm.invitationEmail = null;
+
+                } else {
+                    vm.emailSuccess = null;
+                    vm.emailError = "Some Error Occurred";
+                }
+            }).error(function () {
+                vm.emailSuccess = null;
+                vm.emailError = "Some Error Occurred";
             });
         }
 
@@ -169,6 +197,7 @@
                     vm.followers = result.data.followers.length ;
                     vm.following = result.data.following.length ;
                     vm.error = null;
+                    vm.user = result.data;
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }

@@ -6,7 +6,7 @@
         .module("WebDevMusicApp")
         .controller("FollowingController", FollowingController);
 
-    function FollowingController ($location ,$routeParams ,UserService ,$timeout) {
+    function FollowingController ($location ,$routeParams ,UserService ,$timeout,EmailService) {
         var vm = this;
         vm.userId = $routeParams['uid'];
         vm.following = null;
@@ -17,22 +17,22 @@
         vm.followersLength=null;
         vm.searchUsers = searchUsers ;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
+        vm.sendEmailInvitation = sendEmailInvitation;
         function init() {
             getUserDetails();
             var promise = UserService.findFollowingById(vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.following = result.data;
-                    vm.error = null;
+                    vm.follError = null;
                 } else {
                     vm.following = null;
-                    vm.error = "You are not following anyone currently";
+                    vm.follError = "You are not following anyone currently";
                 }
             }).error(function () {
                 vm.following = null;
-                vm.error = "Some Error Occurred!! Please try again!";
+                vm.follError = "Some Error Occurred!! Please try again!";
             });
-
         }
         init();
 
@@ -43,12 +43,40 @@
                     vm.followers = result.data.followers.length ;
                     vm.followingLength = result.data.following.length ;
                     vm.error = null;
+                    vm.user = result.data;
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }
 
             }).error(function () {
                 vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
+        function sendEmailInvitation () {
+            var emailInput = {
+                emailAddress: vm.invitationEmail,
+                firstName : vm.user.firstName
+            };
+            var promise = EmailService.sendEmailInvitation(emailInput);
+            promise.success (function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.emailSuccess = result.description;
+                    }
+                    else {
+                        vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
+                    }
+                    vm.invitationEmail = null;
+                    /*  $timeout(function () {
+                     closeModal();
+                     }, 2000);*/
+                } else {
+                    vm.emailSuccess = null;
+                    vm.emailError = "Some Error Occurred";
+                }
+            }).error(function () {
+                vm.emailSuccess = null;
+                vm.emailError = "Some Error Occurred";
             });
         }
         function searchUsers () {
@@ -98,6 +126,8 @@
             vm.users = null;
             vm.error = null;
             vm.inputQuery = null;
+            vm.emailSuccess = null;
+            vm.emailError = null;
         }
 
     }
