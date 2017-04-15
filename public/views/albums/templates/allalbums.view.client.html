@@ -9,14 +9,14 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="navbar-header">
-                    <a class="navbar-brand">
+                    <a class="navbar-brand glorify">
                         <span style="color: red;font-family:Helvetica">My</span>Music
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
-                    <ul class="nav navbar-nav pull-right  visible-sm visible-md visible-lg">
 
-                        <li class="dropdown">
+                    <ul class="nav navbar-nav header-ul">
+                        <li class="dropdown" ng-show="model.user.userType==='U'">
                             <a href="#" target="_self"
                                class="dropdown-toggle"
                                data-toggle="dropdown"
@@ -25,16 +25,16 @@
                                aria-expanded="false">Search <span class="caret"></span></a>
 
                             <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self" aria-expanded="false">Music</a></li>
+                                <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
 
                             </ul>
                         </li>
-                        <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a>Albums</a></li>
-                        <li class="nav-item"><a>Events</a></li>
-                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
 
+
+                        <li  class="nav-item"><a href="#/user/userHomePageSinger/{{model.userId}}">Home</a></li>
+                        <li  class="nav-item glorifyExtra"><a href="#/music/myalbums/{{model.userId}}">Albums</a></li>
+                        <li class="nav-item"><a class="" href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
                                target="_self"
@@ -44,64 +44,24 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a target="_self" >Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <ul class="nav navbar-nav pull-left hidden-md visible-xs hidden-lg">
-                        <li class="dropdown">
-                            <a href="#" target="_self"
-                               class="dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Search <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self">Music</a></li>
-                                <!--<li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                               &lt;!&ndash; <li class="dropdown-header">Nav header</li>&ndash;&gt;
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="#">One more separated link</a></li>-->
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a>Albums</a></li>
-                        <li class="nav-item"><a>Events</a></li>
-                        <li class="nav-item"><a href="#/music/recordAndSearch/{{model.userId}}" style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
-                        <li class="nav-item">
-                            <a class="glyphicon glyphicon-cog dropdown-toggle"
-                               target="_self"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false"></a>
-
-                            <ul class="dropdown-menu" id="profileHeaderCogPhone">
-                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
-
-                                <li><a target="_self" >Logout</a></li>
+                                <li><a style="color: white;" target="_self" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-
             </div>
         </nav>
     </div>
     <div style="background-color: black; background:rgba(0,0,0,0.8);margin-top: 50px;" class="container">
 
         <div class="row">
-            <div class="pull-left col-xs-12 col-sm-6">
-                <h1 class="ak-myplaylist-heading"> <span style="color: red;">My</span> albums </h1>
+            <div class="pull-left col-xs-12 col-sm-6 glorifyExtra">
+                <h1 class="ak-myplaylist-heading"> <span class="redify">My</span> Albums </h1>
             </div>
-            <div class="col-xs-12 col-sm-6 ak-createplaylist-button-div" style="padding: 20px">
-                <button style="width: 200px;" class="pull-right btn btn-lg btn-danger btn-block ak-createplaylist-button" data-toggle="modal" data-target="#myModal"
+            <div class="col-xs-12 col-sm-6 text-center " style="padding: 20px;align-content: center">
+                <button style="width: 200px;" class="btn btn-lg btn-danger " data-toggle="modal" data-target="#myModal"
                         type="button">
                     Create Album</button>
             </div>
@@ -122,7 +82,9 @@
                             <!--   <span>{{$index+1}}</span>-->
 
                         </div>
-                        <div class="col-xs-6">{{album.albumname}} </div>
+                        <div  class="col-xs-6">
+                            <a ng-click="model.openAlbum(album._id)">
+                                {{album.albumname}} </a> </div>
                         <div class="col-xs-2 pull-right">
                             <a ng-click="model.deletethisAlbum(album)" class="glyphicon glyphicon-remove"></a>
                         </div>

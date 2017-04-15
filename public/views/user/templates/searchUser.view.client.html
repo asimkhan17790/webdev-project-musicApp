@@ -7,14 +7,11 @@
                             <input type="text" class="form-control search-field"
                                    placeholder="Search here"
                                    ng-model="model.inputQuery"
-
                                    required autofocus>
                         </div>
                         <div class="col-xs-2">
                             <button type="submit" class="btn btn-danger seach-button-lens" ng-click = "model.searchUsers()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                         </div>
-
-
                     </div>
                     <!--<button style="margin-top: 30px" class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.searchProfile()">
                         Search
@@ -43,7 +40,7 @@
 
                             <div class="pull-left col-xs-9">
                                 <a ng-click="model.redirectToSearchedUser(user._id)" >
-                                    {{user.lastName + ", " + user.firstName}}
+                                    {{user.firstName + ' '+user.lastName}}
                                 </a>
                                 <!--ng-href="{{event.url}}"-->
                                 <!--<a class="glyphicon glyphicon-bookmark pull-right" style="position: relative;right:-3px"></a>

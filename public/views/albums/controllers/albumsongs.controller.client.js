@@ -129,15 +129,17 @@
 
         function findAllSongsForAlbum() {
             var promise = albumService.findAllSongs(vm.albumId);
+            if( vm.pid == null)
+                vm.isOwner = true ;
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.songs.length > 0) {
                     //     console.log(result.data);
                     vm.album = result.data;
                     console.log(vm.album);
                     console.log(vm.userId);
-                    if(!vm.pid)
-                        vm.isOwner = true ;
-                   else if((vm.pid !=null) && (vm.album.albumOwner ===  vm.pid))
+                    // if( vm.pid == null)
+                    //     vm.isOwner = true ;
+                   if((vm.pid !=null) && (vm.album.albumOwner ===  vm.pid))
                         vm.isOwner = true ;
                     else if( (vm.pid !=null) &&(vm.album.albumOwner !=  vm.pid))
                         vm.isOwner = false ;

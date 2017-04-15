@@ -10,6 +10,7 @@ module.exports = function (app) {
 
     var q = require('q');
     var AWS = require('aws-sdk');
+  //  AWS.config.loadFromPath('./config.json');
     var uuid = require('uuid');
 
     var fs = require('fs');
@@ -24,7 +25,7 @@ module.exports = function (app) {
 
     function uploadMusicAws (musicObject , key) {
         var q1 =  q.defer() ;
-        keyName =  key ;
+        var keyName =  key ;
         // console.log("Object is public at https://s3.amazonaws.com/" +
         //    params.Bucket + "/" + params.Key);
         var params = {Bucket: musicbucketName,
@@ -42,7 +43,7 @@ module.exports = function (app) {
 
     function uploadImageAws (imageObject , key) {
         var q1 =  q.defer() ;
-        keyName =  key ;
+        var keyName =  key ;
         // console.log("Object is public at https://s3.amazonaws.com/" +
         //    params.Bucket + "/" + params.Key);
         var params = {Bucket: imagebucketName,

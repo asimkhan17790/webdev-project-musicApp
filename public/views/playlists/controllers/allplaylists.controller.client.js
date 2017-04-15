@@ -8,7 +8,7 @@
         .controller("AllPlayListController",PlayListController);
 
 
-    function PlayListController($location,$timeout,$sce,UserService,$routeParams,playListService) {
+    function PlayListController(EmailService,$location,$timeout,UserService,$routeParams,playListService) {
 
         var vm = this;
         vm.followers = null ;
@@ -26,6 +26,7 @@
         vm.selectPlaylist = selectPlaylist;
         vm.searchUsers = searchUsers;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
+        vm.sendEmailInvitation = sendEmailInvitation;
         function init() {
             getUserDetails();
             findAllPlayList();
@@ -62,13 +63,19 @@
             vm.error = null;
             vm.createError = null;
             vm.newplayList = null;
-        }
-        function closeModal() {
+            vm.inputQuery = null;
+            vm.invitationEmail = null;
+            vm.emailSuccess = null;
+            vm.emailError = null;
             vm.newplayList = null;
             vm.createError = null;
             vm.createSuccess = null;
             vm.selectedPlaylistToDelete = null;
-            vm.error = null;
+
+        }
+
+        function closeModal() {
+            clearDataFromModal();
             $('.modal').modal('hide');
         }
         function getUserDetails() {
@@ -79,6 +86,7 @@
                     vm.following = result.data.following.length ;
                     vm.error = null;
                     vm.favorite = result.data.favPlayList;
+                    vm.user = result.data;
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }
@@ -88,7 +96,7 @@
             });
         }
         function searchUsers () {
-            var promise = UserService.searchUsers(vm.inputQuery);
+            var promise = UserService.searchUsers(vm.inputQuery ,vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.users = result.data;
@@ -139,6 +147,33 @@
                 vm.createSuccess = null;
                 vm.createError = "Some Error Occurred" ;
             })
+        }
+        function sendEmailInvitation () {
+            var emailInput = {
+                emailAddress: vm.invitationEmail,
+                firstName : vm.user.firstName
+            };
+            var promise = EmailService.sendEmailInvitation(emailInput);
+            promise.success (function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.emailSuccess = result.description;
+                    }
+                    else {
+                        vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
+                    }
+                    vm.invitationEmail = null;
+                    /*  $timeout(function () {
+                     closeModal();
+                     }, 2000);*/
+                } else {
+                    vm.emailSuccess = null;
+                    vm.emailError = "Some Error Occurred";
+                }
+            }).error(function () {
+                vm.emailSuccess = null;
+                vm.emailError = "Some Error Occurred";
+            });
         }
 
         function findAllPlayList() {
