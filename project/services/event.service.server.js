@@ -69,7 +69,6 @@ module.exports = function (app ,listOfModel) {
 
     }
     function deleteEvent(req, res) {
-
         var eventId= req.params.eid;
         eventModel.findEventById(eventId)
             .then(function (event) {

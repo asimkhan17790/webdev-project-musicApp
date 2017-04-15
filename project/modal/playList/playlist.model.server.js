@@ -11,7 +11,8 @@ module.exports = function () {
        // findAllSongs : findAllSongs,
         deleteplayList : deleteplayList,
         addSongtoPlaylist : addSongtoPlaylist,
-        deleteSong :deleteSong
+        deleteSong :deleteSong ,
+        deleteallplayLists : deleteallplayLists ,
     };
 
     var mongoose = require('mongoose');
@@ -23,7 +24,21 @@ module.exports = function () {
     // create album
     // delete an album
     // delete an song from an album  are the possible crud operations
-    
+
+
+    function deleteallplayLists(playLists) {
+        var q1 =  q.defer();
+        playListModel.find({'_id': {'$in': playLists}}, function (err, playLists) {
+            if (err) {
+                q1.reject();
+            }
+            else
+                q1.resolve(playLists);
+        });
+        return q1.promise;
+    }
+
+
     function deleteSong(songId , playListId) {
         var deferred=q.defer();
         playListModel.update({_id: playListId},

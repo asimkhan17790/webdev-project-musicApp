@@ -15,7 +15,9 @@
             "findAllSongs" : findAllSongs ,
             "deleteplayList" : deleteplayList ,
             "addSongtoPlayList": addSongtoPlayList,
-            "deleteSongFromPlayList" :deleteSongFromPlayList
+            "deleteSongFromPlayList" :deleteSongFromPlayList,
+            "createSongFromSpotify" : createSongFromSpotify
+           /* "addSongToFavorite" : addSongToFavorite*/
         }
         return api;
 
@@ -38,10 +40,19 @@
             return $http.post("/api/playList", playList);
         }
 
+
+        function createSongFromSpotify(newSong,playlistId) {
+            console.log("Song is" + newSong);
+            return $http.post("/api/playList/createNewSong/"+playlistId, newSong);
+        }
+
         function deleteplayList (playList) {
             console.log("inside the delete part on the clinet side");
             return $http.delete("/api/playList/"+playList._id);
         }
+       /* function addSongToFavorite(newSong,playlistId) {
+            return $http.post("/api/playList/createSongInFavorite/" + playlistId, newSong);
+        }*/
 
     }
 })();

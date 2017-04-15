@@ -67,8 +67,12 @@
                             else if(response.user.userType === "E") {
                                 $location.url("/user/userHomeEventOrg/" + response.user._id);
                             }
-                            else {
-                                $location.url("/user/forgotPassword");
+                            else if(response.user.userType === "A"){
+                                $location.url("/user/adminHomePage/" + response.user._id);
+                            }
+                            else
+                            {
+                                $location.url("/");
                             }
                         }, 350);
                     }
@@ -137,7 +141,6 @@
 
                 }
             ).error(function (err) {
-
                 if (err && err.description) {
                     vm.error = err.description;
                 }

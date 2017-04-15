@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <span ng-show="model.errorad"  style="z-index: 100;color: red;font-size: x-large">
+        {{model.errorad}}
+    </span>
+    <div class="row">
+       <!-- <div class="col-sm-offset-1 col-sm-2">
+        </div>-->
+        <div class="col-sm-12">
+            <form class="form-group" autocomplete="off" role="form" name="signUpForm">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <input ng-change="model.errorad = null" type="text" name="firstname" required class="form-control input-lg" ng-model="model.userad.firstName"  placeholder="First Name"/> </div>
+                    <div class="col-xs-6 col-md-6">
+                        <input ng-change="model.errorad =null" type="text" name="lastname" required class="form-control input-lg"  ng-model="model.userad.lastName" placeholder="Last Name"/> </div>
+                </div>
+                <input ng-change="model.errorad=null" type="text" name="email"  required class="form-control input-lg" ng-model="model.userad.email" placeholder="Your Email"/>
+                <input ng-change="model.errorad=null" type="text" name="username" required  class="form-control input-lg" ng-model="model.userad.username" placeholder="userName"/>
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <input ng-change="model.errorad =null" type="text" name="phone" required class="form-control input-lg" ng-model="model.userad.phone" placeholder="Phone #"/>
+                    </div>
+                    <div class="col-xs-6 col-md-6">
+                        <select ng-change="model.errorad =null" required class = "form-control" style="height: 46px;"  name="singleSelect" ng-model="model.userTypead" ng-options="x.label for x in model.userOptionsad">
+                        </select>
+                        <br>
+                    </div>
+                </div>
+                <input ng-change="model.errorad =null" type="password" required name="password" class="form-control input-lg" ng-model="model.userad.password" placeholder="Password"/>
+                <input ng-change="model.errorad =null" type="password" required name="confirm_password" ng-model="model.userad.cnfPassword" class="form-control input-lg" placeholder="Confirm Password"  />
+                <div  ng-show = "model.userTypead.userType == 'U'" style="color: white">
+
+                <label style="color:white;font-size: large">Gender : </label>
+                <div style="color: white">
+                    <label class="radio-inline">
+                    <input type="radio" name="gender" ng-model="model.userad.gender" value="M" id=male ng-required="model.userType.userType == 'U'"/>Male
+                    </label>
+                <label class="radio-inline">
+                    <input  type="radio" name="gender" ng-model="model.userad.gender" value="F" id=female ng-required="model.userType.userType == 'U'"/>Female
+                </label>
+                </div>
+                </div>
+                <br/>
+                <button class="btn btn-lg btn-primary btn-block signup-btn" ng-click="signUpForm.$valid && model.createUser()" type="submit">Create Account</button>
+            </form>
+        </div>
+    </div>
+</div>

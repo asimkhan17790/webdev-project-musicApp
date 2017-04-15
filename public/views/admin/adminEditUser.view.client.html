@@ -1,0 +1,64 @@
+ <div class="row">
+        <!-- left column  where the picture will be shown-->
+        <div ng-show="model.errorEdit" class="alert alert-danger" role="alert">
+            {{model.errorEdit}}
+        </div>
+        <div ng-show="model.successEdit" class="alert alert-success" role="alert">
+            {{model.successEdit}}
+        </div>
+        <!--model.user.imageURL||-->
+        <!-- edit form column -->
+        <div class="col-md-12 col-sm-12 col-xs-12 ">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">First name:</label>
+                    <div class="col-lg-12">
+                        <input class="form-control" value="" type="text" ng-model="model.toEditUser.firstName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Last name:</label>
+                    <div class="col-lg-12">
+                        <input class="form-control" value="" type="text" ng-model="model.toEditUser.lastName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Email:</label>
+                    <div class="col-lg-12">
+                        <input class="form-control" value="" type="text" ng-model="model.toEditUser.email">
+                    </div>
+                </div >
+                <!--handle the gender part correctly here as it wont work correctly here now-->
+                <div class="form-group" ng-show = "model.toEditUser.userType == 'U'">
+                    <label class="col-lg-3 control-label">Gender</label>
+                    <div class="col-lg-8">
+                        <div class="ui-select">
+                            <select id="user_time_zone" class="form-control">
+                                <option value="Male" selected="selected">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Phone Number</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="" type="text" ng-model="model.toEditUser.phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Username:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" value="" type="text" ng-model="model.toEditUser.username" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                        <input class="btn btn-primary" value="Save Changes" type="button" ng-click="model.saveChanges(model.toEditUser)">
+                        <span></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -27,6 +27,7 @@ module.exports = function () {
         followingUser : followingUser,
         unfollowingUser : unfollowingUser,
         searchUsers : searchUsers,
+        searchNonAdminUsers : searchNonAdminUsers,
         findUserByEmail : findUserByEmail,
         deleteUser : deleteUser,
         deleteEventIdFromUser : deleteEventIdFromUser,
@@ -90,9 +91,22 @@ module.exports = function () {
         });
         return deferred.promise;
     }
-    function searchUsers (searchArray) {
+    function searchUsers (searchArray ,userId) {
         var q1 =  q.defer();
-        UserModel.find({ $text: { $search: searchArray }}, {password : 0},function (err ,users) {
+        UserModel.find({ $and:[ { $text: { $search: searchArray }},{ _id:{ $ne: userId }} ,{userType:{ $ne: "A" }}]}, {password : 0},function (err ,users) {
+            if(err)
+                q1.reject();
+            else
+                q1.resolve(users);
+        });
+        return q1.promise;
+    }
+
+
+    function searchNonAdminUsers(searchArray) {
+        var q1 =  q.defer();
+        UserModel.find({ $and:[ { $text: { $search: searchArray }},{userType:{ $ne: "A" }}]},
+        {password : 0},function (err ,users) {
             if(err)
                 q1.reject();
             else
@@ -104,7 +118,6 @@ module.exports = function () {
     // userID1 will be the one following the userId2
 
     function findUserByEmail(emailAddress) {
-
         var defer =  q.defer();
         UserModel.findOne({email:emailAddress}, function(err, foundUser) {
             if (err){
@@ -443,7 +456,7 @@ module.exports = function () {
         return q1.promise;
     }
 
-    function addplayList(playList) {
+    function addplayList(playList,flag) {
         var q1 =  q.defer();
         UserModel.findOne({_id:playList.playListOwner}, function(err, user) {
             if (err){
@@ -451,6 +464,9 @@ module.exports = function () {
             }
             else if (user){
                 user.playList.push(playList._id);
+                if (flag) {
+                    user.favPlayList = playList._id;
+                }
                 user.save(function (err, updatedUser) {
                     if (err) {
                         q1.reject(err);

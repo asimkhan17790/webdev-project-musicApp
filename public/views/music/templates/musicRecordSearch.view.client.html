@@ -87,19 +87,30 @@
 
                     <div class="glorify">
                         <img class="img-rounded" width="200px" height="200px"
-                             ng-src="{{model.music.imageUrl || '../../../resources/images/playlist_animated.gif'}} ">
+                                 ng-src="{{model.music.imageUrl || '../../../resources/images/playlist_animated.gif'}} ">
                     </div>
                 </div>
 
                 <div class="col-xs-12 col-sm-6">
 
                     <div class="row">
-
+                            <span ng-show="model.favSuccess"  style="z-index: 100;color: green;font-size: large;position: relative;top: 0px">
+                            {{model.favSuccess}}
+                             </span>
+                            <span ng-show="model.favError" class="redify" style="z-index: 100;font-size: large;position: relative;top: 0px">
+                            {{model.favError}}
+                         </span>
                         <div class="col-xs-12" style="margin-top:10px">
-                            <a type="button" class="glyphicon glyphicon-heart pull-right like-button glorify">
+                            <a type="button"
+                               data-toggle="tooltip"
+                               title="Add To Favourites"
+                               data-placement="left"
+                               ng-click = "model.addSongToFavorites()"
+                               class="glyphicon glyphicon-heart pull-right like-button glorify"
+                            ng-class="model.addedToFav?'redHeart':'whiteHeart'">
                             </a>
-                            <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button glorify">
-                            </a>
+                           <!-- <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button glorify">
+                            </a>-->
                         </div>
 
                         <div class="col-xs-12 col-sm-3 glorify">
@@ -145,7 +156,8 @@
                         </button>
                     </div>
                     <div class="col-xs-12 col-sm-6" >
-                        <button type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px">
+                        <button data-toggle="modal" data-target="#showAllPlayList" ng-click="model.loadAllMyList()"
+                                type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px">
                             Add to Playlist
                         </button>
                     </div>
@@ -158,8 +170,6 @@
 
 
     <div class="container">
-
-
         <div class="recorder-div" ng-show="model.recordingFlag">
             <img class="img-responsive" width="200px" height="200px"  style="margin: auto;margin-top: 100px;"
                  ng-src="{{user.imageURL || '../../../resources/images/recorder.gif'}} ">
@@ -169,11 +179,42 @@
             <span aria-label="close" class="closebtn" ng-click="model.closeAlert()">&times;</span>
             {{model.error}}
         </div>
-
-
         <div ng-bind-html="model.getTrustedHtml(model.lyricsData)" style="font-size: medium;"
              class="form-group lyrics-div glorify" ng-show="model.lyricsData"></div>
+    </div>
 
+
+    <div id="showAllPlayList" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn btn-danger">Create Playlist</button>
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearDataFromModal()">&times;</button>
+                    <h4 class="modal-title">Your Available playlists </h4>
+                </div>
+                <div class="text-center glorify">
+                    <span ng-show="model.songSaveSuccess"  style="z-index: 100;color: green;font-size: large">
+                        {{model.songSaveSuccess}}
+                     </span>
+                    <span ng-show="model.songSaveError" class="redify"  style="z-index: 100;font-size: large">
+                        {{model.songSaveError}}
+                     </span>
+                </div>
+                <!--adding ng-repeat this side  so that this can be repeated -->
+                <div >
+                    <ul class="list-group" style="overflow-y: auto;height: 250px">
+                        <li ng-click="model.addSongToMyPlaylist(playlist)" ng-repeat=" playlist in model.availablePlaylist" class="list-group-item">
+                            <div class="row">
+                                <div class="pull-left col-xs-2">
+                                    <a>{{playlist.playListName}}</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
 

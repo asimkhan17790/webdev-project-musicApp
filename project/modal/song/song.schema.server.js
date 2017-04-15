@@ -5,7 +5,7 @@ module.exports = function () {
     var mongoose = require('mongoose');
     var songSchema = mongoose.Schema({
         title : String,
-        artist : String ,
+        artist : [String] ,
         genre : String ,
         spotifyID : String ,
         lyricsID : String ,

@@ -12,6 +12,7 @@ module.exports = function (app ,listOfModel) {
     app.post("/api/user" ,createUser);
     app.get("/api/user" ,findUser);
     app.put("/api/user/:userId",updateUser);
+    app.delete("/api/user/:userId",deleteUser);
     app.get("/api/user/album/:userId",findAlbumsForUser);
     app.get("/api/user/playList/:userId",findPlayListForUser)
     app.get("/api/user/:userId",findUserById);
@@ -20,7 +21,8 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/isfollowing/:userId1/:userId2",findIsFollowing);
     app.get("/api/user/follow/:userId1/:userId2",followUser);
     app.get("/api/user/unfollow/:userId1/:userId2",unfollowUser);
-    app.get("/api/searchUsers/:queryString" ,searchUsers);
+    app.get("/api/searchUsers/:queryString/:userId" ,searchUsers);
+    app.get("/api/NonAdminUsers/:queryString" ,searchNonAdminUsers);
     app.get("/api/user/forgotPassword/:emailAddress",forgotPasswordAndSendEmail);
     app.get("/api/user/follow/playList/:userId1/:userId2",findAllplayListAndFollowing);
     app.get("/api/user/findAllEventsOfUser/:uid", findAllEventsOfUser);
@@ -31,6 +33,43 @@ module.exports = function (app ,listOfModel) {
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
+
+    function deleteUser(req , res) {
+        var userId = req.params.userId;
+        userModel.deleteUser(userId)
+            .then(function (user) {
+                // have to handle it seperately and remove the user  from
+                // the followers and following
+                    var followers = user.followers;
+                    var following = user.following ;
+                    var playLists = user.playList;
+                    var albums = user.album ;
+                    if(user.userType === "U")
+                    {
+                        playListModel.deleteallplayLists(playLists)
+                            .then(function (playLists) {
+                                res.status(200).send("OK");
+                            },function (err) {
+                                res.status(500).send("Some Error Occurred!!");
+                            });
+                    }
+                    else if(user.userType === "M")
+                    {
+                        albumModel.deleteallalbums(albums)
+                            .then(function (albums) {
+                                res.status(200).send("OK");
+                            },function (err) {
+                                res.status(500).send("Some Error Occurred!!");
+                            });
+                    }
+
+                },
+                function(err) {
+                    res.status(500).send("Some Error Occurred!!");
+                });
+
+    }
+
 
     function sendInvitationToNonUsers (req, res) {
         var requestObject = req.body;
@@ -124,8 +163,9 @@ module.exports = function (app ,listOfModel) {
     function searchUsers(req , res) {
         var response = {};
         var searchTerm = req.params.queryString;
+        var userId = req.params.userId;
     userModel
-        .searchUsers(searchTerm)
+        .searchUsers(searchTerm , userId)
         .then(function (users) {
             response.status = "OK";
             response.data = users;
@@ -134,6 +174,21 @@ module.exports = function (app ,listOfModel) {
            res.send(err);
         });
     }
+
+    function searchNonAdminUsers(req , res) {
+        var response = {};
+        var searchTerm = req.params.queryString;
+        userModel
+            .searchNonAdminUsers(searchTerm)
+            .then(function (users) {
+                response.status = "OK";
+                response.data = users;
+                res.send(response);
+            },function (err) {
+                res.send(err);
+            });
+    }
+
 
     // userID1 is the main follower
     // userID2 is the second follower and which we have to unfollow
@@ -329,7 +384,7 @@ module.exports = function (app ,listOfModel) {
                         .createplayList(defaultplayList)
                         .then(function (createdplayList) {
                             userModel
-                                .addplayList(createdplayList)
+                                .addplayList(createdplayList,'C')
                                 .then(function (updatedUser) {
                                     if (updatedUser) {
                                         response.status="OK";

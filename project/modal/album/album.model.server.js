@@ -10,7 +10,8 @@ module.exports = function () {
         createAlbum : createAlbum ,
         findAllSongs : findAllSongs,
         deleteAlbum : deleteAlbum ,
-        deleteSong : deleteSong
+        deleteSong : deleteSong ,
+        deleteallalbums : deleteallalbums
     };
 
     var mongoose = require('mongoose');
@@ -18,6 +19,19 @@ module.exports = function () {
     var albumSchema = require('./album.schema.server.js')();
     var albumModel = mongoose.model('albumModel', albumSchema);
     return api;
+
+
+    function deleteallalbums(albums) {
+        var q1 =  q.defer();
+        albumModel.find({'_id': {'$in': albums}}, function (err, albums) {
+            if (err) {
+                q1.reject(err);
+            }
+            else
+                q1.resolve(albums);
+        });
+        return q1.promise;
+    }
 
     function deleteAlbum(albumId) {
         var q1 = q.defer();

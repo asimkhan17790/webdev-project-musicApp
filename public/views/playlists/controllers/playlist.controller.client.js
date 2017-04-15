@@ -110,6 +110,7 @@
             promise.success (function (result) {
                 if (result && result.status ==='OK' && result.data && result.data.songs.length > 0) {
                     vm.playlist = result.data;
+
                     if(!vm.pid)
                         vm.isOwner = true ;
                     else if((vm.pid !=null) && (vm.playlist.playListOwner ===  vm.pid))
@@ -175,6 +176,7 @@
         function loadTrack(id) {
             vm.nowPlayingTitle = vm.playlist.songs[id].title;
             vm.index = id;
+            vm.playlist.playlistThumbNail = vm.playlist.songs[id].songThumb;
             vm.audio.src = $sce.trustAsResourceUrl(vm.playlist.songs[id].songURL);
         }
 

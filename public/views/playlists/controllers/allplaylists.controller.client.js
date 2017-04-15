@@ -78,6 +78,7 @@
                     vm.followers = result.data.followers.length ;
                     vm.following = result.data.following.length ;
                     vm.error = null;
+                    vm.favorite = result.data.favPlayList;
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }

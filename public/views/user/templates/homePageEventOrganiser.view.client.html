@@ -15,7 +15,6 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
                     <ul class="nav navbar-nav header-ul">
-
                         <li class="dropdown">
                             <a href="#" target="_self"
                                class="dropdown-toggle"
@@ -27,7 +26,6 @@
                             <ul class="dropdown-menu">
                                 <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
                                 <li><a target="_self" aria-expanded="false">Music</a></li>
-
                             </ul>
                         </li>
                         <li class="nav-item"><a>Home</a></li>
@@ -41,7 +39,6 @@
                                role="button"
                                aria-haspopup="true"
                                aria-expanded="false"></a>
-
                             <ul class="dropdown-menu" id="profileHeaderCog">
                                 <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
@@ -64,7 +61,7 @@
 
                     <div class="pull-right">
                         <img class="img-circle" width="140px" height="140px"
-                             ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                             ng-src="{{model.user.imageURL || '../../../resources/images/mard.jpg'}} ">
                     </div>
                 </div>
             </div>
