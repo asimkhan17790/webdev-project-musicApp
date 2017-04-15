@@ -456,7 +456,7 @@ module.exports = function () {
         return q1.promise;
     }
 
-    function addplayList(playList) {
+    function addplayList(playList,flag) {
         var q1 =  q.defer();
         UserModel.findOne({_id:playList.playListOwner}, function(err, user) {
             if (err){
@@ -464,6 +464,9 @@ module.exports = function () {
             }
             else if (user){
                 user.playList.push(playList._id);
+                if (flag) {
+                    user.favPlayList = playList._id;
+                }
                 user.save(function (err, updatedUser) {
                     if (err) {
                         q1.reject(err);

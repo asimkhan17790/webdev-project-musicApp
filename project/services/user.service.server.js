@@ -384,7 +384,7 @@ module.exports = function (app ,listOfModel) {
                         .createplayList(defaultplayList)
                         .then(function (createdplayList) {
                             userModel
-                                .addplayList(createdplayList)
+                                .addplayList(createdplayList,'C')
                                 .then(function (updatedUser) {
                                     if (updatedUser) {
                                         response.status="OK";

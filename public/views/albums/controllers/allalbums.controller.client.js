@@ -22,6 +22,7 @@
 
         function init() {
             findAllAlbums();
+
         }
 
         init();
@@ -84,6 +85,7 @@
                 vm.createError = "Some Error Occurred" ;
             })
         }
+
 
         function findAllAlbums() {
             var promise = UserService.findAllAlbums(vm.userId);

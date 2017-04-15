@@ -9,11 +9,76 @@ module.exports = function (app ,listOfModel) {
     app.delete("/api/playList/:pid" ,deleteplayList);
     app.get("/api/playList/new/:songid/:pid" ,addSongToPlayList);
     app.delete("/api/user/playlist/song/:playListId/:songId" ,deleteSongFromPlayList);
-    
+    app.post("/api/playList/createNewSong/:playlistId" ,createSongFromSpotify);
+    app.post("/api/playList/createSongInFavorite/:playlistId" ,createSonginFavorite);
+
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
     var songModel = listOfModel.songModel;
     var playListModel = listOfModel.playListModel;
+
+
+    function createSonginFavorite (req, res) {
+
+        var newSong = req.body;
+        var playlistId = req.params.playlistId;
+        var response = {};
+        songModel.createSong(newSong)
+            .then(function (newSongCreated){
+                return playListModel.addSongtoPlaylist(newSongCreated._id ,playlistId);
+            }).then(function (updatedPlayList) {
+
+            if (updatedPlayList) {
+                response.status = 'OK';
+                response.description = 'Song Successfully Added..';
+                res.json(response);
+            }
+            else {
+                response.status = 'KO';
+                response.description = 'Some Error Occurred!!';
+                res.json(response);
+                return;
+            }
+
+            return;
+        }, function (err) {
+            response.status = 'KO';
+            response.description = 'Some Error Occurred!!';
+            res.json(response);
+            return;
+        });
+    }
+
+    function createSongFromSpotify(req, res) {
+
+        var newSong = req.body;
+        var playlistId = req.params.playlistId;
+        var response = {};
+        songModel.createSong(newSong)
+            .then(function (newSongCreated){
+                return playListModel.addSongtoPlaylist(newSongCreated._id ,playlistId);
+            }).then(function (updatedPlayList) {
+
+                if (updatedPlayList) {
+                    response.status = 'OK';
+                    response.description = 'Song Successfully Added..';
+                    res.json(response);
+                }
+                else {
+                    response.status = 'KO';
+                    response.description = 'Some Error Occurred!!';
+                    res.json(response);
+                    return;
+                }
+
+            return;
+        }, function (err) {
+            response.status = 'KO';
+            response.description = 'Some Error Occurred!!';
+            res.json(response);
+            return;
+        });
+    }
 
 
     function deleteSongFromPlayList (req ,res) {
@@ -54,7 +119,7 @@ module.exports = function (app ,listOfModel) {
         var response = {};
         playListModel.createplayList(playList)
             .then(function(newplayList) {
-                return userModel.addplayList(newplayList);
+                return userModel.addplayList(newplayList,null);
             })
             .then(function (updatedUser) {
                 if (updatedUser) {
