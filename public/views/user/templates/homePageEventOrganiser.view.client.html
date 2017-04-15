@@ -2,20 +2,23 @@
     <div class="container-fluid">
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <button type="button"
+                        class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <div class="navbar-header">
-                    <a class="navbar-brand">
+                    <a class="navbar-brand glorify">
                         <span style="color: red;font-family:Helvetica">My</span>Music
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
                     <ul class="nav navbar-nav header-ul">
-                        <li class="dropdown">
+                        <!--<li class="dropdown">
                             <a href="#" target="_self"
                                class="dropdown-toggle"
                                data-toggle="dropdown"
@@ -27,11 +30,17 @@
                                 <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
                                 <li><a target="_self" aria-expanded="false">Music</a></li>
                             </ul>
+                        </li>-->
+                        <li class="nav-item glorifyExtra"><a>Home</a></li>
+                       <!-- <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">My Events</a></li>-->
+                        <!--<li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Notifications</a></li>-->
+                        <li class="nav-item">
+                            <a ng-click="model.createMode()"
+                               data-toggle="modal"
+                               data-target="#myModalSignup"
+                               target="_self">Create Event
+                            </a>
                         </li>
-                        <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">My Events</a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Notifications</a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Create Event</a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
                                target="_self"
@@ -47,14 +56,13 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
         </nav>
     </div>
     <div class="jumbotron">
         <div class="container-fluid" style="margin-top: 50px">
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 glorifyExtra">
                     <h1><span style="color: red">Hello </span>, {{model.user.firstName}}</h1>
                 </div>
                 <div class="col-xs-6">
@@ -71,14 +79,14 @@
         <div class="col-sm-12" style="margin-bottom: 80px;">
             <div class="mymusic-shortcode-events" style="background: rgba(0, 0, 0, .7);">
                 <div >
-                    <h2 class="ak-event-title" style="text-transform: uppercase;padding-top: 20px">
+                    <h2 class="ak-event-title glorifyExtra" style="text-transform: uppercase;padding-top: 20px">
                         My <span>Events</span>
                     </h2>
                 </div>
                 <hr size="30">
 
                 <!!-- Button -->
-                <div class="mymusic-view-event" style="margin-top: 10px;margin-bottom:20px;">
+                <div class="mymusic-view-event glorifyExtra" style="margin-top: 10px;margin-bottom:20px;">
                     <a ng-click="model.createMode()" data-toggle="modal" data-target="#myModalSignup" target="_self">Create New Event</a>
                 </div>
                 <div ng-show="model.noEventsFound" class="text-center">

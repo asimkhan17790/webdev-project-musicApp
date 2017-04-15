@@ -87,9 +87,9 @@
         </div>
     </div>
     <div class="container">
-        <div ng-show="model.error" class="alert alert-danger animate-top" role="alert">
+        <div ng-show="model.follError" class="alert alert-danger animate-top" role="alert">
             <!-- <span data-dismiss="alert" aria-label="close" class="closebtn" ng-click="model.error=null;">&times;</span>-->
-            {{model.error}}
+            {{model.follError}}
         </div>
     </div>
     <div id="profileSearchModal" class="modal fade" role="dialog">
@@ -104,6 +104,21 @@
                     <ng-include src="'views/user/templates/searchUser.view.client.html'"></ng-include>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="inviteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Invite your friends</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/user/templates/invitation.view.client.html'"></ng-include>
+                </div>
+            </div>
+
         </div>
     </div>
     <nav class="navbar navbar-default navbar-fixed-bottom">
