@@ -6,7 +6,7 @@
         })
         .controller("HomePageSingerController",HomePageSingerController);
 
-    function HomePageSingerController ($scope ,$location,UserService,MusicService, albumService ,$routeParams,StaticDataService ,$timeout) {
+    function HomePageSingerController ($scope ,$location,UserService,MusicService, albumService ,$routeParams,StaticDataService ,$timeout,EventService) {
         var vm = this;
         vm.userId = $routeParams.uid ;
         vm.deleteAlbum = deleteAlbum ;
@@ -22,7 +22,7 @@
         //     })
         // }
         function init() {
-           // searchNearByEvents();
+            searchNearByEvents();
            // searchAllPlaylists();
             getUserDetails ();
             getMusicUpdates();
@@ -33,6 +33,39 @@
             $('.modal').modal('hide');
         }
 
+        function searchNearByEvents() {
+            console.log('searchNearByEvents');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var cord = {
+                        latitude : position.coords.latitude,
+                        longitude : position.coords.longitude
+                    };
+                    var inputFilter = {
+                        cords : cord
+                    }
+                    callSearchEventService(inputFilter);
+
+                }, function (error) {
+                    console.log(error);
+                    callSearchEventService(null);
+                });
+            } else {
+                console.log('Geolocation is not supported by this browser.');
+                callSearchEventService(null);
+                return null;
+            }
+        }
+        function callSearchEventService(inputFilter) {
+            var promise =  EventService.searchNearByEvents(inputFilter);
+            promise.success(function (response) {
+                console.log(response);
+                vm.events = response.events;
+
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
         function getUserDetails() {
             var promise = UserService.findUserById(vm.userId);
             promise.success (function (result) {

@@ -42,9 +42,9 @@
                 if (response && response.status ==='OK') {
                     vm.createSuccess = "albums deleted successfully created!";
                     init();
-                    $timeout(function () {
+                  /*  $timeout(function () {
                         closeModal();
-                    }, 250);
+                    }, 250);*/
                 }
                 else {
                     vm.error = "Some Error Occurred during deletion" ;

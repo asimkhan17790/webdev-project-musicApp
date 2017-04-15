@@ -1,4 +1,60 @@
 <div class="pageBackground">
+
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-header">
+                    <a class="navbar-brand glorify">
+                        <span style="color: red;font-family:Helvetica">My</span>Music
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse ">
+
+                    <ul class="nav navbar-nav header-ul">
+                        <li class="dropdown" ng-show="model.user.userType==='U'">
+                            <a href="#" target="_self"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Search <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu">
+                                <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
+
+                            </ul>
+                        </li>
+
+
+                        <li  class="nav-item"><a href="#/user/userHomePageSinger/{{model.userId}}">Home</a></li>
+                        <li  class="nav-item glorifyExtra"><a href="#/music/myalbums/{{model.userId}}">Albums</a></li>
+                        <li class="nav-item"><a class="" href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
+                        <li class="nav-item">
+                            <a class="glyphicon glyphicon-cog dropdown-toggle"
+                               target="_self"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false"></a>
+
+                            <ul class="dropdown-menu" id="profileHeaderCog">
+                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
                 <div ng-show="model.noSongFound" class="container">
                     <div class="row">
                     <div  class="alert alert-danger animate-top pull-left col-xs-12" role="alert">
@@ -7,16 +63,16 @@
                            {{model.noSongFound}}
                        </div>
                         <div class="col-xs-2 pull-right">
-                        <a class="btn btn-default pull right">Go Back</a>
+                        <a class="btn btn-default pull right" href="#/music/myalbums/{{model.userId}}">Go Back</a>
                         </div>
                         <div ng-show="model.isOwner" class="col-xs-2 pull-right">
-                            <a class="btn btn-default pull right" data-toggle="modal" data-target="#newSongModal">Add Song </a>
+                            <a class="btn btn-default pull right" data-toggle="modal" data-target="#newSongModal">Add Song</a>
                         </div>
 
                     </div>
                     </div>
                 </div>
-    <div ng-show="! model.noSongFound" style="background-color: black; background:rgba(0,0,0,0.6);margin-top: 50px;" class="container">
+    <div ng-show="! model.noSongFound" style="background-color: black; background:rgba(0,0,0,0.8);margin-top: 50px;" class="container">
         <div class="row">
             <div class="pull-left col-xs-6">
                 <h1> {{model.album.albumname}}</h1>

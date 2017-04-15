@@ -16,7 +16,7 @@ module.exports = function () {
         imageURL : String ,
         favPlayList:{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'},
         eventsCreated : [{type :mongoose.Schema.Types.ObjectId , ref:'eventModel'}] ,
-        userType : {type : String, enum : ['E', 'U', 'M', 'S','A']},
+        userType : {type : String, enum : ['E', 'U', 'M','A']},
         playList : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}],
         album : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
         followers :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],
