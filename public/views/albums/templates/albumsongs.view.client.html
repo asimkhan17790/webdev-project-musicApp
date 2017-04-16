@@ -58,17 +58,20 @@
     </div>
                 <div ng-show="model.noSongFound" class="container">
                     <div class="row">
-                    <div  class="alert alert-danger animate-top pull-left col-xs-12" role="alert">
+                    <div style="margin-bottom: 10px"  class="alert alert-danger animate-top pull-left col-xs-12 text-center" role="alert">
                         <!-- <span data-dismiss="alert" aria-label="close" class="closebtn" ng-click="model.error=null;">&times;</span>-->
-                       <div class="col-xs-8 pull-left">
+                       <div class="col-xs-12 col-sm-8 pull-left">
                            {{model.noSongFound}}
                        </div>
-                        <div class="col-xs-2 pull-right">       <!-- href="#/music/myalbums/{{model.userId}}"-->
-                        <a ng-show="model.isOwner" class="btn btn-default pull right" href="#/music/myalbums/{{model.userId}}">Go Back</a>
-                        <a ng-show="!model.isOwner" class="btn btn-default pull right" href="#/user/singerSearch/{{model.userId}}/{{model.singerId}}">Go Back</a>
+                        <div class="col-sm-4 col-sm-12">
+                        <div ng-show="model.isOwner" class="col-xs-6">
+                            <a class="btn btn-default pull-right" data-toggle="modal" data-target="#newSongModal">Add Song</a>
                         </div>
-                        <div ng-show="model.isOwner" class="col-xs-2 pull-right">
-                            <a class="btn btn-default pull right" data-toggle="modal" data-target="#newSongModal">Add Song</a>
+                        <div class="col-xs-6">       <!-- href="#/music/myalbums/{{model.userId}}"-->
+                            <a ng-show="!model.isOwner" class="btn btn-default pull-right" href="#/user/singerSearch/{{model.userId}}/{{model.singerId}}">Go Back</a>
+                            <a ng-show="model.isOwner" class="btn btn-default pull-right" href="#/music/myalbums/{{model.userId}}">Go Back</a>
+
+                        </div>
                         </div>
 
                     </div>
@@ -87,7 +90,8 @@
         <!--Music Player here -->
         <div ng-show="model.isOwner" class="container-fluid" >
             <a>
-                <span class="glyphicon glyphicon-plus pull-right" data-toggle="modal" data-target="#newSongModal" > </span>
+                <span class="btn btn-danger pull-right" data-toggle="modal" data-target="#newSongModal" >Add new Song </span>
+                <!--<span class="glyphicon glyphicon-plus pull-right" data-toggle="modal" data-target="#newSongModal" > </span>-->
             </a>
 
         </div>
@@ -173,9 +177,16 @@
     </div>
 
     <div class="modal fade" id="newSongModal">
-        <div class="modal-dialog">
+       <div class="modal-dialog">
             <div class="modal-content">
                 <form id="newform" enctype="multipart/form-data" role="form">
+                    <div class="upload-spinner" ng-show="model.songUploaded">
+                        <img style="margin:0 auto;"
+                             class="" width="100px"
+                             height="100px"
+                             src='../../../resources/images/loading_spinner.gif'/>
+
+                    </div>
                     <div class="container-fluid">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -185,6 +196,7 @@
                         <input  ng-model="model.song.title" type ="text" class = "form-control" id="songname" placeholder="Song Name"  ng-required="required">
 
                         <label for="singer"> Artist </label>
+
                         <input ng-model="model.song.artistName" type ="text" class = "form-control"id="singer" placeholder="Artist"  ng-required="required" >
 
                         <label for="genre"> Genre </label>
@@ -196,10 +208,15 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" ng-click="model.sendtoserver()" >Upload</button>
+                        <button type="submit" class="btn btn-danger" ng-click="model.sendtoserver()" >Upload</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="col-xs-12">
+            <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
+        </div>
+    </nav>
 </div>

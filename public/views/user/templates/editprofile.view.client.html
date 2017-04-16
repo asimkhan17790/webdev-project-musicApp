@@ -1,6 +1,66 @@
-<div class="container pageBackground" style="padding-top: 30px;">
+<div class="pageBackground" style="padding-top: 30px;">
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-header">
+                    <a class="navbar-brand glorify">
+                        <span style="color: red;font-family:Helvetica">My</span>Music
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav header-ul">
+                        <li class="dropdown">
+                            <a href="#" target="_self"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Search <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu">
+                                <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item glorifyExtra"><a>Home</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
+                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
+
+                        <li class="nav-item">
+                            <a class="glyphicon glyphicon-cog dropdown-toggle"
+                               target="_self"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false"></a>
+
+                            <ul class="dropdown-menu" id="profileHeaderCog">
+                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" target="_self" aria-expanded="false" data-toggle="modal" data-target="#inviteModal">Send Invite</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="black-container container">
   <div class="row">
-  <h1 class="page-header" style="text-align: center;">Edit Your Profile</h1>
+      <h1 class="page-header" style="text-align: center;">Edit Your <span class="redify">Profile</span></h1>
   </div>
   <div class="row">
     <!-- left column  where the picture will be shown-->
@@ -22,23 +82,23 @@
       <!--model.user.imageURL||-->
     <!-- edit form column -->
     <div class="col-md-8 col-sm-6 col-xs-12 ">
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" style="font-size: medium" role="form">
         <div class="form-group">
           <label class="col-lg-3 control-label">First name:</label>
           <div class="col-lg-8">
-            <input class="form-control" value="" type="text" ng-model="model.user.firstName">
+            <input required class="form-control" value="" type="text" ng-model="model.user.firstName">
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label">Last name:</label>
           <div class="col-lg-8">
-            <input class="form-control" value="" type="text" ng-model="model.user.lastName">
+            <input required class="form-control" value="" type="text" ng-model="model.user.lastName">
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label">Email:</label>
           <div class="col-lg-8">
-            <input class="form-control" value="" type="text" ng-model="model.user.email">
+            <input required class="form-control" value="" type="text" ng-model="model.user.email">
           </div>
         </div >
             <!--handle the gender part correctly here as it wont work correctly here now-->
@@ -56,25 +116,32 @@
             <div class="form-group">
                 <label class="col-lg-3 control-label">Phone Number</label>
                 <div class="col-lg-8">
-                    <input class="form-control" value="" type="text" ng-model="model.user.phone">
+                    <input required class="form-control" value="" type="text" ng-model="model.user.phone">
                 </div>
             </div>
         <div class="form-group">
           <label class="col-lg-3 control-label">Username:</label>
           <div class="col-lg-8">
-            <input class="form-control" value="" type="text" ng-model="model.user.username" readonly>
+            <input disabled class="form-control" value="" type="text" ng-model="model.user.username" readonly>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <input class="btn btn-primary" value="Save Changes" type="button" ng-click="model.saveChanges()">
+            <input class="btn btn-danger" value="Save Changes" type="button" ng-click="model.saveChanges()">
             <span></span>
-            <input class="btn btn-default" value="Cancel">
+              <a class="btn btn-default" href="javascript:history.back()">Cancel</a>
           </div>
         </div>
       </form>
     </div>
   </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="col-xs-12">
+            <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
+        </div>
+    </nav>
 </div>

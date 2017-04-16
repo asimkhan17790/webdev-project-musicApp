@@ -80,6 +80,7 @@
                             <a ng-click="model.openPlaylist(playlist._id)" class="glyphicon glyphicon-play-circle play-button"></a>
                             <!--   <span>{{$index+1}}</span>-->
                         </div>
+
                         <div class="col-xs-8"><a style="color: white" ng-click="model.openPlaylist(playlist._id)">{{playlist.playListName}} </a></div>
                         <div class="col-xs-2">
                             <a ng-show="model.favorite !== playlist._id" data-toggle="modal" data-target="#myModalDelete" ng-click="model.selectPlaylist(playlist)" class="pull-right glyphicon glyphicon-remove"></a>
@@ -155,6 +156,8 @@
     </div>
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
-
+        <div class="col-xs-12">
+            <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
+        </div>
     </nav>
 </div>

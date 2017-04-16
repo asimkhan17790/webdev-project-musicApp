@@ -9,6 +9,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="navbar-header">
+
                     <a class="navbar-brand glorify">
                         <span style="color: red;font-family:Helvetica">My</span>Music
                     </a>
@@ -16,14 +17,13 @@
                 <div id="navbar" class="navbar-collapse collapse">
 
                     <ul class="nav navbar-nav header-ul">
-                        <li ng-show="!model.isOwner" class="nav-item"><a href="#/user/userHomePage/{{model.pid}}">Home</a></li>
-                        <li ng-show="model.isOwner" class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
 
-                        <li ng-show="!model.isOwner" class="nav-item glorifyExtra"><a href="#/music/myplaylists/{{model.pid}}">Playlists</a></li>
-                        <li  ng-show="model.isOwner" class="nav-item glorifyExtra"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-
-                        <li ng-show="!model.isOwner" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.pid}}" class="fa fa-microphone"></a></li>
-                        <li ng-show="model.isOwner" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
+                        <li ng-show="model.pid" class="nav-item"><a href="#/user/userHomePage/{{model.pid}}">Home</a></li>
+                        <li ng-show="!model.pid" class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
+                        <li ng-show="model.pid" class="nav-item glorifyExtra"><a href="#/music/myplaylists/{{model.pid}}">Playlists</a></li>
+                        <li ng-show="!model.pid" class="nav-item glorifyExtra"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
+                        <li ng-show="model.pid" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.pid}}" class="fa fa-microphone"></a></li>
+                        <li ng-show="!model.pid" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
                                target="_self"
@@ -49,7 +49,11 @@
 
         <div class="row">
             <div class="pull-left col-xs-6">
+                <h3 class="redify glorify" ng-show="!model.playlist.songs"> No Songs Added to the playlist</h3>
                 <h1> {{model.playlist.playListName}}</h1>
+                <h3 ng-show="model.playlist.playlistmood">
+                    ( {{model.playlist.playlistmood}} )
+                </h3>
             </div>
             <div class="pull-right col-xs-6">
                 <img style="position: relative;right: -12px;top: 2px;" class="pull-right img-circle" width="150px" height="150px" ng-src="{{model.playlist.playlistThumbNail  || '../../../resources/images/playlist_animated.gif'}}">
@@ -126,3 +130,8 @@
     </div>
 
 </div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+<div class="col-xs-12">
+    <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
+</div>
+</nav>

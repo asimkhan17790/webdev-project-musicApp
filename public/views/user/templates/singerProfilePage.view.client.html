@@ -44,8 +44,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
-                                <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile/{{model.pid}}">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a style="color: white;" target="_self" >Logout</a></li>
                             </ul>
@@ -111,6 +110,8 @@
     </div>
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
-
+        <div class="col-xs-12">
+            <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
+        </div>
     </nav>
 </div>

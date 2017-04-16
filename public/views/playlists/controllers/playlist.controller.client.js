@@ -28,9 +28,10 @@
         vm.uid = $routeParams.uid;
         vm.selectedSong = null ;
         vm.index = 0;
-        vm.isOwner ;
-        vm.userId = $routeParams['uid'];
+        vm.isOwner=null ;
+
         function init () {
+            vm.userId = $routeParams['uid'];
             findAllSongsForPlayList();
         }
         init();
@@ -109,20 +110,25 @@
         function findAllSongsForPlayList() {
             var promise = playListService.findAllSongs(vm.playListId);
             promise.success (function (result) {
+
                 if (result && result.status ==='OK' && result.data && result.data.songs.length > 0) {
                     vm.playlist = result.data;
 
                     if(!vm.pid)
-                        vm.isOwner = true ;
+                        vm.isOwner = 'yes' ;
                     else if((vm.pid !=null) && (vm.playlist.playListOwner ===  vm.pid))
-                        vm.isOwner = true ;
+                        vm.isOwner = 'yes' ;
                     else if( (vm.pid !=null) &&(vm.playlist.playListOwner !=  vm.pid))
-                        vm.isOwner = false ;
+                        vm.isOwner = null ;
                     loadMp3Player();
                 }
                 else if(result && result.status==='OK' && result.data && result.data.songs.length == 0){
                     if(vm.audio) {
+                        vm.playlist = result.data;
                         vm.audio.pause();
+                        vm.audio.src = null;
+                        vm.nowPlayingTitle = null;
+                        $scope.$apply();
                     }
                     vm.noSongFound = "There are no songs to play in this album";
                 }else {

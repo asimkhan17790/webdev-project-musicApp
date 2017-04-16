@@ -327,3 +327,8 @@ input:required:invalid, input:focus:invalid {
 .list-group a:hover{
     color: white;
 }
+.upload-spinner {
+    z-index: 2000;
+   align-content: center;
+    position: fixed;
+}

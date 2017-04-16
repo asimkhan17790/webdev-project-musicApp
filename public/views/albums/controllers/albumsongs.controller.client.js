@@ -29,6 +29,7 @@
         vm.nowPlayingTitle = "";
         vm.trackCount=0;
         vm.noSongFound = null ;
+        vm.songUploaded = null;
         vm.deletethisSong = deletethisSong
         vm.loadTrack = loadTrack;
         vm.previousSong = previousSong;
@@ -194,7 +195,9 @@
                 vm.isOwner = true ;
             }
             promise.success (function (result) {
-                if (result && result.status==='OK' && result.data && result.data.songs.length > 0) {
+                if (result && result.status==='OK' && result.data &&
+
+                    result.data.songs.length > 0) {
                     //     console.log(result.data);
                     vm.album = result.data;
                     console.log(vm.album);
@@ -224,6 +227,7 @@
         // below function is working fine just need to add maybe some extra valdiations and
         // thats it
         function sendtoserver() {
+            vm.songUploaded = "in Progress";
             Upload.upload({
                 url: '/api/musicCompany/uploadSong', // web api which will handle the data
                 data:{
@@ -235,6 +239,7 @@
                     file:vm.file
                 } //pass file as data, should be user ng-model
             }).then(function (updatedalbum) { //upload function returns a promise
+                vm.songUploaded = null;
                 closeModal();
                 vm.noSongFound = null ;
                 vm.song = {};
