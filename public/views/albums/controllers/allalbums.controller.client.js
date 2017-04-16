@@ -19,32 +19,55 @@
         vm.openAlbum = openAlbum;
         vm.createAlbum = createAlbum;
         vm.deletethisAlbum = deletethisAlbum ;
-
+        vm.selectAlbumToDelete = selectAlbumToDelete;
         function init() {
+            getUserDetails();
             findAllAlbums();
 
         }
 
         init();
+        function selectAlbumToDelete (album) {
+            vm.albumToDelete = album;
+        }
+
+        function getUserDetails() {
+            var promise = UserService.findUserById(vm.userId);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    vm.followers = result.data.followers.length ;
+                    vm.following = result.data.following.length ;
+                    vm.error = null;
+                    vm.favorite = result.data.favPlayList;
+                    vm.user = result.data;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
         function clearDataFromModal() {
             vm.error = null;
             vm.createError = null;
             vm.newAlbum = null;
+            vm.albumToDelete = null;
         }
 
         function openAlbum(albumId) {
             $location.url("/user/singer/album/songs/" + vm.userId + "/" + albumId)
         }
 
-        function deletethisAlbum (album) {
-            var promise = albumService.deleteAlbum(album);
+        function deletethisAlbum () {
+            var promise = albumService.deleteAlbum(vm.albumToDelete);
             promise.success(function (response) {
                 if (response && response.status ==='OK') {
-                    vm.createSuccess = "albums deleted successfully created!";
+                    vm.createSuccess = "Album deleted successfully!";
                     init();
-                  /*  $timeout(function () {
+                    $timeout(function () {
                         closeModal();
-                    }, 250);*/
+                    }, 250);
                 }
                 else {
                     vm.error = "Some Error Occurred during deletion" ;
@@ -61,6 +84,7 @@
             vm.createError = null;
             vm.createSuccess = null;
             vm.error = null;
+            vm.albumToDelete=null;
             $('.modal').modal('hide');
         }
 

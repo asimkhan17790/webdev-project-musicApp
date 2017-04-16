@@ -60,7 +60,7 @@
     <div class="jumbotron">
         <div class="container-fluid" style="margin-top: 50px">
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 glorify">
                     <h1><span style="color: red">Hello </span>, {{model.user.firstName}}</h1>
                 </div>
                 <div class="col-xs-6">
@@ -75,6 +75,7 @@
     </div>
     <div class="container">
         <ng-include src="'views/user/templates/musicNews.view.client.html'"></ng-include>
+        <ng-include src="'views/user/templates/playList.template.view.client.html'"></ng-include>
         <ng-include src="'views/user/templates/upcomingEvents.view.client.html'"></ng-include>
 
     </div>

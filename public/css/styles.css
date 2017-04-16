@@ -162,11 +162,11 @@ a {
     margin-top: 80px;
     z-index: 22;
     padding: 20px;
-    background-color: #f44336; /* Red */
+    background-color: #c9302c; /* Red */
     color: white;
     margin-bottom: 15px;
-    border-color:#f44336;
     font-size:large;
+    text-shadow: 0px 0px 10px #fff;
 }
 
 /* The close button */
@@ -323,4 +323,12 @@ input:required:invalid, input:focus:invalid {
 }
 .whiteHeart {
     color: white;
+}
+.list-group a:hover{
+    color: white;
+}
+.upload-spinner {
+    z-index: 2000;
+   align-content: center;
+    position: fixed;
 }

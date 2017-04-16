@@ -12,12 +12,13 @@
         vm.following = null;
         vm.error = null ;
         vm.users = null;
-        vm.searchUsers = searchUsers ;
+
         vm.clearUserFromModal  = clearUserFromModal;
         vm.followersLength=null;
         vm.searchUsers = searchUsers ;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.sendEmailInvitation = sendEmailInvitation;
+        vm.redirectToSearchedUser = redirectToSearchedUser;
         function init() {
             getUserDetails();
             var promise = UserService.findFollowingById(vm.userId);
@@ -80,7 +81,7 @@
             });
         }
         function searchUsers () {
-            var promise = UserService.searchUsers(vm.inputQuery);
+            var promise = UserService.searchUsers(vm.inputQuery,vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.users = result.data;

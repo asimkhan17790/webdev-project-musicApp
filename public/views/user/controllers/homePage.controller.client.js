@@ -3,14 +3,32 @@
     angular
         .module("WebDevMusicApp")
         .run(function($rootScope, $uibModalStack) {
-        $uibModalStack.dismissAll();
-    })
-    .controller("HomePageController",HomePageController);
+            $uibModalStack.dismissAll();
+        })
+        .controller("HomePageController",HomePageController);
+
 
     function HomePageController (EmailService,EventService ,currentUser,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location) {
+
+
         var vm = this;
-     //   vm.searchNearByEvents = searchNearByEvents;
         vm.userId = currentUser._id;
+        //playlist
+        vm.playing = false;
+        vm.playStatus = "Paused...";
+        vm.nowPlayingTitle = "";
+        vm.trackCount=0;
+        vm.loadTrack = loadTrack;
+        vm.previousSong = previousSong;
+        vm.nextSong = nextSong;
+        vm.playThisSong = playThisSong;
+        vm.play = play;
+        vm.selectedSong = null ;
+        vm.index = 0;
+        vm.deletethisSong = deletethisSong;
+        vm.searchNearByEvents = searchNearByEvents;
+
+
         vm.createplayList = createplayList ;
         vm.deleteplayList = deleteplayList ;
         vm.editProfile = editProfile ;
@@ -26,8 +44,8 @@
         vm.closeModal = closeModal;
         vm.logout = logout ;
         function init() {
-      //      searchNearByEvents();
-           // searchAllPlaylists();
+
+            searchNearByEvents();
             getUserDetails ();
             getMusicUpdates();
             findAllPlayList();
@@ -57,12 +75,12 @@
                         vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
                     }
                     vm.invitationEmail = null;
-                  /*  $timeout(function () {
-                            closeModal();
-                    }, 2000);*/
+                    /*  $timeout(function () {
+                     closeModal();
+                     }, 2000);*/
                 } else {
-                        vm.emailSuccess = null;
-                        vm.emailError = "Some Error Occurred";
+                    vm.emailSuccess = null;
+                    vm.emailError = "Some Error Occurred";
                 }
             }).error(function () {
                 vm.emailSuccess = null;
@@ -78,7 +96,7 @@
             vm.emailSuccess = null;
             vm.emailError = null;
         }
-        
+
         function redirectToSearchedUser(userId2) {
             var promise = UserService.findUserById(userId2);
             promise.success (function (result) {
@@ -87,7 +105,7 @@
                     closeModal();
                     $timeout(function () {
                         if(searchedUser.userType == 'U')
-                        $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                            $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
                         else if(searchedUser.userType == 'M')
                         {
                             $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
@@ -127,13 +145,14 @@
                     vm.followers = result.data.followers.length ;
                     vm.following = result.data.following.length ;
                     vm.error = null;
+                    findAllSongsForPlayList();
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }
 
             }).error(function () {
-                    vm.error = "Some Error Occurred!! Please try again!";
-                });
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
         }
 
         function getMusicUpdates() {
@@ -143,7 +162,7 @@
                 if (response.status=='ok') {
                     vm.musicArticles = response.articles;
                     console.log(vm.musicArticles);
-                  //  geenerateNewsWidget();
+                    //  geenerateNewsWidget();
                 }else {
                     vm.musicArticles = null;
                 }
@@ -187,7 +206,7 @@
                 vm.error = "PlayList Not found";
             })
         }
-        
+
         function createplayList() {
             vm.playlist.playListOwner =  vm.userId;
             var promise = playListService.createplayList(vm.playlist);
@@ -217,6 +236,7 @@
                     };
                     var inputFilter = {
                         cords : cord
+
                     }
                     callSearchEventService(inputFilter);
 
@@ -231,19 +251,130 @@
             }
         }
 
-        // function callSearchEventService(inputFilter) {
-        //     var promise =  EventService.searchNearByEvents(inputFilter);
-        //     promise.success(function (response) {
-        //         console.log(response);
-        //         vm.events = response.events;
-        //
-        //     }).error(function (error) {
-        //         console.log(error);
-        //     });
-        // }
+
+        function callSearchEventService(inputFilter) {
+            var promise =  EventService.searchNearByEvents(inputFilter);
+            promise.success(function (response) {
+                console.log(response);
+                vm.events = response.events;
+
+            }).error(function (error) {
+                console.log(error);
+            });
+        }
 
         function getTrsustedURL (url) {
-           return  $sce.trustAsResourceUrl(url);
+            return  $sce.trustAsResourceUrl(url);
+        }
+
+
+        // playlist
+
+        function findAllSongsForPlayList() {
+            var promise = playListService.findAllSongs(vm.user.favPlayList);
+            promise.success (function (result) {
+                if (result && result.status ==='OK' && result.data && result.data.songs.length > 0) {
+                    vm.playlist = result.data;
+                    loadMp3Player();
+                }
+                else if(result && result.status==='OK' && result.data && result.data.songs.length == 0){
+                    if(vm.audio) {
+                        vm.audio.pause();
+                    }
+                    vm.noSongFound = "There are no songs to play in this Playlist";
+                }else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
+
+
+        function play () {
+            vm.playing = true;
+            vm.playStatus = "Now Playing...";
+            $scope.$apply();
+            console.log(vm.playing);
+            console.log(vm.playStatus);
+        }
+
+        function previousSong() {
+            if ((vm.index - 1) > -1) {
+                vm.index--;
+                loadTrack(vm.index);
+                if (vm.playing) {
+                    vm.audio.play();
+                }
+            } else {
+                vm.audio.pause();
+                vm.index = 0;
+                loadTrack(vm.index);
+            }
+        }
+        function nextSong() {
+
+            if ((vm.index + 1) < vm.trackCount) {
+                vm.index++;
+                loadTrack(vm.index);
+                if (vm.playing) {
+                    vm.audio.play();
+                }
+            } else {
+                vm.audio.pause();
+                vm.index = 0;
+                loadTrack(vm.index);
+            }
+        }
+
+        function playThisSong (id) {
+            loadTrack(id);
+            vm.audio.play();
+        }
+        function deletethisSong(song) {
+            var songId = song._id;
+            var promise = playListService.deleteSongFromPlayList(vm.user.favPlayList ,songId);
+            promise.success(function(response) {
+                if(response){
+                    init();
+                }
+            }).error(function (err) {
+                vm.error = "Unable to delete the song in the album";
+            })
+        }
+
+        function loadTrack(id) {
+            vm.nowPlayingTitle = vm.playlist.songs[id].title;
+            vm.index = id;
+            vm.playlist.playlistThumbNail = vm.playlist.songs[id].songThumb;
+            vm.audio.src = $sce.trustAsResourceUrl(vm.playlist.songs[id].songURL);
+        }
+
+        function loadMp3Player() {
+            if (vm.playlist && vm.playlist.songs && vm.playlist.songs.length > 0) {
+                vm.nowPlayingTitle = vm.playlist.songs[0].title;
+                vm.trackCount = vm.playlist.songs.length;
+            }
+            vm.audio = angular.element(document.querySelector('#audio1')).bind('play', vm.play).bind('pause', function () {
+                vm.playing = false;
+                vm.playStatus = "Paused...";
+                console.log(vm.playing);
+                console.log(vm.playStatus);
+                $scope.$apply();
+            }).bind('ended', function () {
+                vm.playStatus = "Paused...";
+                if ((vm.index + 1) < vm.trackCount) {
+                    vm.index++;
+                    loadTrack(vm.index);
+                    vm.audio.play();
+                } else {
+                    vm.audio.pause();
+                    vm.index = 0;
+                    loadTrack(vm.index);
+                }
+                $scope.$apply();
+            }).get(0);
+            loadTrack(vm.index);
         }
     }
 
