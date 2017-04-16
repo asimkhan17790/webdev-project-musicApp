@@ -61,6 +61,28 @@
 
         init();
 
+        function findAllAlbums() {
+            var promise = UserService.findAllAlbums(vm.userId);
+            promise.success(function (response) {
+                if (response && response.status ==='OK') {
+                    vm.albums = response.data;
+                    vm.error = null;
+                }
+                else {
+                    vm.albums = null;
+                    if (response.description) {
+                        vm.error = response.description;
+                    }
+                    else {
+                        vm.error = "Some Error Occurred" ;
+                    }
+                }
+
+            }).error(function (err) {
+                vm.error = "Some Error Occurred" ;
+            })
+        }
+
         function getUserDetails() {
             var promise = UserService.findUserById(vm.pid);
             promise.success (function (result) {

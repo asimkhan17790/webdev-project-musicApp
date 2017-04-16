@@ -6,30 +6,62 @@
         })
         .controller("HomePageSingerController",HomePageSingerController);
 
-    function HomePageSingerController ($scope ,currentUser,$location,UserService,MusicService, albumService ,$routeParams,StaticDataService ,$timeout,EventService) {
+    function HomePageSingerController ($sce,$scope ,currentUser,$location,UserService,MusicService, albumService ,$routeParams,StaticDataService ,$timeout,EventService) {
         var vm = this;
         vm.userId = currentUser._id;
         vm.deleteAlbum = deleteAlbum ;
         vm.logout = logout ;
-        // function init() {
-        //     var promise = UserService.findAllAlbums(vm.userId);
-        //     promise.success(function (user) {
-        //       //  console.log(user);
-        //         vm.albums = user.album ;
-        //     })
-        //     promise.error(function (err) {
-        //         console.log("some error occured " + err);
-        //         vm.albums = null ;
-        //     })
-        // }
+        vm.playing = false;
+        vm.playStatus = "Paused...";
+        vm.nowPlayingTitle = "";
+        vm.trackCount=0;
+        vm.noSongFound = null ;
+        vm.loadTrack = loadTrack;
+        vm.previousSong = previousSong;
+        vm.nextSong = nextSong;
+        vm.playThisSong = playThisSong;
+        vm.play = play;
+        vm.index = 0;
+        vm.playlist = {};
         function init() {
             searchNearByEvents();
            // searchAllPlaylists();
             getUserDetails ();
             getMusicUpdates();
+            findAllAlbums();
         }
         init();
+        function findAllAlbums() {
+            var promise = UserService.findAllAlbums(vm.userId);
+            promise.success(function (response) {
+                if (response && response.status ==='OK') {
+                    vm.albums = response.data;
+                    vm.error = null;
+                    if (vm.albums.length > 0) {
+                        findAllSongsForAlbum(vm.albums[0]._id);
+                       // var i;
+                        /*for (i = 0;i<albums.length;i++) {
+                            findAllSongsForAlbum([]);
+                        }*/
+                    }
+                    else {
+                        vm.songError = "No Songs to display"
+                    }
+                }
+                else {
+                    vm.albums = null;
+                    if (response.description) {
+                        vm.error = response.description;
+                    }
+                    else {
+                        vm.error = "Some Error Occurred" ;
+                    }
+                }
 
+            }).error(function (err) {
+                vm.error = "Some Error Occurred" ;
+            })
+        }
         function logout() {
             UserService
                 .logout()
@@ -122,6 +154,82 @@
             })
         }
 
+        function loadMp3Player() {
+            if (vm.album && vm.album.songs && vm.album.songs.length > 0) {
+                vm.nowPlayingTitle = vm.album.songs[0].title;
+                vm.trackCount = vm.album.songs.length;
+            }
+            vm.audio = angular.element(document.querySelector('#audio1')).bind('play', vm.play).bind('pause', function () {
+                vm.playing = false;
+                vm.playStatus = "Paused...";
+                $scope.$apply();
+            }).bind('ended', function () {
+                vm.playStatus = "Paused...";
+                if ((vm.index + 1) < vm.trackCount) {
+                    vm.index++;
+                    loadTrack(vm.index);
+                    vm.audio.play();
+                } else {
+                    vm.audio.pause();
+                    vm.index = 0;
+                    loadTrack(vm.index);
+                }
+                $scope.$apply();
+            }).get(0);
+            loadTrack(vm.index);
+        }
+        function loadAllMyList(song) {
+            if(vm.pid != null)
+            {
+                var promise  = UserService.findAllplayList(vm.pid);
+                promise.success(function (user) {
+                    vm.availablePlaylist = user.data ;
+                    console.log(vm.availablePlaylist);
+                    vm.selectedSong = song._id ;
+                }).error(function (err) {
+                    console.log("some error occured " + err);
+                    vm.availablePlaylist = null ;
+                })
+            }
+        }
+
+        function findAllSongsForAlbum(albumid) {
+            console.log("Finding songs for " + albumid);
+            var promise = albumService.findAllSongs(albumid);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data &&
+                    result.data.songs.length > 0) {
+                    //     console.log(result.data);
+                    vm.album = result.data;
+                    console.log("Length: " + result.data.songs.length);
+                    console.log(vm.album);
+                    console.log(vm.userId);
+
+                    // if( vm.pid == null)
+                    //     vm.isOwner = true ;
+                    // if((vm.pid !=null) && (vm.album.albumOwner ===  vm.pid))
+                    //      vm.isOwner = true ;
+                    //  else if( (vm.pid !=null) &&(vm.album.albumOwner !=  vm.pid))
+                    //      vm.isOwner = false ;
+                    console.log(vm.isOwner);
+                    loadMp3Player();
+                }
+                else if(result && result.status==='OK' && result.data && result.data.songs.length == 0){
+                    if(vm.audio) {
+                        vm.audio.pause();
+                    }
+                    console.log("Length: " + result.data.songs.length);
+                    vm.noSongFound = "There are no songs to play in this album";
+                }else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                    console.log("Some Error Occurred!! Please try again!");
+                }
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+                console.log("Some Error Occurred!! Please try again!");
+            });
+        }
+
         // recently added code check this end to end clearly and maybe this should go in the init block
         // check if the albums are listed correctly or not
         function createalbum() {
@@ -137,14 +245,62 @@
                         init();
                     }, 250);
                 }
-            })
-            promise.error(function (err) {
+            }).error(function (err) {
                 vm.error = "User Not found";
             })
         }
 
         function getTrsustedURL (url) {
            return  $sce.trustAsResourceUrl(url);
+        }
+        function play () {
+            vm.playing = true;
+            vm.playStatus = "Now Playing...";
+            $scope.$apply();
+            console.log(vm.playing);
+            console.log(vm.playStatus);
+        }
+
+        function previousSong() {
+            if ((vm.index - 1) > -1) {
+                vm.index--;
+                loadTrack(vm.index);
+                if (vm.playing) {
+                    vm.audio.play();
+                }
+            } else {
+                vm.audio.pause();
+                vm.index = 0;
+                loadTrack(vm.index);
+            }
+        }
+        function nextSong() {
+
+            if ((vm.index + 1) < vm.trackCount) {
+                vm.index++;
+                loadTrack(vm.index);
+                if (vm.playing) {
+                    vm.audio.play();
+                }
+            } else {
+                vm.audio.pause();
+                vm.index = 0;
+                loadTrack(vm.index);
+            }
+        }
+
+        function playThisSong (id) {
+            loadTrack(id);
+            vm.audio.play();
+        }
+
+        function loadTrack(id) {
+            //  $('.plSel').removeClass('plSel');
+            //  $('#plList li:eq(' + id + ')').addClass('plSel');
+            // npTitle.text(tracks[id].name);
+            vm.nowPlayingTitle = vm.album.songs[id].title;
+            vm.index = id;
+            vm.audio.src = $sce.trustAsResourceUrl(vm.album.songs[id].songURL);
         }
     }
 
