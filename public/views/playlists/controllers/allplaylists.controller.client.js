@@ -111,7 +111,7 @@
             });
         }
         function openPlaylist(playlistid) {
-            $location.url("/user/playlist/songs/"+ vm.userId+"/"+ playlistid);
+            $location.url("/user/playlist/songs/"+ playlistid);
         }
 
         function deleteplayList() {

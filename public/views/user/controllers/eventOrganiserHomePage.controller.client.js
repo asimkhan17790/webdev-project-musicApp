@@ -91,6 +91,20 @@
         }
         function updateEvent() {
             if (vm.event) {
+
+                var startDate = new Date(vm.event.startDate);
+                var endDate   = new Date(vm.event.endDate);
+                var today = new Date();
+                console.log(startDate < today);
+
+                if (startDate > endDate){
+                    vm.error= 'Start Date cannot occur after end Date';
+                    return;
+                }
+                else if (startDate < today || endDate < today) {
+                    vm.error= "Start date or End Date cannot be before Current Date";
+                    return;
+                }
                 var promise = EventService.updateEvent(vm.event);
                 promise.success(function (response) {
                     if (response) {
@@ -128,7 +142,19 @@
         function createNewEvent() {
 
             if (vm.event) {
+                var startDate = new Date(vm.event.startDate);
+                var endDate   = new Date(vm.event.endDate);
+                var today = new Date();
+                console.log(startDate < today);
 
+                if (startDate > endDate){
+                    vm.error= 'Start Date cannot occur after end Date';
+                    return;
+                }
+                else if (startDate < today || endDate < today) {
+                    vm.error= "Start date or End Date cannot be before Current Date";
+                    return;
+                }
                     //call create Service
                     var promise = EventService.createEvent(vm.event,vm.userId);
                     promise.success(function (response) {

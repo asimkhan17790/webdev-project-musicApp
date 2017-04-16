@@ -83,11 +83,27 @@ module.exports = function () {
 
     function getOAuth2Client(cb) {
         // Load client secrets
-        fs.readFile('client_secret.json', function(err, data) {
+        //fs.readFile('./client_secret.json', function(err, data) {
+     /*   fs.readFile('./project/apis/gmail/client_secret.json', function(err, data) {
             if (err) {
                 return cb(err);
+            }*/
+
+        var credentials = {
+            installed: {
+                client_id: process.env.GMAIL_API_CLIENT_ID,
+                project_id: process.env.GMAIL_API_PROJECT_ID,
+                auth_uri: process.env.GMAIL_AUTH_URI,
+                token_uri: process.env.GMAIL_TOKEN_URI,
+                auth_provider_x509_cert_url: process.env.GMAIL_AUTH_PROVIDER,
+                client_secret: process.env.GMAIL_CLIENT_SECRET,
+                redirect_uris: [
+                    process.env.REDIRECT_URI1,
+                    process.env.REDIRECT_URI2
+                ]
             }
-            var credentials = JSON.parse(data);
+        };
+            //var credentials = JSON.parse(data);
             var clientSecret = credentials.installed.client_secret;
             var clientId = credentials.installed.client_id;
             var redirectUrl = credentials.installed.redirect_uris[0];
@@ -95,15 +111,23 @@ module.exports = function () {
             var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
             // Load credentials
-            fs.readFile('gmail-credentials.json', function(err, token) {
+          //  fs.readFile('./gmail-credentials.json', function(err, token) {
+           /* fs.readFile('./project/apis/gmail/gmail-credentials.json', function(err, token) {
                 if (err) {
+                    console.log(err);
                     return cb(err);
-                } else {
-                    oauth2Client.credentials = JSON.parse(token);
+                } else {*/
+                   // oauth2Client.credentials = JSON.parse(token);
+                    oauth2Client.credentials = {
+                        "access_token": process.env.GMAIL_ACCESS_TOKEN,
+                        "refresh_token": process.env.GMAIL_REFRESH_TOKEN,
+                        "token_type": process.env.GMAIL_TOKEN_TYPE,
+                        "expiry_date": process.env.GMAIL_TOKEN_EXPIRY_DATE
+                    };
                     return cb(null, oauth2Client);
-                }
-            });
-        });
+               // }
+         //   });
+      //  });
     }
 
     return api;

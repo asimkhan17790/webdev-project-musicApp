@@ -4,11 +4,11 @@
         .module("WebDevMusicApp")
         .controller("UserProfileController",UserProfileController);
 
-    function UserProfileController ($location, UserService ,$routeParams,StaticDataService ,$timeout) {
+    function UserProfileController ($location, UserService ,$routeParams,StaticDataService ,$timeout ,currentUser) {
 
         var vm = this;
         vm.userId = $routeParams.uidS ;
-        vm.pid = $routeParams.uidP;
+        vm.pid = currentUser._id;
         vm.followUser = followUser;
         vm.unfollowUser = unfollowUser;
         vm.findPlayList = findPlayList;
@@ -26,6 +26,7 @@
         function followUserThisPlayList (playList) {
             $location.url("/user/userSearch/playList/songs/"+ vm.pid +"/"+ vm.userId+"/"+playList._id);
         }
+
         function searchUsers () {
             var promise = UserService.searchUsers(vm.inputQuery ,vm.pid);
             promise.success (function (result) {

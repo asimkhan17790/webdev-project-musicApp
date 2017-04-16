@@ -4,15 +4,15 @@
         .module("WebDevMusicApp")
         .controller("SingerProfileController",SingerProfileController);
 
-    function SingerProfileController ($location, UserService ,$routeParams,StaticDataService ,$timeout) {
-
+    function SingerProfileController ($location, UserService ,$routeParams,StaticDataService ,$timeout ,currentUser) {
         var vm = this;
         vm.userId = $routeParams.uidS ;
-        vm.pid = $routeParams.uidP;
+        vm.pid = currentUser._id;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.searchUsers = searchUsers;
         vm.notFollowing = null;
         vm.openAlbum = openAlbum ;
+        vm.logout = logout ;
         function init() {
             getUserDetails();
             findAllAlbums();
@@ -44,8 +44,16 @@
             });
         }
 
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
+
         function openAlbum(albumId) {
-            $location.url("/user/singer/album/songs/" + vm.pid + "/"+vm.userId+"/" + albumId);
+            $location.url("/user/singer/album/songs/" + vm.userId+"/" + albumId);
         }
 
         function getUserDetails() {

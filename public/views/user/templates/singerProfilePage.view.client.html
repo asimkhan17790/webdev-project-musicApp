@@ -1,3 +1,5 @@
+
+<!--Done with the security of this page too -->
 <div class=" pageBackground">
     <div class="container-fluid">
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -30,10 +32,10 @@
 
                             </ul>
                         </li>
-                        <li class="nav-item"><a href="#/user/userHomePage/{{model.pid}}">Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists/{{model.pid}}">Playlists</a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.pid}}">Events</a></li>
-                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.pid}}" class="fa fa-microphone"></a></li>
+                        <li class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
+                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
@@ -44,9 +46,9 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile/{{model.pid}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -70,21 +72,7 @@
                            (Musician/Band)
                        </div>
                    </div>
-
                 </div>
-
-                <!--Below code is commented as we are not giving the functionality of following or unfollwing the
-                music company as of this moment-->
-                <!--<div class="col-sm-6 col-xs-12 profile-name">-->
-                    <!--<button class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.followUser()">-->
-                        <!--FOLLOW</button>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6 col-xs-12 profile-name" style="margin-top: 25px">-->
-                    <!--<button class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.followUser()">-->
-                        <!--UNFOLLOW</button>-->
-                <!--</div>-->
-                <!--<div>
-                </div>-->
             </div>
         </div>
     </div>
