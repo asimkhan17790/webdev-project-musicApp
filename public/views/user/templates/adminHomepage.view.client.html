@@ -23,7 +23,6 @@
                                role="button"
                                aria-haspopup="true"
                                aria-expanded="false">Search <span class="caret"></span></a>
-
                             <ul class="dropdown-menu">
                                 <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
                             </ul>
@@ -40,7 +39,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a href="#/user/editProfile">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a target="_self" >Logout</a></li>
                             </ul>
@@ -70,7 +69,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCogPhone">
-                                <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a href="#/user/editProfile">Edit Profile</a></li>
                                 <li><a  ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>

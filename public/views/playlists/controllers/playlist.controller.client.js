@@ -8,7 +8,7 @@
         .controller("PlayListController",PlayListController);
 
 
-    function PlayListController($routeParams,$location,Upload,$timeout,MusicService,$sce,EmailService,$scope,playListService,UserService) {
+    function PlayListController($routeParams,currentUser,$location,Upload,$timeout,MusicService,$sce,EmailService,$scope,playListService,UserService) {
 
         var vm = this;
         vm.playing = false;

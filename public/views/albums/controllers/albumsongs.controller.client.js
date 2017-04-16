@@ -13,17 +13,17 @@
         .module("WebDevMusicApp")
         .controller("SongsInAlbums",SongsInAlbums);
 
-    function SongsInAlbums($location,$routeParams,playListService,Upload,UserService,$timeout,MusicService,$sce,EmailService,$scope ,albumService) {
+    function SongsInAlbums(currentUser ,$location,$routeParams,playListService,Upload,UserService,$timeout,MusicService,$sce,EmailService,$scope ,albumService) {
         var vm = this;
         vm.playing = false;
         // logged in parent user id
-        vm.pid = $routeParams.pid;
+        vm.pid = currentUser._id ;
 
         // current singer company
         vm.userId = $routeParams.uid;
 
         // current album id
-        vm.singerId = null;
+
         vm.albumId = $routeParams.aid;
         vm.playStatus = "Paused...";
         vm.nowPlayingTitle = "";
@@ -48,9 +48,12 @@
         vm.selectedSong = null ;
         vm.songaddedsuccess = null ;
         function init () {
-            if (vm.pid) {
-                vm.userId = vm.pid;
-                vm.singerId = $routeParams.uid;
+            if( vm.userId == null) {
+                vm.isOwner = true ;
+            }
+            else if(vm.userId != null)
+            {
+                vm.isOwner = false ;
             }
             getUserDetails();
             findAllSongsForAlbum();
@@ -59,7 +62,7 @@
         init();
 
         function getUserDetails() {
-            var promise = UserService.findUserById(vm.userId);
+            var promise = UserService.findUserById(vm.pid);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data) {
                     vm.followers = result.data.followers.length ;
@@ -75,8 +78,8 @@
                 vm.error = "Some Error Occurred!! Please try again!";
             });
         }
-        function redirectToSearchedUser(userId2) {
 
+        function redirectToSearchedUser(userId2) {
             var promise = UserService.findUserById(userId2);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data) {
@@ -84,10 +87,10 @@
                     closeModal();
                     $timeout(function () {
                         if(searchedUser.userType === 'U')
-                            $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                            $location.url("/user/userSearch/"+userId2);
                         else if(searchedUser.userType === 'M')
                         {
-                            $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
+                            $location.url("/user/singerSearch/"+userId2);
                         }
                     }, 250);
                     vm.error = null;
@@ -175,7 +178,8 @@
         }
 
         function searchUsers () {
-            var promise = UserService.searchUsers(vm.inputQuery,vm.userId);
+
+            var promise = UserService.searchUsers(vm.inputQuery,vm.pid);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.length >0) {
                     vm.users = result.data;
@@ -191,12 +195,8 @@
         }
         function findAllSongsForAlbum() {
             var promise = albumService.findAllSongs(vm.albumId);
-            if( vm.pid == null) {
-                vm.isOwner = true ;
-            }
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data &&
-
                     result.data.songs.length > 0) {
                     //     console.log(result.data);
                     vm.album = result.data;
@@ -204,10 +204,10 @@
                     console.log(vm.userId);
                     // if( vm.pid == null)
                     //     vm.isOwner = true ;
-                   if((vm.pid !=null) && (vm.album.albumOwner ===  vm.pid))
-                        vm.isOwner = true ;
-                    else if( (vm.pid !=null) &&(vm.album.albumOwner !=  vm.pid))
-                        vm.isOwner = false ;
+                   // if((vm.pid !=null) && (vm.album.albumOwner ===  vm.pid))
+                   //      vm.isOwner = true ;
+                   //  else if( (vm.pid !=null) &&(vm.album.albumOwner !=  vm.pid))
+                   //      vm.isOwner = false ;
                     console.log(vm.isOwner);
                     loadMp3Player();
                 }

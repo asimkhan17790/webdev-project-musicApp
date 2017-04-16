@@ -46,23 +46,24 @@
                     pageTitle: 'HomePage'
                 }
             })
-            .when("/user/singerProfile", {
-                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
-                controller:"SingerProfileController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'View Profile'
-                }
-            })
-            .when("/user/userProfile", {
-                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
-                controller:"UserProfileController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'View Profile'
-                }
-            })
-
+            // not sure if we need the below two controller as they seems redundant
+            // .when("/user/singerProfile", {
+            //     templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+            //     controller:"SingerProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            // })
+            // .when("/user/userProfile", {
+            //     templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+            //     controller:"UserProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            // })
+         // not sure if we need the above two controller as they seems redundant
             .when("/user/userHomePageSinger", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
                 resolve : {
@@ -121,64 +122,77 @@
                     pageTitle: 'Forgot Password'
                 }
             })
-            .when("/user/userSearch/:uidP/:uidS", {
+            .when("/user/userSearch/:uidS", {
                 templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"UserProfileController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'View Profile'
                 }
             })
-            .when("/user/singerSearch/:uidP/:uidS", {
+            .when("/user/singerSearch/:uidS", {
                 templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"SingerProfileController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'View Profile'
                 }
             })
-            .when("/user/followers/:uid", {
+            .when("/user/followers", {
                 templateUrl:"/views/user/templates/followers.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"FollowerController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'My Followers'
                 }
             })
-            .when("/user/following/:uid", {
+            .when("/user/following", {
                 templateUrl:"/views/user/templates/following.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"FollowingController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Following'
                 }
             })
-            // .when("/music/playlist", {
-            //     templateUrl:"/views/playlists/templates/playlist.view.client.html",
-            //     controller:"PlayListController",
-            //     controllerAs:"model",
-            //     data: {
-            //         pageTitle: 'Play playlist'
-            //     }
-            // })
-            .when("/user/playlist/songs/:uid/:playListId", {
+            .when("/user/playlist/songs/:playListId", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"PlayListController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Play playlist'
                 }
             })
-            .when("/user/userSearch/playList/songs/:pid/:uid/:playListId", {
+            .when("/user/userSearch/playList/songs/:uid/:playListId", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"PlayListController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Play playlist'
                 }
             })
-            .when("/music/myalbums/:uid", {
+            .when("/music/myalbums", {
                 templateUrl:"/views/albums/templates/allalbums.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"AllAlbumListController",
                 controllerAs:"model",
                 data: {
@@ -196,16 +210,22 @@
                     pageTitle: 'My Playlists'
                 }
             })
-            .when("/user/singer/album/songs/:uid/:aid", {
+            .when("/user/singer/album/songs/:aid", {
                 templateUrl:"/views/albums/templates/albumsongs.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"SongsInAlbums",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'My Songs'
                 }
             })
-            .when("/user/singer/album/songs/:pid/:uid/:aid", {
+            .when("/user/singer/album/songs/:uid/:aid", {
                 templateUrl:"/views/albums/templates/albumsongs.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"SongsInAlbums",
                 controllerAs:"model",
                 data: {

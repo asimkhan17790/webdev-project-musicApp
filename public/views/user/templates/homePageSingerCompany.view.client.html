@@ -14,26 +14,11 @@
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
-
                     <ul class="nav navbar-nav header-ul">
-                        <!--<li class="dropdown">
-                            <a href="#" target="_self"
-                               class="dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Search <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu">
-                                <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
-
-                            </ul>
-                        </li>-->
                         <li class="nav-item glorifyExtra"><a>Home</a></li>
-                        <li class="nav-item"><a href="#/music/myalbums/{{model.userId}}">Albums</a></li>
+                        <li class="nav-item"><a href="#/music/myalbums">Albums</a></li>
                         <!--<li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>-->
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
                         <!--<li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>-->
 
                         <li class="nav-item">
@@ -45,7 +30,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                <!-- <li><a style="color: white;" target="_self" aria-expanded="false" data-toggle="modal" data-target="#inviteModal">Send Invite</a></li>-->
                                 <li role="separator" class="divider"></li>
                                 <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>

@@ -27,8 +27,6 @@
         vm.index = 0;
         vm.deletethisSong = deletethisSong;
         vm.searchNearByEvents = searchNearByEvents;
-
-
         vm.createplayList = createplayList ;
         vm.deleteplayList = deleteplayList ;
         vm.editProfile = editProfile ;
@@ -105,10 +103,10 @@
                     closeModal();
                     $timeout(function () {
                         if(searchedUser.userType == 'U')
-                            $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                            $location.url("/user/userSearch/"+userId2);
                         else if(searchedUser.userType == 'M')
                         {
-                            $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
+                            $location.url("/user/singerSearch/"+userId2);
                         }
                     }, 250);
                     vm.error = null;
@@ -215,8 +213,6 @@
                     closeModal();
                     vm.playlist = {};
                     $timeout(function () {
-                        // probably will handle the redirection to the
-                        // album default page
                         init();
                     }, 250);
                 }
@@ -245,7 +241,6 @@
                     callSearchEventService(null);
                 });
             } else {
-                console.log('Geolocation is not supported by this browser.');
                 callSearchEventService(null);
                 return null;
             }
