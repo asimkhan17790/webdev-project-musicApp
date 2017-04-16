@@ -7,10 +7,10 @@
     })
     .controller("HomePageController",HomePageController);
 
-    function HomePageController (EmailService,EventService ,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location) {
+    function HomePageController (EmailService,EventService ,currentUser,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location) {
         var vm = this;
-        vm.searchNearByEvents = searchNearByEvents;
-        vm.userId = $routeParams.uid ;
+     //   vm.searchNearByEvents = searchNearByEvents;
+        vm.userId = currentUser._id;
         vm.createplayList = createplayList ;
         vm.deleteplayList = deleteplayList ;
         vm.editProfile = editProfile ;
@@ -24,14 +24,23 @@
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.sendEmailInvitation = sendEmailInvitation;
         vm.closeModal = closeModal;
+        vm.logout = logout ;
         function init() {
-            searchNearByEvents();
+      //      searchNearByEvents();
            // searchAllPlaylists();
             getUserDetails ();
             getMusicUpdates();
             findAllPlayList();
         }
         init();
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function sendEmailInvitation () {
             var emailInput = {
@@ -222,16 +231,16 @@
             }
         }
 
-        function callSearchEventService(inputFilter) {
-            var promise =  EventService.searchNearByEvents(inputFilter);
-            promise.success(function (response) {
-                console.log(response);
-                vm.events = response.events;
-
-            }).error(function (error) {
-                console.log(error);
-            });
-        }
+        // function callSearchEventService(inputFilter) {
+        //     var promise =  EventService.searchNearByEvents(inputFilter);
+        //     promise.success(function (response) {
+        //         console.log(response);
+        //         vm.events = response.events;
+        //
+        //     }).error(function (error) {
+        //         console.log(error);
+        //     });
+        // }
 
         function getTrsustedURL (url) {
            return  $sce.trustAsResourceUrl(url);

@@ -71,7 +71,7 @@
 
                             <ul class="dropdown-menu" id="profileHeaderCogPhone">
                                 <li><a href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
-                                <li><a target="_self" >Logout</a></li>
+                                <li><a  ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -96,7 +96,7 @@
         </div>
     </div>
     <div class="container">
-        <h1>Will show the dashboard here</h1>
+        <!--<h1>Will show the dashboard here</h1>-->
     </div>
 
     <!-- Profile Search Modal-->

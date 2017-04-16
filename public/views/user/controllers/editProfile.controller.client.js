@@ -6,9 +6,9 @@
         .module("WebDevMusicApp")
         .controller("EditProfileController", EditProfileController);
 
-    function EditProfileController ($location ,$routeParams ,UserService ,Upload) {
+    function EditProfileController ($location ,currentUser,$routeParams ,UserService ,Upload) {
         var vm = this;
-        vm.userId = $routeParams['uid'];
+        vm.userId = currentUser._id;
         vm.saveChanges = saveChanges ;
         function init() {
             var promise = UserService.findUserById(vm.userId);

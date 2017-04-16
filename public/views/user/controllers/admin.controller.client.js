@@ -28,12 +28,22 @@
         vm.openEditModalFromAdmin = openEditModalFromAdmin ;
         vm.saveChanges = saveChanges ;
         vm.toEditUser ;
+        vm.logout = logout ;
         function init() {
             getUserDetails ();
             vm.userad={};
             vm.userTypead =  vm.userOptionsad[0];
         }
         init();
+
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function saveChanges() {
             var promise =  UserService.updateUser(vm.toEditUser._id ,vm.toEditUser);
@@ -93,7 +103,7 @@
                 promise.success(function (response) {
                     if (response) {
                         if (response.status === "OK" && response.data) {
-                            vm.success = "Event updated successfully";
+                            vm.success = "User updated successfully";
                             vm.error= null;
                             $timeout(function () {
                                 closeModal();
