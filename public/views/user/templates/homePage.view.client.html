@@ -31,11 +31,11 @@
                             </ul>
                         </li>
                         <li class="nav-item glorifyExtra"><a>Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
-                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
+                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
@@ -46,10 +46,10 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li><a style="color: white;" target="_self" aria-expanded="false" data-toggle="modal" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                                <li><a style="color: white;" ng-click="model.logout()">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -60,7 +60,7 @@
     <div class="jumbotron">
         <div class="container-fluid" style="margin-top: 50px">
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-6 glorify">
                     <h1><span style="color: red">Hello </span>, {{model.user.firstName}}</h1>
                 </div>
                 <div class="col-xs-6">
@@ -74,12 +74,9 @@
         </div>
     </div>
     <div class="container">
-
-
         <ng-include src="'views/user/templates/musicNews.view.client.html'"></ng-include>
+        <ng-include src="'views/user/templates/playList.template.view.client.html'"></ng-include>
         <ng-include src="'views/user/templates/upcomingEvents.view.client.html'"></ng-include>
-
-
 
     </div>
 

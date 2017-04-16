@@ -4,13 +4,21 @@
 /**
  * Created by sumitbhanwala on 2/21/17.
  */
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 module.exports = function (app ,listOfModel) {
 
     // find User is a generic function which will in turn call
     // findUserByCredentails and findUserByUserName
     // server is listening to the below mentioned end points
     app.post("/api/user" ,createUser);
-    app.get("/api/user" ,findUser);
+    app.post("/api/user/login" ,passport.authenticate('local'),findUser);
+    app.post("/api/user/loggedin",loggedin);
+    app.post('/api/user/logout', logout);
+    app.post('/api/user/isAdmin', isAdmin);
     app.put("/api/user/:userId",updateUser);
     app.delete("/api/user/:userId",deleteUser);
     app.get("/api/user/album/:userId",findAlbumsForUser);
@@ -27,12 +35,91 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/follow/playList/:userId1/:userId2",findAllplayListAndFollowing);
     app.get("/api/user/findAllEventsOfUser/:uid", findAllEventsOfUser);
     app.post("/api/user/sendInvite/", sendInvitationToNonUsers);
+    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get('/google/oauth/callback',
+        passport.authenticate('google', {
+            successRedirect: '/lectures-wed/passportjs/#!/profile',
+            failureRedirect: '/lectures-wed/passportjs/#!/login'
+        }));
 
+    passport.use('local',new LocalStrategy(localStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
 
     var userModel = listOfModel.UserModel;
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
+
+    function logout(req, res) {
+        req.logout();
+        res.send(200);
+    }
+
+    function isAdmin(req, res) {
+        if(req.isAuthenticated() && req.user.userType == 'A') {
+            res.json(req.user);
+        } else {
+            res.send('0');
+        }
+    }
+
+    function localStrategy(username, password, done) {
+        userModel
+            .findUserByCredentials(username, password)
+            .then(
+                function(user) {
+                    if (!user) {
+                        return done(null, false);
+                    }
+                    return done(null, user);
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            );
+    }
+
+    function loggedin(req, res) {
+        if(req.isAuthenticated()) {
+            res.json(req.user);
+        } else {
+            res.send('0');
+        }
+    }
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(
+                function(user){
+                    done(null, user);
+                },
+                function(err){
+                    done(err, null);
+                }
+            );
+    }
+
+    function findUser (req ,res) {
+        var user = req.user;
+         //  var response = {};
+         //  if (user)
+         //  {
+         //      response.user = user;
+         //     response.description = "User Found";
+         //     response.status = "OK";
+         // }
+         // else {
+         //     response.status = "KO";
+         //     response.description = "Username or password is incorrect";
+         // }
+        res.json(user);
+    }
 
     function deleteUser(req , res) {
         var userId = req.params.userId;
@@ -178,17 +265,24 @@ module.exports = function (app ,listOfModel) {
     function searchNonAdminUsers(req , res) {
         var response = {};
         var searchTerm = req.params.queryString;
-        userModel
-            .searchNonAdminUsers(searchTerm)
-            .then(function (users) {
-                response.status = "OK";
-                response.data = users;
-                res.send(response);
-            },function (err) {
-                res.send(err);
-            });
+        if(req.user && req.user.userType =='A') {
+            userModel
+                .searchNonAdminUsers(searchTerm)
+                .then(function (users) {
+                    response.status = "OK";
+                    response.data = users;
+                    res.send(response);
+                }, function (err) {
+                    res.send(err);
+                });
+        }
+        else
+        {
+            response.status = 401;
+            response.data = {};
+            res.send(response);
+        }
     }
-
 
     // userID1 is the main follower
     // userID2 is the second follower and which we have to unfollow
@@ -387,10 +481,14 @@ module.exports = function (app ,listOfModel) {
                                 .addplayList(createdplayList,'C')
                                 .then(function (updatedUser) {
                                     if (updatedUser) {
-                                        response.status="OK";
-                                        response.description="User successfully created";
-                                        response.user = updatedUser;
-                                        res.json(response);
+                                        // response.status="OK";
+                                        // response.description="User successfully created";
+                                        // response.user = updatedUser;
+                                        // res.json(response);
+                                        req.login(user, function (err) {
+                                            res.json(user);
+                                        });
+
                                     }
                                     else {
                                         response.status="KO";
@@ -418,10 +516,13 @@ module.exports = function (app ,listOfModel) {
                 }
                 else {
                     if (user) {
-                        response.status="OK";
-                        response.description="User successfully created";
-                        response.user = user;
-                        res.json(response);
+                        req.login(user, function (err) {
+                            res.json(user);
+                        });
+                        // response.status="OK";
+                        // response.description="User successfully created";
+                        // response.user = user;
+                        // res.json(response);
                     }
                     else {
                         response.status="KO";
@@ -446,33 +547,7 @@ module.exports = function (app ,listOfModel) {
             });
     }
 
-    function findUser (req ,res) {
-        var queryParams = req.query;
-        var userName = queryParams.username;
-        var passWord = queryParams.password;
-        var response = {};
-        userModel
-            .findUserByCredentials(userName, passWord)
-            .then(function (user) {
-                if (user) {
-                    response.status = "OK";
-                    response.user = user;
-                    response.description = "User Found";
-                }
-                else {
-                    response.status = "KO";
-                    response.description = "Username or password is incorrect";
-                }
-                res.json(response);
-                return;
 
-            } , function (err) {
-                response.status = "KO";
-                response.description = "Some Error Occurred!";
-                res.status(500).send(response);
-                return;
-            });
-    }
 
     function updateUser (req ,res) {
         var userId = req.params.userId;

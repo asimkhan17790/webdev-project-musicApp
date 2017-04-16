@@ -32,6 +32,7 @@ module.exports = function () {
                     result.previewURL = data.body.tracks[0].preview_url;
                     result.artists = data.body.tracks[0].artists;
                     result.trackName = data.body.tracks[0].name;
+                    result.spotifyID = trackId;
                     console.log(album.images.length>0);
                     if (album.images && (album.images.length>0)) {
                         result.imageUrl = album.images[0].url;

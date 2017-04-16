@@ -30,12 +30,12 @@
 
                             </ul>
                         </li>
-                        <li class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
-                        <li class="nav-item glorifyExtra"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
-                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
+                        <li class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li class="nav-item glorifyExtra"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
+                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
@@ -46,7 +46,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a style="color: white;" target="_self" >Logout</a></li>
@@ -73,16 +73,17 @@
         <hr size="30">
         <!-- List -->
         <div>
-            <ul class="list-group" style="overflow-y: auto;max-height: 300px">
+            <ul class="list-group" style="overflow-y: auto;max-height: 350px">
                 <li ng-repeat="playlist in model.playLists" class="list-group-item">
                     <div class="row">
                         <div class="pull-left col-xs-2">
                             <a ng-click="model.openPlaylist(playlist._id)" class="glyphicon glyphicon-play-circle play-button"></a>
                             <!--   <span>{{$index+1}}</span>-->
                         </div>
+
                         <div class="col-xs-8"><a style="color: white" ng-click="model.openPlaylist(playlist._id)">{{playlist.playListName}} </a></div>
-                        <div class="col-xs-2 pull-right">
-                            <a ng-show="model.favorite !== playlist._id" data-toggle="modal" data-target="#myModalDelete" ng-click="model.selectPlaylist(playlist)" class="glyphicon glyphicon-remove"></a>
+                        <div class="col-xs-2">
+                            <a ng-show="model.favorite !== playlist._id" data-toggle="modal" data-target="#myModalDelete" ng-click="model.selectPlaylist(playlist)" class="pull-right glyphicon glyphicon-remove"></a>
                         </div>
                     </div>
                 </li>
@@ -155,6 +156,8 @@
     </div>
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
-
+        <div class="col-xs-12">
+            <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
+        </div>
     </nav>
 </div>

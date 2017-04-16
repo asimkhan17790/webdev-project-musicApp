@@ -87,7 +87,7 @@ module.exports = function (app ,listOfModel) {
         var response = {};
         playListModel
             .deleteSong(songId ,playListId)
-            .then(function() {
+            .then(function(playList) {
                 response.status = "OK";
                 response.data = playList;
                 res.send(response);

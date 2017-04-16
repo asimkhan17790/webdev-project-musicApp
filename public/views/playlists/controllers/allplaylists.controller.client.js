@@ -8,12 +8,12 @@
         .controller("AllPlayListController",PlayListController);
 
 
-    function PlayListController(EmailService,$location,$timeout,UserService,$routeParams,playListService) {
+    function PlayListController(EmailService,$location,$timeout,UserService,$routeParams,playListService ,currentUser) {
 
         var vm = this;
         vm.followers = null ;
         vm.following = null ;
-        vm.userId = $routeParams['uid'];
+        vm.userId = currentUser._id;
         vm.error = null;
         vm.createError = null;
         vm.closeModal = closeModal;

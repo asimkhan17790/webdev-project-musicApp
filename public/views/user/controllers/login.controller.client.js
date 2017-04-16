@@ -10,7 +10,6 @@
         var vm = this;
         vm.redirectToForgotPassword = redirectToForgotPassword;
 
-
         function init() {
         console.log("lets see if logincontroller is calledd");
         }

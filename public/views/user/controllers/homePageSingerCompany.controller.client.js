@@ -6,10 +6,11 @@
         })
         .controller("HomePageSingerController",HomePageSingerController);
 
-    function HomePageSingerController ($scope ,$location,UserService,MusicService, albumService ,$routeParams,StaticDataService ,$timeout,EventService) {
+    function HomePageSingerController ($scope ,currentUser,$location,UserService,MusicService, albumService ,$routeParams,StaticDataService ,$timeout,EventService) {
         var vm = this;
-        vm.userId = $routeParams.uid ;
+        vm.userId = currentUser._id;
         vm.deleteAlbum = deleteAlbum ;
+        vm.logout = logout ;
         // function init() {
         //     var promise = UserService.findAllAlbums(vm.userId);
         //     promise.success(function (user) {
@@ -28,6 +29,14 @@
             getMusicUpdates();
         }
         init();
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function closeModal() {
             $('.modal').modal('hide');

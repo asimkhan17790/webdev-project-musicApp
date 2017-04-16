@@ -4,31 +4,38 @@
         .module("WebDevMusicApp")
         .controller("EventOrgController",EventOrgController);
 
-    function EventOrgController ($location,EventService, UserService ,$routeParams,StaticDataService ,$timeout) {
+    function EventOrgController ($location,EventService,currentUser,UserService ,$routeParams,StaticDataService ,$timeout) {
 
         var vm = this;
-        vm.userId = $routeParams.uid ;
+        vm.userId = currentUser._id;
         vm.error = null;
         vm.success = null;
         vm.events = null;
         vm.noEventsFound = null;
         vm.editMode = false;
         vm.deleteEvent = deleteEvent;
-
-
         vm.createNewEvent = createNewEvent;
         vm.closeModal = closeModal;
         vm.editEvent = editEvent;
         vm.updateEvent = updateEvent;
         vm.createMode = createMode;
         vm.selectEventToDelete = selectEventToDelete;
+        vm.logout = logout ;
         function init() {
-            console.log('Event Org Page controller');
+
             getUserDetails ();
             getAllEventsOfUser();
 
         }
         init();
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function deleteEvent() {
 

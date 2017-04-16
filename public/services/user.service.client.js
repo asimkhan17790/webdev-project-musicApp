@@ -29,10 +29,34 @@
             "followUser": followUser,
             "unfollowUser" :unfollowUser,
             "searchNonAdminUsers" : searchNonAdminUsers ,
-            "findAllplayListAndFollowing":findAllplayListAndFollowing
+            "findAllplayListAndFollowing":findAllplayListAndFollowing ,
+            "loggedin" : loggedin ,
+            "logout" : logout ,
+            "isAdmin" : isAdmin ,
         }
         return api;
 
+        function loggedin() {
+            return $http.post('/api/user/loggedin')
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function isAdmin() {
+            return $http.post('/api/user/isAdmin')
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function logout() {
+            return $http.post('/api/user/logout')
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+        
         function followUser(userId1 ,userId2) {
             return $http.get("api/user/follow/"+userId1+"/"+userId2);
         }
@@ -80,6 +104,7 @@
 
         function createUser(user) {
             return $http.post("/api/user", user);
+
         }
 
         function deleteUser(userId ) {
@@ -93,12 +118,17 @@
         function findUserByCredentials(username , password) {
             // calling the api on the server tp fetch data from the server
             // rather that from the local instance
-            return $http.get("/api/user?username="+username+"&password="+password);
+            var user ={
+                username: username,
+                password: password
+            };
+            return $http.post("/api/user/login",user);
         }
 
         function updateUser(userId , newUser) {
             // new user is the payload which is passed to the server
-            return $http.put("/api/user/"+userId ,newUser);
+            return $http.put("/api/user/"+userId ,newUser)
+
         }
 
     }

@@ -4,8 +4,6 @@
         .module("WebDevMusicApp")
         .config(configuration);
     function configuration($routeProvider,$httpProvider) {
-
-
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
 
@@ -26,16 +24,22 @@
                     pageTitle: 'My Music'
                 }
             })
-            .when("/user/userHomePage/:uid", {
+            .when("/user/userHomePage", {
                 templateUrl:"/views/user/templates/homePage.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"HomePageController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Home Page'
                 }
             })
-            .when("/user/userHomeEventOrg/:uid", {
+            .when("/user/userHomeEventOrg", {
                 templateUrl:"/views/user/templates/homePageEventOrganiser.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"EventOrgController",
                 controllerAs:"model",
                 data: {
@@ -59,38 +63,29 @@
                 }
             })
 
-            .when("/user/userHomePageSinger/:uid", {
+            .when("/user/userHomePageSinger", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"HomePageSingerController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Home Page'
                 }
              })
-            .when("/user/adminHomePage/:uid", {
+            // admin still to be mapped to the session in a better way
+            .when("/user/adminHomePage", {
                 templateUrl:"/views/user/templates/adminHomepage.view.client.html",
+                resolve: {
+                    adminUser: checkAdmin
+                },
                 controller:"adminPageController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Home Page Admin'
                 }
             })
-            // .when("/user/singerProfile", {
-            //     templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
-            //     controller:"SingerProfileController",
-            //     controllerAs:"model",
-            //     data: {
-            //         pageTitle: 'View Profile'
-            //     }
-            //  })
-            // .when("/user/userProfile", {
-            //     templateUrl:"/views/user/templates/userProfilePage.view.client.html",
-            //     controller:"UserProfileController",
-            //     controllerAs:"model",
-            //     data: {
-            //         pageTitle: 'View Profile'
-            //     }
-            // })
             .when("/user/userSearch/playList/songs/:pid", {
                 templateUrl:"/views/playlists/templates/playlistaddsong.view.client.html",
                 controller:"PlayListAddSongController",
@@ -99,20 +94,15 @@
                     pageTitle: 'Viewing playlist and add song'
                 }
             })
-            .when("/user/editProfile/:uid", {
+            .when("/user/editProfile", {
                 templateUrl:"/views/user/templates/editprofile.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"EditProfileController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Edit Profile'
-                }
-            })
-            .when("/login", {
-                templateUrl:"/views/user/templates/login.view.client.html",
-                controller:"LoginController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'User Login'
                 }
             })
             .when("/signup", {
@@ -163,14 +153,14 @@
                     pageTitle: 'Following'
                 }
             })
-            .when("/music/playlist", {
-                templateUrl:"/views/playlists/templates/playlist.view.client.html",
-                controller:"PlayListController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'Play playlist'
-                }
-            })
+            // .when("/music/playlist", {
+            //     templateUrl:"/views/playlists/templates/playlist.view.client.html",
+            //     controller:"PlayListController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'Play playlist'
+            //     }
+            // })
             .when("/user/playlist/songs/:uid/:playListId", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
                 controller:"PlayListController",
@@ -195,8 +185,11 @@
                     pageTitle: 'My albums'
                 }
             })
-            .when("/music/myplaylists/:uid", {
+            .when("/music/myplaylists", {
                 templateUrl:"/views/playlists/templates/allplaylists.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"AllPlayListController",
                 controllerAs:"model",
                 data: {
@@ -234,25 +227,23 @@
                 data: {
                     pageTitle: 'Forgot password'
                 }})
-            .when("/music/recordAndSearch/:uid", {
+            .when("/music/recordAndSearch", {
                 templateUrl:"/views/music/templates/musicRecordSearch.view.client.html",
                 controller:"MusicRecorderController",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Record and Search'
 
                 }
             })
-            .when("/music/musicTester", {
-                templateUrl:"/views/music/templates/musicsearch.view.client.html",
-                controller:"MusicRecSearchController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'API Tester'
-                }
-            })
-            .when("/events/upcomingEvents/:uid", {
+            .when("/events/upcomingEvents", {
                 templateUrl:"/views/events/templates/allEvents.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"UpcomingEventsController",
                 controllerAs:"model",
                 data: {
@@ -263,4 +254,45 @@
                 redirectTo:"/"
             });
     }
+
+    function checkLoggedIn($q ,UserService ,$location ,$timeout) {
+        var defer =  $q.defer();
+        UserService
+            .loggedin()
+            .then(function (user) {
+                if (user == '0') {
+                    $('.modal').modal('hide');
+                    $timeout(function () {
+                    }, 350);
+                    defer.reject();
+                    $location.url('/landingPage');
+                }
+                else
+                {
+                    defer.resolve(user);
+                }
+            });
+        return defer.promise;
+    }
+
+    function checkAdmin($q ,UserService ,$location ,$timeout) {
+        var defer =  $q.defer();
+        UserService
+            .isAdmin()
+            .then(function (user) {
+                if (user == '0') {
+                    $('.modal').modal('hide');
+                    $timeout(function () {
+                    }, 350);
+                    defer.reject();
+                    $location.url('/landingPage');
+                }
+                else
+                {
+                    defer.resolve(user);
+                }
+            });
+        return defer.promise;
+    }
+
 })();

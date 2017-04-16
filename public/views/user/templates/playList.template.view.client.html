@@ -1,0 +1,91 @@
+<div class="col-sm-6" style="margin-bottom:50px">
+    <div class="mymusic-shortcode-events" style="background: rgba(0, 0, 0, .8);">
+        <div >
+            <h2 class="ak-event-title glorify" style="text-transform: uppercase;padding-top: 20px">
+                My <span>Favorites</span>
+            </h2>
+            <div class="text-center">
+            <a class="ak-ds glorify" href="#/music/myplaylists/{{model.userId}}">
+                Go to my <span class="">Playlists</span>
+            </a>
+            </div>
+        </div>
+        <hr size="30">
+        <div class="">
+            <div ng-show="!model.playlist" class="text-center container-fluid" style="height: 100%">
+                <h3 class="redify"> No songs Added to favorites yet!! </h3>
+            </div>
+            <div class="container-fluid">
+            <div class="row" ng-show="model.playlist">
+                <div class="col-xs-12">
+                    <div>
+                        <div>
+                            <div class="row">
+                                <div >
+                                    <img style="top: 2px;margin: 0 auto"
+                                         class="img-responsive img-rounded"
+                                         width="80px"
+                                         height="80px"
+                                         ng-src="{{model.playlist.playlistThumbNail  || '../../../resources/images/playlist_animated.gif'}}">
+                                </div>
+                                <div class="col-xs-12 text-center">
+                                    <a style="margin-top:20px" id="npTitle">{{model.nowPlayingTitle}}</a>
+                                </div>
+                            </div>
+
+                            <!--Music Player here -->
+                            <div id="nowPlay">
+                                <div class="row" style="font-size: large">
+                                    <span class="col-xs-6" id="npAction">{{model.playStatus}}</span>
+                                </div>
+                                <div id="audio0" style="margin-top: 5px">
+                                    <audio style="width: 100%;" preload id="audio1" preload controls="controls">Your browser does not support HTML5 Audio!>
+
+                                    </audio>
+                                    <div class="center text-center" style="font-size: x-large">
+                                        <span id="prev"
+                                              ng-click="model.previousSong()"
+                                              class="glyphicon glyphicon-step-backward pull-left"></span>
+                                        <span id="next"
+                                              ng-click="model.nextSong()"
+                                              class="glyphicon glyphicon-step-forward pull-right">
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr size="30">
+                            <div class="table" style="overflow-y: auto;max-height: 155px">
+                                <ul class="list-group">
+                                    <li ng-repeat="song in model.playlist.songs"
+                                        class="list-group-item" style="font-size: small"
+                                        ng-class="{'current-song' : $index===model.index}">
+
+                                        <div class="row">
+                                            <div class=" col-xs-2">
+                                                <a ng-click="model.playThisSong($index)"
+                                                   class="glyphicon glyphicon-play-circle pull-left play-button">
+
+                                                </a>
+                                                <!--   <span>{{$index+1}}</span>-->
+                                            </div>
+                                            <div class="col-xs-8">
+                                                {{song.title}}
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <a ng-click="model.deletethisSong(song)"
+                                                   class="glyphicon glyphicon-remove pull-right"></a>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
