@@ -1,11 +1,10 @@
-/**
- * Created by sumitbhanwala on 4/5/17.
- */
 module.exports = function () {
     var api = {
         createSong : createSong ,
         deleteAllSongs : deleteAllSongs ,
-        deleteSong : deleteSong
+        deleteSongs : deleteSong,
+        searchSongs: searchSongs,
+        findSongById:findSongById
     };
 
     var mongoose = require('mongoose');
@@ -14,6 +13,33 @@ module.exports = function () {
     var songModel = mongoose.model('songModel', songSchema);
     return api;
 
+    function searchSongs (searchArray) {
+        var q1 =  q.defer();
+        songModel.find(
+            { $text:
+                { $search: searchArray}},
+            function (err ,songs) {
+                if(err)
+                    q1.reject();
+                else
+                    q1.resolve(songs);
+        });
+        return q1.promise;
+    }
+    function findSongById(songid) {
+        var q1 = q.defer();
+        songModel.findOne({_id:songid})
+        .populate('album',{albumname : 1})
+            .exec(function (err ,song) {
+                if(err)
+                    q1.reject(err);
+                else if(song)
+                    q1.resolve(song);
+            });
+
+        return q1.promise;
+
+    }
     function deleteSong(songid) {
         var q1 = q.defer();
         songModel.findOneAndRemove({'_id' :songid} ,function (err,song) {
@@ -41,8 +67,9 @@ module.exports = function () {
 
     }
 
-    function createSong (newsong) {
+    function createSong (newsong,albumId) {
         var q1 = q.defer();
+        newsong.album = albumId;
         songModel.create(newsong, function (err, newsong) {
             if (err) {
                 q1.reject();

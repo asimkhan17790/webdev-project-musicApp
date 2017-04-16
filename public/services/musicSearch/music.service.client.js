@@ -11,13 +11,22 @@
 
             "searchMusicFingerPrint" : searchMusicFingerPrint,
             "searchLyrics" : searchLyrics,
-            "getMusicUpdates" : getMusicUpdates
+            "getMusicUpdates" : getMusicUpdates,
+            "searchSongs" : searchSongs,
+            "findSongById" : findSongById
         };
 
         return api;
 
         //callback functions
 
+        function findSongById(songid) {
+            return $http.get("/api/music/findasong/" + songid);
+        }
+
+        function searchSongs(inputQuery) {
+            return $http.get("/api/music/searchSongs/" + inputQuery);
+        }
 
         function searchMusicFingerPrint(musicBlobObject) {
 

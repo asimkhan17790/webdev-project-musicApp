@@ -35,6 +35,7 @@
             vm.user=null;
             vm.error = null;
             vm.errorLogin = null;
+
             $('.modal').modal('hide');
         }
 
@@ -49,6 +50,7 @@
             vm.user = null;
             vm.error = null;
             vm.errorLogin = null;
+
         }
 
         function login(userId, password) {

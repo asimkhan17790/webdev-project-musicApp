@@ -6,7 +6,7 @@ module.exports = function () {
 
     // expsoing this particular api
     var api = {
-        addSong : addSong ,
+        addSong : addSong,
         createAlbum : createAlbum ,
         findAllSongs : findAllSongs,
         deleteAlbum : deleteAlbum ,

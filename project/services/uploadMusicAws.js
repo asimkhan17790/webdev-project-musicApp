@@ -35,7 +35,7 @@ module.exports = function (app , listOfModel) {
                    artist : req.body.artist,
                    genre : req.body.genre
                }
-                songModel.createSong(newsong)
+                songModel.createSong(newsong,albumId)
                    .then(function (newsong){
                        return albumModel.addSong(newsong ,albumId);
                    }).then(function (updatedAlbum) {

@@ -31,6 +31,7 @@
         vm.deleteplayList = deleteplayList ;
         vm.editProfile = editProfile ;
         vm.error = null;
+        vm.songError = null;
         vm.user = null;
         vm.getTrsustedURL = getTrsustedURL;
         vm.followers = null ;
@@ -41,6 +42,8 @@
         vm.sendEmailInvitation = sendEmailInvitation;
         vm.closeModal = closeModal;
         vm.logout = logout ;
+        vm.searchSongs = searchSongs;
+        vm.redirectToSearchedSong = redirectToSearchedSong;
         function init() {
 
             searchNearByEvents();
@@ -88,11 +91,14 @@
 
         function clearUserFromModal() {
             vm.users = null;
+            vm.inputSong = null;
             vm.error = null;
             vm.inputQuery = null;
             vm.invitationEmail = null;
             vm.emailSuccess = null;
             vm.emailError = null;
+            vm.songError = null;
+            vm.searchedSongs=null;
         }
 
         function redirectToSearchedUser(userId2) {
@@ -133,6 +139,35 @@
                 vm.users = null;
                 vm.error = "Some Error Occurred!! Please try again!";
             });
+        }
+
+        function searchSongs () {
+            var promise = MusicService.searchSongs(vm.inputSong);
+            promise.success (function (result) {
+                if (result && result.status === 'OK' && result.data && result.data.length > 0) {
+                    vm.searchedSongs = result.data;
+                    vm.songError = null;
+                } else {
+                    vm.searchedSongs = null;
+                    vm.songError = "No such song found !!";
+                }
+            }).error(function () {
+                vm.searchedSongs = null;
+                vm.songError = "Some Error Occurred!! Please try again!";
+            });
+        }
+        function redirectToSearchedSong (selectedSong) {
+
+            closeModal();
+            $timeout(function () {
+                if (selectedSong.origin === 'mymusic') {
+                    $location.url("/music/song/songDetails/"+selectedSong._id);
+                }
+            }, 250);
+
+
+
+            console.log('redirecting');
         }
 
         function getUserDetails() {
@@ -186,12 +221,14 @@
         }
 
         function closeModal() {
-
+            vm.songError = null;
+            vm.inputSong = null;
             vm.inputQuery = null;
             vm.invitationEmail = null;
             vm.emailSuccess = null;
             vm.emailError = null;
             $('.modal').modal('hide');
+            vm.searchedSongs = null;
         }
         function deleteplayList(playList) {
             var promise = playListService.deleteplayList(playList);
