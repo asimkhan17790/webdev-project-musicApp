@@ -11,10 +11,14 @@
                             type="submit"
                             ng-click="loginForm.$valid && model.login(model.user.username,model.user.password)">
                         Sign in</button>
-                    <button ng-click="model.googleLogin()" class="btn btn-lg btn-danger btn-block">
+                    <!--<button type="button" ng-click="model.googleLogin()" class="btn btn-lg btn-danger btn-block">
                         <span class="fa fa-google-plus"></span>
                         Google
-                    </button>
+                    </button>-->
+                    <a type="button" href="/auth/google" class="btn btn-lg btn-danger btn-block">
+                        <span class="fa fa-google-plus"></span>
+                        Google
+                    </a>
                     <div class="row">
                         <div class="text-center" style="margin-top: 5px;">
                             <a ng-click="model.redirectToForgotPassword()">Forgot Password? </a><span class="clearfix"></span>

@@ -7,9 +7,9 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 //var bcrypt = require("bcrypt-nodejs");
 
  var googleConfig = {
-     clientID     : "464567587492-8hebuer9i6r8krtn0vp9ouu8tjkioe6r.apps.googleusercontent.com",
-     clientSecret : "RZCWRnJIHkzOw6_BK11oOKDc",
-     callbackURL  : "http://127.0.0.1:3000/auth/google/callback"
+     clientID     : "464567587492-nkq89la1rppp979b74md6k39iiekai40.apps.googleusercontent.com",
+     clientSecret : "OPtM9n-FOWo-Y5IRg1xrk-lW",
+     callbackURL  : "http://localhost:3000/auth/google/callback"
  };
 
 module.exports = function (app ,listOfModel) {
@@ -22,8 +22,9 @@ module.exports = function (app ,listOfModel) {
     // });
 
     app.use(function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Origin", "http://localhost:3000");
         next();
     });
 
