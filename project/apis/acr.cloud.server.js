@@ -76,7 +76,7 @@ module.exports = function () {
                 body = JSON.parse(body);
                 console.log(body);
 
-                if (body.status!=null && body.status.code!=null && body.status.code == 0) {
+                if (body.status!==null && body.status.code!==null && body.status.code == 0) {
                     //Found a Match
                     if (body.metadata && body.metadata.music && body.metadata.music.length != 0) {
 

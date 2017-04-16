@@ -87,13 +87,15 @@
             vm.music.artists.forEach(function (item) {
                 artistArray.push(angular.copy(item.name));
             });
+            console.log('trck ID :'+vm.music.spotifyID);
             var newsong = {
                 songURL : angular.copy(vm.music.previewURL.$$unwrapTrustedValue()),
                 title : angular.copy(vm.music.trackName) ,
                 name : angular.copy(vm.music.trackName),
                 genre : 'N/A',
                 artist : angular.copy(artistArray),
-                songThumb : angular.copy(vm.music.imageUrl)
+                songThumb : angular.copy(vm.music.imageUrl),
+                spotifyID : vm.music.spotifyID
             };
             return newsong;
         }
@@ -167,6 +169,7 @@
             console.log(vm.recordedInput);
         }
         function recordAndSearch() {
+            vm  .addedToFav = null;
             vm.lyricsData= null;
             vm.error = null;
             $timeout(function () {

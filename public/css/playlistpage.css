@@ -28,16 +28,18 @@
 }
 .play-button:hover {
     font-size: 22px;
-    color: #ff9200;
+    color: white;
 }
 .glyphicon-step-backward:hover {
     font-size: 25px;
     color: #ff9200;
+    text-shadow: 0px 0px 10px #fff;
 }
 
 .glyphicon-step-forward:hover {
     font-size: 25px;
     color: #ff9200;
+    text-shadow: 0px 0px 10px #fff;
 }
 
 .glyphicon-step-backward {
@@ -51,7 +53,7 @@
 }
 
 .current-song {
-    background-color: #ff9200;
+    background-color: #c9302c;
 }
 
 

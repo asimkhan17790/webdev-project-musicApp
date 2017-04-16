@@ -23,6 +23,7 @@
         vm.userId = $routeParams.uid;
 
         // current album id
+        vm.singerId = null;
         vm.albumId = $routeParams.aid;
         vm.playStatus = "Paused...";
         vm.nowPlayingTitle = "";
@@ -40,19 +41,63 @@
         vm.isOwner ;
         vm.index = 0;
         vm.playlist = {};
-        vm.addthisSong = addthisSong ;
+        vm.searchUsers = searchUsers;
+        vm.redirectToSearchedUser = redirectToSearchedUser;
         vm.addtothisplaylist = addtothisplaylist;
         vm.selectedSong = null ;
         vm.songaddedsuccess = null ;
         function init () {
+            if (vm.pid) {
+                vm.userId = vm.pid;
+                vm.singerId = $routeParams.uid;
+            }
+            getUserDetails();
             findAllSongsForAlbum();
         }
 
         init();
 
+        function getUserDetails() {
+            var promise = UserService.findUserById(vm.userId);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    vm.followers = result.data.followers.length ;
+                    vm.following = result.data.following.length ;
+                    vm.error = null;
+                    vm.favorite = result.data.favPlayList;
+                    vm.user = result.data;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
 
-        function addthisSong(song) {
-            }
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
+        function redirectToSearchedUser(userId2) {
+
+            var promise = UserService.findUserById(userId2);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    var searchedUser = result.data;
+                    closeModal();
+                    $timeout(function () {
+                        if(searchedUser.userType === 'U')
+                            $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                        else if(searchedUser.userType === 'M')
+                        {
+                            $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
+                        }
+                    }, 250);
+                    vm.error = null;
+                } else {
+                    vm.error = "Some Error Occurred!! Please try again!";
+                }
+
+            }).error(function () {
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
 
 
         function addtothisplaylist (playList) {
@@ -79,8 +124,7 @@
                     vm.availablePlaylist = user.data ;
                     console.log(vm.availablePlaylist);
                      vm.selectedSong = song._id ;
-                })
-                promise.error(function (err) {
+                }).error(function (err) {
                     console.log("some error occured " + err);
                     vm.availablePlaylist = null ;
                 })
@@ -100,6 +144,8 @@
         }
 
         function closeModal() {
+            vm.song = null;
+            vm.file = null;
             $('.modal').modal('hide');
         }
         function loadMp3Player() {
@@ -127,10 +173,26 @@
             loadTrack(vm.index);
         }
 
+        function searchUsers () {
+            var promise = UserService.searchUsers(vm.inputQuery,vm.userId);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data && result.data.length >0) {
+                    vm.users = result.data;
+                    vm.error = null;
+                } else {
+                    vm.users = null;
+                    vm.error = "No user found !!";
+                }
+            }).error(function () {
+                vm.users = null;
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
         function findAllSongsForAlbum() {
             var promise = albumService.findAllSongs(vm.albumId);
-            if( vm.pid == null)
+            if( vm.pid == null) {
                 vm.isOwner = true ;
+            }
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data && result.data.songs.length > 0) {
                     //     console.log(result.data);
@@ -166,7 +228,7 @@
                 url: '/api/musicCompany/uploadSong', // web api which will handle the data
                 data:{
                     title : vm.song.title,
-                    name : vm.song.name,
+                    artist : [vm.song.artistName],
                     genre : vm.song.genre,
                     userId : vm.userId,
                     albumId : vm.albumId,

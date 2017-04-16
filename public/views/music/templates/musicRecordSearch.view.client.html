@@ -107,7 +107,8 @@
                                data-placement="left"
                                ng-click = "model.addSongToFavorites()"
                                class="glyphicon glyphicon-heart pull-right like-button glorify"
-                            ng-class="model.addedToFav?'redHeart':'whiteHeart'">
+                               ng-class="model.addedToFav?'redHeart':'whiteHeart'">
+
                             </a>
                            <!-- <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button glorify">
                             </a>-->
@@ -189,7 +190,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="btn btn-danger">Create Playlist</button>
+                   <!-- <button type="button" class="btn btn-danger">Create Playlist</button>-->
                     <button type="button" class="close" data-dismiss="modal" ng-click="model.clearDataFromModal()">&times;</button>
                     <h4 class="modal-title">Your Available playlists </h4>
                 </div>

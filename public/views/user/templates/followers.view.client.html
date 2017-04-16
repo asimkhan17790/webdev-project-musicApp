@@ -72,12 +72,13 @@
                 <li ng-repeat="user in model.followers" class="list-group-item">
                     <div class="row">
                         <div class="pull-left col-xs-3">
-                            <img class="thumb" width="50px" height="50px" ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                            <img ng-click="model.redirectToSearchedUser(user._id)"
+                                    class="thumb" width="50px" height="50px" ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
                         </div>
 
-                        <div class="pull-left col-xs-9">
-                            <a target="_blank" ng-href="{{event.url}}">
-                                {{user.lastName + ", " + user.firstName}}
+                        <div class="pull-left col-xs-9" style="font-size: large">
+                            <a target="_blank" ng-click="model.redirectToSearchedUser(user._id)">
+                                {{user.firstName + ' ' + user.lastName}}
                             </a>
                             <!--<a class="glyphicon glyphicon-bookmark pull-right" style="position: relative;right:-3px"></a>
                             <a class="glyphicon glyphicon-resize-full pull-right"></a>-->

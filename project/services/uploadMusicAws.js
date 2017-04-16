@@ -32,7 +32,7 @@ module.exports = function (app , listOfModel) {
                var newsong = {
                    songURL : url,
                    title : req.body.title ,
-                   name : req.body.name,
+                   artist : req.body.artist,
                    genre : req.body.genre
                }
                 songModel.createSong(newsong)

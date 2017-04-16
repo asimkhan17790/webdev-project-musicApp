@@ -73,7 +73,7 @@
         <hr size="30">
         <!-- List -->
         <div>
-            <ul class="list-group" style="overflow-y: auto;max-height: 300px">
+            <ul class="list-group" style="overflow-y: auto;max-height: 350px">
                 <li ng-repeat="playlist in model.playLists" class="list-group-item">
                     <div class="row">
                         <div class="pull-left col-xs-2">
@@ -81,8 +81,8 @@
                             <!--   <span>{{$index+1}}</span>-->
                         </div>
                         <div class="col-xs-8"><a style="color: white" ng-click="model.openPlaylist(playlist._id)">{{playlist.playListName}} </a></div>
-                        <div class="col-xs-2 pull-right">
-                            <a ng-show="model.favorite !== playlist._id" data-toggle="modal" data-target="#myModalDelete" ng-click="model.selectPlaylist(playlist)" class="glyphicon glyphicon-remove"></a>
+                        <div class="col-xs-2">
+                            <a ng-show="model.favorite !== playlist._id" data-toggle="modal" data-target="#myModalDelete" ng-click="model.selectPlaylist(playlist)" class="pull-right glyphicon glyphicon-remove"></a>
                         </div>
                     </div>
                 </li>

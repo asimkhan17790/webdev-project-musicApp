@@ -29,6 +29,7 @@
         vm.selectedSong = null ;
         vm.index = 0;
         vm.isOwner ;
+        vm.userId = $routeParams['uid'];
         function init () {
             findAllSongsForPlayList();
         }
@@ -79,7 +80,7 @@
 
         function deletethisSong(song) {
             var songId = song._id;
-            var promise = playListService.deleteSongFromPlayList(vm.playListId ,songId );
+            var promise = playListService.deleteSongFromPlayList(vm.playListId ,songId);
             promise.success(function(response) {
                 if(response){
                     init();

@@ -1,0 +1,29 @@
+<div class="container-fluid">
+    <span ng-show="model.error" style="z-index: 100;color: red;font-size: x-large">
+        {{model.error}}
+    </span>
+    <span ng-show="model.success" style="z-index: 100;color: green;font-size: x-large">
+        {{model.success}}
+    </span>
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-group" role="form" name="deleteForm">
+                <h2> Are you sure you want to delete this Album?</h2>
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-xs-12 col-sm-6">
+                        <button
+                                class="btn btn-lg btn-danger btn-block"
+                                ng-click="model.deletethisAlbum()" style="margin-bottom: 20px;"
+                                type="submit">Yes</button>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <button
+                                class="btn btn-lg btn-danger btn-block"
+                                ng-click="model.closeModal()" style="margin-bottom: 20px "
+                                type="submit">No</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
