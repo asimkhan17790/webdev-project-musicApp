@@ -7,10 +7,10 @@
         .module("WebDevMusicApp")
         .controller("AllAlbumListController",AllAlbumListController);
 
-    function AllAlbumListController($location,$timeout,$sce,UserService,$routeParams,playListService,albumService) {
+    function AllAlbumListController($location,currentUser,$timeout,$sce,UserService,$routeParams,playListService,albumService) {
 
         var vm = this;
-        vm.userId = $routeParams['uid'];
+        vm.userId = currentUser._id ;
         vm.error = null;
         vm.createError = null;
         vm.closeModal = closeModal;
@@ -56,7 +56,7 @@
         }
 
         function openAlbum(albumId) {
-            $location.url("/user/singer/album/songs/" + vm.userId + "/" + albumId)
+            $location.url("/user/singer/album/songs/"+ albumId)
         }
 
         function deletethisAlbum () {

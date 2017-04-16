@@ -31,12 +31,12 @@
                             </ul>
                         </li>
 
-                        <li  ng-show="model.user.userType ==='U'"  class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
-                        <li ng-show="model.user.userType ==='M'"  class="nav-item"><a href="#/user/userHomePageSinger/{{model.userId}}">Home</a></li>
-                        <li ng-show="model.user.userType ==='U'" class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li ng-show="model.user.userType ==='M'" class="nav-item glorifyExtra"><a href="#/music/myalbums/{{model.userId}}">Albums</a></li>
+                        <li  ng-show="model.user.userType ==='U'"  class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li ng-show="model.user.userType ==='M'"  class="nav-item"><a href="#/user/userHomePageSinger">Home</a></li>
+                        <li ng-show="model.user.userType ==='U'" class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li ng-show="model.user.userType ==='M'" class="nav-item glorifyExtra"><a href="#/music/myalbums">Albums</a></li>
 
-                        <li class="nav-item"><a class="" href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
+                        <li class="nav-item"><a class="" href="#/events/upcomingEvents">Events</a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
                                target="_self"
@@ -46,7 +46,7 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a style="color: white;" target="_self" >Logout</a></li>
                             </ul>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-xs-6">       <!-- href="#/music/myalbums/{{model.userId}}"-->
                             <a ng-show="!model.isOwner" class="btn btn-default pull-right" href="#/user/singerSearch/{{model.userId}}/{{model.singerId}}">Go Back</a>
-                            <a ng-show="model.isOwner" class="btn btn-default pull-right" href="#/music/myalbums/{{model.userId}}">Go Back</a>
+                            <a ng-show="model.isOwner" class="btn btn-default pull-right" href="#/music/myalbums">Go Back</a>
 
                         </div>
                         </div>
@@ -93,7 +93,6 @@
                 <span class="btn btn-danger pull-right" data-toggle="modal" data-target="#newSongModal" >Add new Song </span>
                 <!--<span class="glyphicon glyphicon-plus pull-right" data-toggle="modal" data-target="#newSongModal" > </span>-->
             </a>
-
         </div>
         <div id="nowPlay">
             <div class="row glorify" style="font-size: larger">
