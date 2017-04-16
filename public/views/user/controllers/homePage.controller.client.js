@@ -275,6 +275,11 @@
                 else if(result && result.status==='OK' && result.data && result.data.songs.length == 0){
                     if(vm.audio) {
                         vm.audio.pause();
+                        vm.playlist = result.data;
+                        vm.audio.pause();
+                        vm.audio.src = null;
+                        vm.nowPlayingTitle = null;
+                        $scope.$apply();
                     }
                     vm.noSongFound = "There are no songs to play in this Playlist";
                 }else {
