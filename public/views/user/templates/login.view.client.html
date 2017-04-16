@@ -11,7 +11,7 @@
                             type="submit"
                             ng-click="loginForm.$valid && model.login(model.user.username,model.user.password)">
                         Sign in</button>
-                    <button href="/auth/google" class="btn btn-lg btn-danger btn-block">
+                    <button ng-click="model.googleLogin()" class="btn btn-lg btn-danger btn-block">
                         <span class="fa fa-google-plus"></span>
                         Google
                     </button>

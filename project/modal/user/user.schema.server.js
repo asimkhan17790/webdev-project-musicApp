@@ -14,9 +14,13 @@ module.exports = function () {
         gender : String,
         dateCreated : {type : Date , default :Date.now()},
         imageURL : String ,
+        google: {
+            id:    String,
+            token: String
+        },
         favPlayList:{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'},
         eventsCreated : [{type :mongoose.Schema.Types.ObjectId , ref:'eventModel'}] ,
-        userType : {type : String, enum : ['E', 'U', 'M','A']},
+        userType : {type : String, enum : ['E', 'U', 'M','A'] ,default: 'U'},
         playList : [{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'}],
         album : [{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'}],
         followers :[{type :mongoose.Schema.Types.ObjectId , ref:'UserModel'}],

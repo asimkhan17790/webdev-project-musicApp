@@ -15,6 +15,7 @@
         vm.errorLogin = null;
         vm.clearUserFromModal = clearUserFromModal;
         vm.openSignupModalFromLoginModal = openSignupModalFromLoginModal;
+        vm.googleLogin = googleLogin ;
         function init() {
             //StaticDataService
             vm.user={};
@@ -44,6 +45,10 @@
             $timeout(function () {
                  $location.url("/landingPage/forgetpass");
             }, 250);
+        }
+        
+        function googleLogin () {
+            UserService.googleLogin();
         }
 
         function clearUserFromModal() {

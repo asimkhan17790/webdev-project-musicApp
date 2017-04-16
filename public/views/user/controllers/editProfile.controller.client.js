@@ -32,8 +32,6 @@
             // only we will save the remaining changes of the user to the user database and
             // if any of the step fails than we will abort the entire process from the scratch
 
-
-
             if(vm.file)
             {
                 Upload.upload({

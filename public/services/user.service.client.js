@@ -33,6 +33,7 @@
             "loggedin" : loggedin ,
             "logout" : logout ,
             "isAdmin" : isAdmin ,
+            "googleLogin" : googleLogin
         }
         return api;
 
@@ -41,6 +42,10 @@
                 .then(function (response) {
                     return response.data;
                 });
+        }
+
+        function googleLogin() {
+            return $http.get("/auth/google");
         }
 
         function isAdmin() {
@@ -128,7 +133,6 @@
         function updateUser(userId , newUser) {
             // new user is the payload which is passed to the server
             return $http.put("/api/user/"+userId ,newUser)
-
         }
 
     }
