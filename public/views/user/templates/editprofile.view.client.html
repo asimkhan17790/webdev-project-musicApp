@@ -82,7 +82,7 @@
       <!--model.user.imageURL||-->
     <!-- edit form column -->
     <div class="col-md-8 col-sm-6 col-xs-12 ">
-        <form class="form-horizontal" style="font-size: medium" role="form">
+        <form class="form-horizontal" style="font-size: medium" role="form" name="editProfileForm">
         <div class="form-group">
           <label class="col-lg-3 control-label">First name:</label>
           <div class="col-lg-8">
@@ -128,7 +128,7 @@
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <input class="btn btn-danger" value="Save Changes" type="button" ng-click="model.saveChanges()">
+            <input class="btn btn-danger" value="Save Changes" type="button" ng-click="editProfileForm.$valid &&  model.saveChanges()">
             <span></span>
               <a class="btn btn-default" href="javascript:history.back()">Cancel</a>
           </div>
