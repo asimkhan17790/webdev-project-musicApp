@@ -6,9 +6,9 @@
         .module("WebDevMusicApp")
         .controller("FollowerController", FollowerController);
 
-    function FollowerController ($location ,$routeParams ,UserService,$timeout,EmailService) {
+    function FollowerController ($location ,currentUser,$routeParams ,UserService,$timeout,EmailService) {
         var vm = this;
-        vm.userId = $routeParams['uid'];
+        vm.userId = currentUser._id;
         vm.followers = null;
         vm.following = null;
         vm.followersLength=null;

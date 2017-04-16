@@ -6,6 +6,7 @@
   "dependencies": {
     "acr-cloud": "^0.1.4",
     "aws-sdk": "^2.39.0",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.1",
     "cookie-parser": "^1.4.3",
     "crypto": "0.0.3",

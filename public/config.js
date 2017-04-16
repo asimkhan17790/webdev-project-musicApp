@@ -47,22 +47,22 @@
                 }
             })
             // not sure if we need the below two controller as they seems redundant
-            .when("/user/singerProfile", {
-                templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
-                controller:"SingerProfileController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'View Profile'
-                }
-            })
-            .when("/user/userProfile", {
-                templateUrl:"/views/user/templates/userProfilePage.view.client.html",
-                controller:"UserProfileController",
-                controllerAs:"model",
-                data: {
-                    pageTitle: 'View Profile'
-                }
-            })
+            // .when("/user/singerProfile", {
+            //     templateUrl:"/views/user/templates/singerProfilePage.view.client.html",
+            //     controller:"SingerProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            // })
+            // .when("/user/userProfile", {
+            //     templateUrl:"/views/user/templates/userProfilePage.view.client.html",
+            //     controller:"UserProfileController",
+            //     controllerAs:"model",
+            //     data: {
+            //         pageTitle: 'View Profile'
+            //     }
+            // })
          // not sure if we need the above two controller as they seems redundant
             .when("/user/userHomePageSinger", {
                 templateUrl:"/views/user/templates/homePageSingerCompany.view.client.html",
@@ -144,30 +144,28 @@
                     pageTitle: 'View Profile'
                 }
             })
-            .when("/user/followers/:uid", {
+            .when("/user/followers", {
                 templateUrl:"/views/user/templates/followers.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"FollowerController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'My Followers'
                 }
             })
-            .when("/user/following/:uid", {
+            .when("/user/following", {
                 templateUrl:"/views/user/templates/following.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
                 controller:"FollowingController",
                 controllerAs:"model",
                 data: {
                     pageTitle: 'Following'
                 }
             })
-            // .when("/music/playlist", {
-            //     templateUrl:"/views/playlists/templates/playlist.view.client.html",
-            //     controller:"PlayListController",
-            //     controllerAs:"model",
-            //     data: {
-            //         pageTitle: 'Play playlist'
-            //     }
-            // })
             .when("/user/playlist/songs/:playListId", {
                 templateUrl:"/views/playlists/templates/playlist.view.client.html",
                 resolve : {
