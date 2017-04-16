@@ -1,16 +1,12 @@
-<div class="col-sm-12">
-    <div class="mymusic-shortcode-events" >
+<div class="col-sm-12 glorify">
+    <div class="mymusic-shortcode-events">
         <h2 class="ak-event-title" style="text-transform: uppercase;padding-top: 20px">
-            <span style="color: red">{{model.user.lastName +", " + model.user.firstName}}</span> Albums
+            <span style="color: red">RECENT</span> Albums
         </h2>
         <p class="ak-ds">
-            Listen to the albums here and add songs in your own play lists.
+            Listen to the albums here and add songs in your own playlists.
         </p>
         <hr size="30">
-        <!-- ng-show="model.playlists.length > 0"-->
-        <!--<div ng-show="model.notFollowing" style="padding: 30px;margin-top:20px;font-size: large;color: red" class="text-center">-->
-            <!--{{model.notFollowing}}-->
-        <!--</div>-->
     </div>
     <div  class="ak-album-container">
         <div ng-repeat="album in model.albums" class="col-xs-12 col-sm-3 col-md-2" style="">
@@ -28,7 +24,9 @@
                                 <span>{{album.albumgenre}}</span>
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <button class="btn btn-lg btn-danger btn-block ak-playlist-button" type="submit"
+                                        <button
+                                                class="btn btn-lg btn-danger btn-block ak-playlist-button"
+                                                type="submit"
                                                 ng-click="model.openAlbum(album._id)">
                                             Open</button>
                                     </div>

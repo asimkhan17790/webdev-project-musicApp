@@ -1,5 +1,5 @@
 <div class=" pageBackground">
-    <div class="container">
+    <div class="container-fluid">
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -9,13 +9,13 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="navbar-header">
-                    <a class="navbar-brand">
+                    <a class="navbar-brand glorify">
                         <span style="color: red;font-family:Helvetica">My</span>Music
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
-                    <ul class="nav navbar-nav pull-right  visible-sm visible-md visible-lg">
 
+                    <ul class="nav navbar-nav header-ul">
                         <li class="dropdown">
                             <a href="#" target="_self"
                                class="dropdown-toggle"
@@ -25,18 +25,15 @@
                                aria-expanded="false">Search <span class="caret"></span></a>
 
                             <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self" aria-expanded="false">Music</a></li>
+                                <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
 
                             </ul>
                         </li>
-                        <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a>Followers <span class="badge">42</span></a></li>
-                        <li class="nav-item"><a>Following <span class="badge">12</span></a></li>
-                        <li class="nav-item"><a>Events</a></li>
-
-                        <li class="nav-item"><a style="font-size: 20px" class="fa fa-microphone"></a></li>
+                        <li class="nav-item"><a href="#/user/userHomePage/{{model.pid}}">Home</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists/{{model.pid}}">Playlists</a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.pid}}">Events</a></li>
+                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.pid}}" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
@@ -47,45 +44,10 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a target="_self">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a target="_self" >Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <ul class="nav navbar-nav pull-left hidden-md visible-xs hidden-lg">
-                        <li class="dropdown">
-                            <a href="#" target="_self"
-                               class="dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Search <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self">Music</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a>Home</a></li>
-                        <li class="nav-item"><a>Playlists</a></li>
-                        <li class="nav-item"><a>Followers</a></li>
-                        <li class="nav-item"><a>Following</a></li>
-                        <li class="nav-item"><a>Events</a></li>
-                        <li class="nav-item"><a>Search</a></li>
-                        <li class="nav-item"><a style="font-size: 20px" class="fa fa-microphone" aria-hidden="true"></a></li>
-                        <li class="nav-item">
-                            <a class="glyphicon glyphicon-cog dropdown-toggle"
-                               target="_self"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false"></a>
-
-                            <ul class="dropdown-menu" id="profileHeaderCogPhone">
-                                <li><a target="_self">Edit Profile</a></li>
-                                <li><a target="_self" >Logout</a></li>
+                                <li><a style="color: white;" target="_self" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -93,7 +55,7 @@
             </div>
         </nav>
     </div>
-    <div class="jumbotron">
+    <div class="jumbotron glorify">
         <div class="container" style="margin-top: 50px">
             <div class="row">
                 <div class="col-sm-6 col-xs-12" style="margin-bottom: 20px">
@@ -103,12 +65,31 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-xs-12 profile-name">
-                    <h1><span style="color: red">{{model.user.firstName}} </span>{{model.user.lastName}}</h1>
+                   <div class="text-center">
+                       <h1><span style="color: red">{{model.user.firstName}} </span>{{model.user.lastName}}</h1>
+                       <div class="glorify title_sub text-center">
+                           (Musician/Band)
+                       </div>
+                   </div>
+
                 </div>
+
+                <!--Below code is commented as we are not giving the functionality of following or unfollwing the
+                music company as of this moment-->
+                <!--<div class="col-sm-6 col-xs-12 profile-name">-->
+                    <!--<button class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.followUser()">-->
+                        <!--FOLLOW</button>-->
+                <!--</div>-->
+                <!--<div class="col-sm-6 col-xs-12 profile-name" style="margin-top: 25px">-->
+                    <!--<button class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.followUser()">-->
+                        <!--UNFOLLOW</button>-->
+                <!--</div>-->
+                <!--<div>
+                </div>-->
             </div>
         </div>
     </div>
-    <div class="container" style="margin-bottom: 100px;background: rgba(0, 0, 0, .8);">
+    <div class="container black-container" style="margin-bottom: 100px">
         <ng-include src="'views/user/templates/albumitems.template.client.html'"></ng-include>
     </div>
 

@@ -12,7 +12,7 @@
         vm.followers = null;
         vm.following = null;
         vm.followersLength=null;
-        vm.searchUsers = searchUsers ;
+        vm.searchUsers = searchUsers;
         vm.clearUserFromModal  = clearUserFromModal;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.sendEmailInvitation = sendEmailInvitation;

@@ -7,14 +7,10 @@
     function SingerProfileController ($location, UserService ,$routeParams,StaticDataService ,$timeout) {
 
         var vm = this;
-        // where userId is the id of this singer
-        var userId = $routeParams.uidS ;
-        // where pid is the id of the person who searched for this user.
-        var pid = $routeParams.uidP;
-      //  vm.followUser = followUser;
-      //  vm.unfollowUser = unfollowUser;
-      //  vm.findPlayList = findPlayList;
-     //   vm.followUserThisPlayList = followUserThisPlayList;
+        vm.userId = $routeParams.uidS ;
+        vm.pid = $routeParams.uidP;
+        vm.redirectToSearchedUser  = redirectToSearchedUser;
+        vm.searchUsers = searchUsers;
         vm.notFollowing = null;
         vm.openAlbum = openAlbum ;
         function init() {
@@ -22,17 +18,42 @@
             findAllAlbums();
         }
         init();
+        function redirectToSearchedUser(userId2) {
+            vm.users = null;
+            vm.inputQuery = null;
+            var promise = UserService.findUserById(userId2);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data) {
+                    var searchedUser = result.data;
+                    closeModal();
+                    $timeout(function () {
+                        if(searchedUser.userType == 'U')
+                            $location.url("/user/userSearch/"+vm.pid+"/"+userId2);
+                        else if(searchedUser.userType == 'M')
+                        {
+                            $location.url("/user/singerSearch/"+vm.pid+"/"+userId2);
+                        }
+                    }, 250);
+                    vm.follError = null;
+                } else {
+                    vm.follError = "Some Error Occurred!! Please try again!";
+                }
 
+            }).error(function () {
+                vm.follError = "Some Error Occurred!! Please try again!";
+            });
+        }
 
         function openAlbum(albumId) {
-            $location.url("/user/singer/album/songs/" + pid + "/"+userId+"/" + albumId);
+            $location.url("/user/singer/album/songs/" + vm.pid + "/"+vm.userId+"/" + albumId);
         }
 
         function getUserDetails() {
-            var promise = UserService.findUserById(userId);
+            var promise = UserService.findUserById(vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data) {
                     vm.user = result.data;
+                    vm.error = null;
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }
@@ -41,9 +62,28 @@
                 vm.error = "Some Error Occurred!! Please try again!";
             });
         }
+        function closeModal() {
+
+            $('.modal').modal('hide');
+        }
+        function searchUsers () {
+            var promise = UserService.searchUsers(vm.inputQuery ,vm.pid);
+            promise.success (function (result) {
+                if (result && result.status==='OK' && result.data && result.data.length >0) {
+                    vm.users = result.data;
+                    vm.error = null;
+                } else {
+                    vm.users = null;
+                    vm.error = "No user found !!";
+                }
+            }).error(function () {
+                vm.users = null;
+                vm.error = "Some Error Occurred!! Please try again!";
+            });
+        }
 
         function findAllAlbums() {
-            var promise = UserService.findAllAlbums(userId);
+            var promise = UserService.findAllAlbums(vm.userId);
             promise.success (function (result) {
                 if (result && result.status==='OK' && result.data != null) {
                     vm.albums = result.data ;
