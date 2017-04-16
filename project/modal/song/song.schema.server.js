@@ -11,7 +11,12 @@ module.exports = function () {
         lyricsID : String ,
         songURL : String ,
         songThumb : String ,
+        albumName : String,
+        album :{type :mongoose.Schema.Types.ObjectId , ref:'albumModel'},
+        origin : {type : String , default :'mymusic'},
         dateCreated : {type : Date , default :Date.now()}
     },{collection: 'song'});
+
+    songSchema.index({ title: 'text', genre: 'text'});
     return songSchema ;
 };

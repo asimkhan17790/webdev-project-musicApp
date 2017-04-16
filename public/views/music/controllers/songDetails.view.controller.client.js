@@ -5,16 +5,14 @@
         .run(function($rootScope, $uibModalStack) {
             $uibModalStack.dismissAll();
         })
-        .controller("MusicRecorderController", MusicRecorderController);
+        .controller("SongDetailsController", SongDetailsController);
 
-    function MusicRecorderController (UserService, $sce,currentUser,$timeout,Upload,MusicService,$routeParams,playListService) {
+    function SongDetailsController (UserService,currentUser, $sce,$timeout,Upload,MusicService,$routeParams,playListService) {
 
         var vm = this;
         vm.userId = currentUser._id;
-        vm.recordAudio = recordAudio;
-        vm.stopRecording = stopRecording;
+        vm.songId = $routeParams.songId ;
         vm.getTrustedHtml = getTrustedHtml;
-        vm.recordAndSearch = recordAndSearch;
         vm.showSpinner = showSpinner;
         vm.findLyrics = findLyrics;
         vm.closeAlert = closeAlert;
@@ -28,13 +26,32 @@
         vm.addedToFav = null;
         vm.favError = null;
         vm.favSuccess = null;
+        vm.getTrustedURL = getTrustedURL;
+
         function init() {
             getUserDetails();
+            findSongById();
             angular.element(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip({animation: true});
             });
         }
+        function getTrustedURL (url) {
+            return  $sce.trustAsResourceUrl(url);
+        }
         init();
+
+        function findSongById () {
+
+            var promise = MusicService.findSongById(vm.songId);
+            promise.success(function(response) {
+                vm.music = response.data;
+                console.log(vm.music);
+                vm.music.songURL =  $sce.trustAsResourceUrl(vm.music.songURL);
+
+            }).error(function (err) {
+                vm.error = "Some Error Occurred";
+            })
+        }
 
         function closeModal() {
             vm.songSaveError = null;
@@ -84,9 +101,17 @@
 
         function createSong () {
             var artistArray = [];
-            vm.music.artists.forEach(function (item) {
-                artistArray.push(angular.copy(item.name));
-            });
+            if (vm.music.artists) {
+                vm.music.artists.forEach(function (item) {
+                    artistArray.push(angular.copy(item.name));
+                });
+            }
+            else if (vm.music.artist) {
+                vm.music.artist.forEach(function (item) {
+                    artistArray.push(angular.copy(item.name));
+                });
+            }
+
             console.log('trck ID :'+vm.music.spotifyID);
             var newsong = {
                 songURL : angular.copy(vm.music.previewURL.$$unwrapTrustedValue()),
@@ -102,30 +127,30 @@
 
         function addSongToMyPlaylist(selectedPlayList) {
 
-                var promise  = playListService.createSongFromSpotify(createSong (),selectedPlayList._id);
-                promise.success(function (result) {
-                    if (result && result.status === 'OK') {
-                        if (result.description) {
-                            vm.songSaveSuccess = result.description;
-                            vm.songSaveError = null;
-                        }
-                        else {
-                            vm.songSaveSuccess = "Song Successfully Added!!";
-                            vm.songSaveError = null;
-                        }
-                        $timeout(function () {
-                            closeModal();
-                        }, 500);
-
-                    } else {
-                        vm.songSaveError = "Some Error Occurred";
-                        vm.songSaveSuccess = null;
+            var promise  = playListService.createSongFromSpotify(createSong (),selectedPlayList._id);
+            promise.success(function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.songSaveSuccess = result.description;
+                        vm.songSaveError = null;
                     }
+                    else {
+                        vm.songSaveSuccess = "Song Successfully Added!!";
+                        vm.songSaveError = null;
+                    }
+                    $timeout(function () {
+                        closeModal();
+                    }, 500);
 
-                }).error(function (err) {
+                } else {
                     vm.songSaveError = "Some Error Occurred";
                     vm.songSaveSuccess = null;
-                });
+                }
+
+            }).error(function (err) {
+                vm.songSaveError = "Some Error Occurred";
+                vm.songSaveSuccess = null;
+            });
         }
 
 
@@ -158,68 +183,13 @@
             }
             return true;
         }
-        function recordAudio() {
-            console.log(vm.recordedInput);
-        }
+
         function getTrustedHtml(html) {
             return $sce.trustAsHtml(html);
         }
 
-        function stopRecording() {
-            console.log(vm.recordedInput);
-        }
-        function recordAndSearch() {
-            vm.addedToFav = null;
-            vm.lyricsData= null;
-            vm.error = null;
-            $timeout(function () {
-                console.log(vm.recordedInput);
-                Upload.upload({
-                    url: '/api/findmusic/musicFingerPrint', //webAPI exposed to upload the file
-                    data:{file:vm.recordedInput} //pass file as data, should be user ng-model
-                }).then(function (resp) { //upload function returns a promise
-                    vm.recordingFlag = false;
-                    console.log(resp.data);
 
-                    if (resp && resp.status==200 && resp.data && resp.data.status==='OK') {
-                        vm.music = resp.data;
-                        if (vm.music.previewURL) {
-                            vm.music.previewURL =  $sce.trustAsResourceUrl(vm.music.previewURL);
-                        }
 
-                        vm.success= true;
-                        vm.error = null;
-                    }
-                    else if (resp && resp.status==200 && resp.data && resp.data.status==='KO') {
-                        if (resp.description) {
-                            vm.error = resp.data.description;
-                            console.log('hi');
-                        }
-                        else {
-                            vm.error = "Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!";
-                        }
-                        vm.success= false;
-                    }
-                    else {
-                        vm.error = "Oh Ooh!! Music not Recognised. Try again by keeping the Mic close to the Music!";
-                        vm.success= false;
-                    }
-                }, function (err) {
-                    vm.recordingFlag = false;
-                    if (err && err.data && err.data.description) {
-                        vm.error =  err.data.description;
-                    }
-                    else {
-                        vm.error =  "Some Error Occurred";
-                    }
-                    vm.success= false;
-
-                }, function (evt) {
-                    console.log("In progress" + evt);
-                });
-            }, 50);
-
-        }
 
         function getUserDetails() {
             var promise = UserService.findUserById(vm.userId);

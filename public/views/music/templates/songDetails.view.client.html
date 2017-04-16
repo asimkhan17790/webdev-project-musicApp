@@ -1,0 +1,232 @@
+<div class=" pageBackground">
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-header">
+                    <a class="navbar-brand glorify">
+                        <span style="color: red;font-family:Helvetica">My</span>Music
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav header-ul">
+
+                        <!--<li class="dropdown">
+                            <a href="#" target="_self"
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">Search <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
+                                <li><a target="_self" aria-expanded="false">Music</a></li>
+
+                            </ul>
+                        </li>-->
+                        <li class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
+                        <!--<li class="nav-item" >
+                            <form>
+                                <div>
+                                    <ng-audio-recorder auto-start="true" id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-start="model.showSpinner()" on-record-complete="model.recordAndSearch()">
+                                        &lt;!&ndash; Start controls, exposed via recorder&ndash;&gt;
+                                        <div ng-if="recorder.isAvailable" ng-click="">
+                                            <a style="font-size: 20px"
+                                               class="fa fa-microphone glorifyExtra"
+                                               aria-hidden="true"
+                                               id='audioInput11'
+                                               ng-click="!recorder.status.isRecording && recorder.startRecord();model.error=null"
+                                               ng-disabled="recorder.status.isRecording">
+                                            </a>
+                                        </div>
+
+                                        <div ng-if="!recorder.isAvailable">
+                                            &lt;!&ndash; <i class="fa fa-microphone-slash" aria-hidden="true"></i>&ndash;&gt;
+                                        </div>
+
+                                    </ng-audio-recorder>
+                                </div>
+                            </form>
+                        </li>-->
+                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
+                        <li class="nav-item">
+                            <a class="glyphicon glyphicon-cog dropdown-toggle"
+                               target="_self"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false"></a>
+
+                            <ul class="dropdown-menu" id="profileHeaderCog">
+                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+    <div class="jumbotron">
+        <div class="container" style="margin-top: 50px">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 recorderAlbumImage">
+
+                    <div class="glorify">
+                        <img class="img-rounded" width="200px" height="200px"
+                             ng-src="{{model.music.imageUrl || model.music.songThumb || '../../../resources/images/playlist_animated.gif'}} ">
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+
+                    <div class="row">
+                            <span ng-show="model.favSuccess"  style="z-index: 100;color: green;font-size: large;position: relative;top: 0px">
+                            {{model.favSuccess}}
+                             </span>
+                        <span ng-show="model.favError" class="redify" style="z-index: 100;font-size: large;position: relative;top: 0px">
+                            {{model.favError}}
+                         </span>
+                        <div class="col-xs-12" style="margin-top:10px">
+                            <a type="button"
+                               data-toggle="tooltip"
+                               title="Add To Favourites"
+                               data-placement="left"
+                               ng-click = "model.addSongToFavorites()"
+                               class="glyphicon glyphicon-heart pull-right like-button glorify"
+                               ng-class="model.addedToFav?'redHeart':'whiteHeart'">
+
+                            </a>
+                            <!-- <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button glorify">
+                             </a>-->
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3 glorify">
+                            <h4> Title:</h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-9 glorify">
+                            <h2 style="margin-top: 2px">{{model.music.trackName || model.music.title || 'No Title'}}</h2>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3 glorify">
+                            <h4>Album: </h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-9 glorify">
+                            <h3 style="">{{model.music.albumName || model.music.album.albumname || 'N/A'}}</h3>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 glorify">
+                            <h4>Artists:</h4>
+                        </div>
+
+                        <div ng-show="model.music.artist" class="col-xs-12 col-sm-9 glorify" style="margin-top: 2px">
+                            <h5 ng-repeat="artist in model.music.artist">
+                                {{artist}}
+                            </h5>
+                        </div>
+                        <div ng-show="model.music.artists" class="col-xs-12 col-sm-9 glorify" style="margin-top: 2px">
+                            <h5 ng-repeat="artist in model.music.artists">
+                                {{artist.name}}
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="nowPlay">
+                        <div id="audio0" style="margin-top: 5px">
+                           <!-- model.music.previewURL model.music.songURL-->
+                            <audio src="{{model.music.songURL}}" style="width: 100%;" preload id="audio1" preload controls="controls">
+
+                            </audio>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container" style="padding: 20px;">
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-6">
+                            <button type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px"
+                                    ng-click="model.findLyrics(model.music.trackName, model.music.artists)">
+                                Find Lyrics
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-6" >
+                            <button data-toggle="modal" data-target="#showAllPlayList" ng-click="model.loadAllMyList()"
+                                    type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px">
+                                Add to Playlist
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="recorder-div" ng-show="model.recordingFlag">
+            <img class="img-responsive" width="200px" height="200px"  style="margin: auto;margin-top: 100px;"
+                 ng-src="{{user.imageURL || '../../../resources/images/recorder.gif'}} ">
+        </div>
+
+        <div ng-show="model.error" class="alert alert-danger animate-top" role="alert">
+            <span aria-label="close" class="closebtn" ng-click="model.closeAlert()">&times;</span>
+            {{model.error}}
+        </div>
+        <div ng-bind-html="model.getTrustedHtml(model.lyricsData)" style="font-size: medium;"
+             class="form-group lyrics-div glorify" ng-show="model.lyricsData"></div>
+    </div>
+
+
+    <div id="showAllPlayList" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="btn btn-danger">Create Playlist</button>-->
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearDataFromModal()">&times;</button>
+                    <h4 class="modal-title">Your Available playlists </h4>
+                </div>
+                <div class="text-center glorify">
+                    <span ng-show="model.songSaveSuccess"  style="z-index: 100;color: green;font-size: large">
+                        {{model.songSaveSuccess}}
+                     </span>
+                    <span ng-show="model.songSaveError" class="redify"  style="z-index: 100;font-size: large">
+                        {{model.songSaveError}}
+                     </span>
+                </div>
+                <!--adding ng-repeat this side  so that this can be repeated -->
+                <div >
+                    <ul class="list-group" style="overflow-y: auto;height: 250px">
+                        <li ng-click="model.addSongToMyPlaylist(playlist)" ng-repeat=" playlist in model.availablePlaylist" class="list-group-item">
+                            <div class="row">
+                                <div class="pull-left col-xs-2">
+                                    <a>{{playlist.playListName}}</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="col-xs-12">
+            <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
+        </div>
+    </nav>
+</div>
