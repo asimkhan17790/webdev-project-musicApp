@@ -20,6 +20,7 @@
         vm.createAlbum = createAlbum;
         vm.deletethisAlbum = deletethisAlbum ;
         vm.selectAlbumToDelete = selectAlbumToDelete;
+        vm.logout = logout ;
         function init() {
             getUserDetails();
             findAllAlbums();
@@ -28,6 +29,15 @@
 
         init();
 
+        vm.userId = currentUser._id ;
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function findAllAlbums() {
             var promise = UserService.findAllAlbums(vm.userId);

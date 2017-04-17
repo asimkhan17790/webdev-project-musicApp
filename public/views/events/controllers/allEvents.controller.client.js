@@ -7,13 +7,12 @@
         })
         .controller("UpcomingEventsController", UpcomingEventsController);
 
-    function UpcomingEventsController ($location,UserService,EventService, $sce,$timeout,$routeParams,EmailService) {
-
+    function UpcomingEventsController ($location,UserService,EventService, $sce,$timeout,$routeParams,EmailService ,currentUser) {
         var vm = this;
         vm.tab=null;
         vm.followers = null ;
         vm.following = null ;
-        vm.userId = $routeParams.uid ;
+        vm.userId = currentUser._id ;
         vm.searchNearByEvents = searchNearByEvents;
         vm.error = null;
         vm.currentPage =0;
@@ -26,6 +25,7 @@
         vm.numberOfPages=0;
         vm.sendEmailInvitation = sendEmailInvitation;
         vm.closeModal = closeModal;
+        vm.logout = logout;
         function showSpinner() {
             if (!vm.recordingFlag) {
                 vm.recordingFlag = true;
@@ -43,6 +43,15 @@
 
         }
         init();
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
+
 
         function redirectToSearchedUser(userId2) {
             var promise = UserService.findUserById(userId2);

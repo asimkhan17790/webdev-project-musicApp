@@ -10,7 +10,6 @@ module.exports = function (app) {
 
     var q = require('q');
     var AWS = require('aws-sdk');
-  //  AWS.config.loadFromPath('./config.json');
     var uuid = require('uuid');
 
     var fs = require('fs');

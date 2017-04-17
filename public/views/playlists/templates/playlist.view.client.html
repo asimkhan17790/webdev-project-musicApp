@@ -18,12 +18,12 @@
 
                     <ul class="nav navbar-nav header-ul">
 
-                        <li ng-show="model.pid" class="nav-item"><a href="#/user/userHomePage/{{model.pid}}">Home</a></li>
-                        <li ng-show="!model.pid" class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
-                        <li ng-show="model.pid" class="nav-item glorifyExtra"><a href="#/music/myplaylists/{{model.pid}}">Playlists</a></li>
-                        <li ng-show="!model.pid" class="nav-item glorifyExtra"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li ng-show="model.pid" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.pid}}" class="fa fa-microphone"></a></li>
-                        <li ng-show="!model.pid" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
+                        <li ng-show="model.pid" class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li ng-show="!model.pid" class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li ng-show="model.pid" class="nav-item glorifyExtra"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li ng-show="!model.pid" class="nav-item glorifyExtra"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li ng-show="model.pid" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
+                        <li ng-show="!model.pid" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
                                target="_self"
@@ -33,10 +33,10 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li ng-show="model.isOwner"><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
-                                <li ng-show="!model.isOwner"><a style="color: white;" href="#/user/editProfile/{{model.pid}}">Edit Profile</a></li>
+                                <li ng-show="model.isOwner"><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
+                                <li ng-show="!model.isOwner"><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>

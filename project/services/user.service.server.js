@@ -4,7 +4,8 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-//var bcrypt = require("bcrypt-nodejs");
+var bcrypt = require("bcrypt-nodejs");
+
 
  var googleConfig = {
      clientID     : "464567587492-nkq89la1rppp979b74md6k39iiekai40.apps.googleusercontent.com",
@@ -81,7 +82,7 @@ module.exports = function (app ,listOfModel) {
 
     function googleStrategy(token, refreshToken, profile, done) {
         userModel
-            .findUserByGoogleId(profile.id)
+            .findUserByGoogleId(profile.id,profile.emails[0].value)
             .then(
                 function(user) {
                     if(user) {
@@ -168,7 +169,9 @@ module.exports = function (app ,listOfModel) {
                 },
                 function(err){
                     if (err) {
-                        return done(null, {status:'KO'});
+                        console.log('Error:'+err);
+                        return done(null, false);
+                      //  return done(null, );
                     }
                 }
             );
@@ -189,13 +192,15 @@ module.exports = function (app ,listOfModel) {
 
     function localStrategy(username, password, done) {
         userModel
-            .findUserByCredentials(username, password)
+            .findUserByUsername(username)
             .then(
                 function(user) {
-                    if (!user) {
-                        return done(null, false);
+                    if(user && bcrypt.compareSync(password, user.password)){
+                        done(null,user);
                     }
-                    return done(null, user);
+                    else {
+                        done(null, true);
+                    }
                 },
                 function(err) {
                     if (err) { return done(err); }
@@ -230,7 +235,6 @@ module.exports = function (app ,listOfModel) {
 
     function findUser (req ,res) {
         var user = req.user;
-
         res.json(user);
     }
 
@@ -557,15 +561,11 @@ module.exports = function (app ,listOfModel) {
             })
     }
 
-    // create a default playlist for the user of type music lover which cant be deleted
-    // have to see how to make sure its not deleted ever okay creating a field called
-    // default playlist which can never be deleted
 
-    // NOTE :: creating default playlist in the particular playlist itself
-    // possible bug that user gets created but the default playlist dont get cra
     function createUser(req,res) {
         var user = req.body;
         var response = {};
+        user.password = bcrypt.hashSync(user.password);
         userModel
             .createUser(user)
             .then(function(user) {
@@ -617,7 +617,6 @@ module.exports = function (app ,listOfModel) {
                                     return;
                                 });
                         },function (error) {
-
                             response.status="KO";
                             response.description="Some Error Occurred!! Please try again";
                             // res.json(response);
@@ -692,7 +691,6 @@ module.exports = function (app ,listOfModel) {
                     response.description = "Email is not registered with us! Please enter correct Email.";
                     res.json(response);
                 }
-
             }).then(function () {
                 response.status = "OK";
                 response.description = "Your password has been sent to your registered Email. Please login again!";

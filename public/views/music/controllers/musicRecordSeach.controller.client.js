@@ -7,7 +7,7 @@
         })
         .controller("MusicRecorderController", MusicRecorderController);
 
-    function MusicRecorderController (UserService, $sce,currentUser,$timeout,Upload,MusicService,$routeParams,playListService) {
+    function MusicRecorderController (UserService,EmailService, $sce,currentUser,$timeout,Upload,MusicService,$routeParams,playListService) {
 
         var vm = this;
         vm.userId = currentUser._id;
@@ -28,6 +28,10 @@
         vm.addedToFav = null;
         vm.favError = null;
         vm.favSuccess = null;
+        vm.logout = logout ;
+        vm.sendEmailInvitation = sendEmailInvitation ;
+        vm.closeModal= closeModal;
+        vm.clearDataFromModal = clearDataFromModal;
         function init() {
             getUserDetails();
             angular.element(document).ready(function () {
@@ -36,9 +40,47 @@
         }
         init();
 
+        function sendEmailInvitation () {
+            var emailInput = {
+                emailAddress: vm.invitationEmail,
+                firstName : vm.user.firstName
+            };
+            var promise = EmailService.sendEmailInvitation(emailInput);
+            promise.success (function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.emailSuccess = result.description;
+                    }
+                    else {
+                        vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
+                    }
+                    vm.invitationEmail = null;
+                    /*  $timeout(function () {
+                     closeModal();
+                     }, 2000);*/
+                } else {
+                    vm.emailSuccess = null;
+                    vm.emailError = "Some Error Occurred";
+                }
+            }).error(function () {
+                vm.emailSuccess = null;
+                vm.emailError = "Some Error Occurred";
+            });
+        }
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
+
         function closeModal() {
             vm.songSaveError = null;
             vm.songSaveSuccess = null;
+            vm.favError = null;
+            vm.favSuccess = null;
             $('.modal').modal('hide');
         }
 
@@ -132,6 +174,8 @@
         function clearDataFromModal() {
             vm.songSaveError = null;
             vm.songSaveSuccess = null;
+            vm.favError = null;
+            vm.favSuccess = null;
 
         }
         function loadAllMyList() {

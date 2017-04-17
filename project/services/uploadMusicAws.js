@@ -50,7 +50,6 @@ module.exports = function (app , listOfModel) {
                 res.json(err);
                 return;
             }
-
         );
     }
 

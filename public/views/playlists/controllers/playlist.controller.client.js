@@ -24,17 +24,29 @@
         vm.addtothisplaylist =addtothisplaylist ;
         vm.play = play;
         vm.playListId = $routeParams.playListId;
-        vm.pid = $routeParams.pid;
+        vm.pid = currentUser._id;
         vm.uid = $routeParams.uid;
         vm.selectedSong = null ;
         vm.index = 0;
         vm.isOwner=null ;
+        vm.logout = logout ;
 
         function init () {
             vm.userId = $routeParams['uid'];
+            if(vm.uid == null)
+                vm.isOwner = 'yes' ;
+            else
+                vm.isOwner = 'false' ;
             findAllSongsForPlayList();
         }
         init();
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function loadMp3Player() {
             if (vm.playlist && vm.playlist.songs && vm.playlist.songs.length > 0) {
@@ -110,10 +122,8 @@
         function findAllSongsForPlayList() {
             var promise = playListService.findAllSongs(vm.playListId);
             promise.success (function (result) {
-
                 if (result && result.status ==='OK' && result.data && result.data.songs.length > 0) {
                     vm.playlist = result.data;
-
                     if(!vm.pid)
                         vm.isOwner = 'yes' ;
                     else if((vm.pid !=null) && (vm.playlist.playListOwner ===  vm.pid))

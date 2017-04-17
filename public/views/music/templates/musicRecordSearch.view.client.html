@@ -15,26 +15,11 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
                     <ul class="nav navbar-nav header-ul">
-
-                        <!--<li class="dropdown">
-                            <a href="#" target="_self"
-                               class="dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Search <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self" aria-expanded="false">Music</a></li>
-
-                            </ul>
-                        </li>-->
-                        <li class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
+                        <li class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
                         <li class="nav-item" >
                             <form>
                                 <div>
@@ -69,9 +54,8 @@
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
                                 <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
-                                <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -213,6 +197,20 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="inviteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Invite your friends</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/user/templates/invitation.view.client.html'"></ng-include>
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@
         vm.userId = currentUser._id;
         vm.saveChanges = saveChanges ;
         vm.closeAlert = closeAlert;
+        vm.logout  = logout ;
         function init() {
             var promise = UserService.findUserById(vm.userId);
             promise.success(function(response) {
@@ -27,9 +28,18 @@
             })
         }
         init();
+
         function closeAlert() {
             vm.error=null;
             vm.success=null;
+        }
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
         }
         function saveChanges() {
             // first we will upload the song to the AWS and if it is uploaded correctly than

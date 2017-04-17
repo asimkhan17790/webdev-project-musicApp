@@ -26,7 +26,12 @@
 
                             <ul class="dropdown-menu">
                                 <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
+                                <li ng-click="model.songerror=null;">
+                                    <a style="color: white;"
+                                       data-toggle="modal"
+                                       target="_self"
+                                       aria-expanded="false"
+                                       data-target="#songSearchModal">Music</a></li>
 
                             </ul>
                         </li>
@@ -49,7 +54,7 @@
                                 <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -58,7 +63,6 @@
         </nav>
     </div>
     <div class="container black-container">
-
         <div class="row">
             <div class="pull-left col-xs-12 col-sm-6">
                 <h1 class="ak-myplaylist-heading glorifyExtra"> <span class="redify">My</span> Playlists </h1>
@@ -90,8 +94,6 @@
             </ul>
         </div>
     </div>
-
-
     <!-- modal -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -149,6 +151,21 @@
                 </div>
                 <div class="modal-body">
                     <ng-include src="'views/user/templates/invitation.view.client.html'"></ng-include>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="songSearchModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Search Song</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/music/templates/searchsong.template.client.html'"></ng-include>
                 </div>
             </div>
 

@@ -47,6 +47,7 @@
         vm.addtothisplaylist = addtothisplaylist;
         vm.selectedSong = null ;
         vm.songaddedsuccess = null ;
+        vm.logout = logout ;
         function init () {
             if( vm.userId == null) {
                 vm.isOwner = true ;
@@ -60,6 +61,14 @@
         }
 
         init();
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function findAllAlbums() {
             var promise = UserService.findAllAlbums(vm.userId);
@@ -132,7 +141,7 @@
             var promise = playListService.addSongtoPlayList(songId ,playListId);
             promise.success(function(response) {
                 if(response){
-                    vm.songaddedsuccess = "song added to the playlist";
+                    vm.songaddedsuccess = "Song added to the playlist";
                     closeModal() ;
                     init();
 
@@ -256,7 +265,7 @@
                     title : vm.song.title,
                     artist : [vm.song.artistName],
                     genre : vm.song.genre,
-                    userId : vm.userId,
+                    userId : vm.pid,
                     albumId : vm.albumId,
                     file:vm.file
                 } //pass file as data, should be user ng-model

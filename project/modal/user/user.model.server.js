@@ -33,7 +33,8 @@ module.exports = function () {
         deleteEventIdFromUser : deleteEventIdFromUser,
         addEventToUser : addEventToUser,
         findAllEventsOfUser : findAllEventsOfUser,
-        findUserByGoogleId : findUserByGoogleId
+        findUserByGoogleId : findUserByGoogleId,
+        findUserByUsername: findUserByUsername
     };
 
     var mongoose = require('mongoose');
@@ -42,6 +43,17 @@ module.exports = function () {
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
 
+    function findUserByUsername(username1) {
+        var deferred = q.defer();
+        UserModel.findOne({username: username1}, function(err, user) {
+            if(err)
+                deferred.reject(err);
+            else
+                deferred.resolve(user);
+        });
+
+        return deferred.promise;
+    }
 
     function findAllEventsOfUser (userId) {
         var defer = q.defer();
@@ -59,9 +71,9 @@ module.exports = function () {
         return defer.promise;
     }
 
-    function findUserByGoogleId(id) {
+    function findUserByGoogleId(id,gmail) {
         var deferred = q.defer();
-        UserModel.findOne({'google.id': id}, function(err, user){
+        UserModel.findOne({$or:[{'google.id': id},{email:gmail}]}, function(err, user){
             if(err){
                 deferred.reject(err);
             }

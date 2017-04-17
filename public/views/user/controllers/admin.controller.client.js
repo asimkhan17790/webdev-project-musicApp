@@ -10,10 +10,10 @@
         })
         .controller("adminPageController",adminPageController);
 
-    function adminPageController ($scope,EventService,StaticDataService ,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location)
+    function adminPageController ($scope,EventService, adminUser,StaticDataService ,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location)
     {
         var vm = this;
-        vm.userId = $routeParams.uid ;
+        vm.userId = adminUser._id;
         vm.editProfile = editProfile ;
         vm.userOptionsad = StaticDataService.userTypeOptions;
         vm.error = null;
