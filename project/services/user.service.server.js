@@ -29,6 +29,22 @@ module.exports = function (app ,listOfModel) {
     });
 
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+
+    /*  app.get('/auth/google/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        function(req, res) {
+            // Successful authentication, redirect home.
+            res.redirect('/');
+        });
+     */
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/#/user/userHomePage',
+            failureRedirect: '/#/landingPage'
+        }));
+
+
+
     app.post("/api/user" ,createUser);
     app.post("/api/user/login" ,passport.authenticate('local'),findUser);
     app.post("/api/user/loggedin",loggedin);
@@ -51,11 +67,6 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/findAllEventsOfUser/:uid", findAllEventsOfUser);
     app.post("/api/user/sendInvite/", sendInvitationToNonUsers);
 
-    app.get('/auth/google/callback',
-        passport.authenticate('google', {
-            successRedirect: '/#/user/userHomePage',
-            failureRedirect: '/#/landingPage'
-        }));
 
     passport.use('local',new LocalStrategy(localStrategy));
     passport.serializeUser(serializeUser);
@@ -156,7 +167,9 @@ module.exports = function (app ,listOfModel) {
                     // return done(null, user);
                 },
                 function(err){
-                    if (err) { return done(err); }
+                    if (err) {
+                        return done(null, {status:'KO'});
+                    }
                 }
             );
     }
@@ -217,17 +230,7 @@ module.exports = function (app ,listOfModel) {
 
     function findUser (req ,res) {
         var user = req.user;
-         //  var response = {};
-         //  if (user)
-         //  {
-         //      response.user = user;
-         //     response.description = "User Found";
-         //     response.status = "OK";
-         // }
-         // else {
-         //     response.status = "KO";
-         //     response.description = "Username or password is incorrect";
-         // }
+
         res.json(user);
     }
 

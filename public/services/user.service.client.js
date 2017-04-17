@@ -32,8 +32,8 @@
             "findAllplayListAndFollowing":findAllplayListAndFollowing ,
             "loggedin" : loggedin ,
             "logout" : logout ,
-            "isAdmin" : isAdmin ,
-            "googleLogin" : googleLogin
+            "isAdmin" : isAdmin
+
         }
         return api;
 
@@ -44,9 +44,6 @@
                 });
         }
 
-        function googleLogin() {
-            return $http.get("/auth/google");
-        }
 
         function isAdmin() {
             return $http.post('/api/user/isAdmin')
