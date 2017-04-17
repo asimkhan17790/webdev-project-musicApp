@@ -18,6 +18,7 @@
         vm.sendEmailInvitation = sendEmailInvitation;
         vm.searchSongs = searchSongs;
         vm.redirectToSearchedSong = redirectToSearchedSong;
+        vm.logout = logout ;
         function init() {
             getUserDetails();
             var promise = UserService.findFollowersById(vm.userId);
@@ -36,7 +37,13 @@
 
         }
         init();
-
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
         function searchSongs () {
             var promise = MusicService.searchSongs(vm.inputSong);
             promise.success (function (result) {

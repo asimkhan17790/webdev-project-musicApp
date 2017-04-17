@@ -88,7 +88,11 @@ module.exports = function () {
         newsong.album = albumId;
         songModel.create(newsong, function (err, newsong) {
             if (err) {
-                q1.reject();
+                if (err.code && err.code === 11000) {
+                    q1.reject('KOO');
+                }else {
+                    q1.reject('Error');
+                }
             }
             else {
                 q1.resolve(newsong);

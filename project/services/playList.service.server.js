@@ -75,6 +75,7 @@ module.exports = function (app ,listOfModel) {
                 response.description = 'Song Successfully Added..';
                 res.json(response);
             }
+
             else {
                 response.status = 'KO';
                 response.description = 'Some Error Occurred!!';
@@ -84,10 +85,16 @@ module.exports = function (app ,listOfModel) {
 
             return;
         }, function (err) {
-            response.status = 'KO';
-            response.description = 'Some Error Occurred!!';
-            res.json(response);
-            return;
+            if (error==='KOO') {
+                response.status="KO";
+                response.description="Song is already present in selected playlist!!";
+                res.json(response);
+                return;
+            }else {
+                response.status="KO";
+                response.description="Some error occurred while addition of song!!";
+                res.json(response);
+            }
         });
     }
 
@@ -115,10 +122,17 @@ module.exports = function (app ,listOfModel) {
 
             return;
         }, function (err) {
-            response.status = 'KO';
-            response.description = 'Some Error Occurred!!';
-            res.json(response);
-            return;
+            if (err==='KOO') {
+                response.status="KO";
+                response.description="Song is already present in selected playlist!!";
+                res.json(response);
+                return;
+            }else {
+                response.status="KO";
+                response.description="Some error occurred while addition of song!!";
+                res.json(response);
+                return;
+            }
         });
     }
 
