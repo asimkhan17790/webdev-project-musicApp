@@ -256,7 +256,7 @@
                     title : vm.song.title,
                     artist : [vm.song.artistName],
                     genre : vm.song.genre,
-                    userId : vm.userId,
+                    userId : vm.pid,
                     albumId : vm.albumId,
                     file:vm.file
                 } //pass file as data, should be user ng-model

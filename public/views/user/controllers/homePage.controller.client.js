@@ -182,7 +182,6 @@
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }
-
             }).error(function () {
                 vm.error = "Some Error Occurred!! Please try again!";
             });
