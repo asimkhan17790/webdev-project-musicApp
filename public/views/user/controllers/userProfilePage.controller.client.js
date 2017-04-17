@@ -16,6 +16,8 @@
         vm.notFollowing = null;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.searchUsers = searchUsers;
+        vm.logout = logout ;
+        vm.sendEmailInvitation = sendEmailInvitation ;
         function init() {
             getUserDetails();
             getfollowing();
@@ -24,7 +26,44 @@
         init();
 
         function followUserThisPlayList (playList) {
-            $location.url("/user/userSearch/playList/songs/"+ vm.pid +"/"+ vm.userId+"/"+playList._id);
+            $location.url("/user/userSearch/playList/songs/"+vm.userId+"/"+playList._id);
+        }
+
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
+
+        function sendEmailInvitation () {
+            var emailInput = {
+                emailAddress: vm.invitationEmail,
+                firstName : vm.user.firstName
+            };
+            var promise = EmailService.sendEmailInvitation(emailInput);
+            promise.success (function (result) {
+                if (result && result.status === 'OK') {
+                    if (result.description) {
+                        vm.emailSuccess = result.description;
+                    }
+                    else {
+                        vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
+                    }
+                    vm.invitationEmail = null;
+                    /*  $timeout(function () {
+                     closeModal();
+                     }, 2000);*/
+                } else {
+                    vm.emailSuccess = null;
+                    vm.emailError = "Some Error Occurred";
+                }
+            }).error(function () {
+                vm.emailSuccess = null;
+                vm.emailError = "Some Error Occurred";
+            });
         }
 
         function searchUsers () {

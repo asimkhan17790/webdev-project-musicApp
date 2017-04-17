@@ -27,11 +27,20 @@
         vm.searchUsers = searchUsers;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.sendEmailInvitation = sendEmailInvitation;
+        vm.logout =logout ;
         function init() {
             getUserDetails();
             findAllPlayList();
         }
         init();
+        
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function redirectToSearchedUser(userId2) {
             var promise = UserService.findUserById(userId2);

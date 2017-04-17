@@ -49,7 +49,7 @@
                                 <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -58,7 +58,6 @@
         </nav>
     </div>
     <div class="container black-container">
-
         <div class="row">
             <div class="pull-left col-xs-12 col-sm-6">
                 <h1 class="ak-myplaylist-heading glorifyExtra"> <span class="redify">My</span> Playlists </h1>
@@ -90,8 +89,6 @@
             </ul>
         </div>
     </div>
-
-
     <!-- modal -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">

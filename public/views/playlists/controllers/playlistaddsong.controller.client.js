@@ -28,7 +28,6 @@
         function init () {
             findAllSongsForPlayList();
 
-
         }
 
         function loadMp3Player() {
@@ -120,9 +119,6 @@
         }
 
         function loadTrack(id) {
-            //  $('.plSel').removeClass('plSel');
-            //  $('#plList li:eq(' + id + ')').addClass('plSel');
-            // npTitle.text(tracks[id].name);
             vm.nowPlayingTitle = vm.playlist.songs[id].title;
             vm.index = id;
             vm.audio.src = $sce.trustAsResourceUrl(vm.playlist.songs[id].url);
