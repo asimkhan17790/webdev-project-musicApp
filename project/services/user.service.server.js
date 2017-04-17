@@ -202,7 +202,7 @@ module.exports = function (app ,listOfModel) {
                         done(null,user);
                     }
                     else {
-                        done(null, true);
+                        done(null, false);
                     }
                 },
                 function(err) {
