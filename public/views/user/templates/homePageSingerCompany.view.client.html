@@ -1,0 +1,70 @@
+<div class="pageBackground">
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-header">
+                    <a class="navbar-brand glorify">
+                        <span style="color: red;font-family:Helvetica">My</span>Music
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav header-ul">
+                        <li class="nav-item glorifyExtra"><a>Home</a></li>
+                        <li class="nav-item"><a href="#/music/myalbums">Albums</a></li>
+                        <!--<li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>-->
+                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
+                        <!--<li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>-->
+
+                        <li class="nav-item">
+                            <a class="glyphicon glyphicon-cog dropdown-toggle"
+                               target="_self"
+                               data-toggle="dropdown"
+                               role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false"></a>
+
+                            <ul class="dropdown-menu" id="profileHeaderCog">
+                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
+                               <!-- <li><a style="color: white;" target="_self" aria-expanded="false" data-toggle="modal" data-target="#inviteModal">Send Invite</a></li>-->
+                                <li role="separator" class="divider"></li>
+                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="jumbotron">
+        <div class="container-fluid" style="margin-top: 50px">
+            <div class="row">
+                <div class="col-xs-6 glorifyExtra">
+                    <h1><span style="color: red">Hello </span>, {{model.user.firstName}}</h1>
+                </div>
+                <div class="col-xs-6">
+
+                    <div class="pull-right">
+                        <img class="img-circle" width="140px" height="140px"
+                             ng-src="{{model.user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <ng-include src="'views/user/templates/musicNews.view.client.html'"></ng-include>
+        <ng-include src="'views/user/templates/album.template.client.html'"></ng-include>
+
+
+
+        <ng-include src="'views/user/templates/upcomingEvents.view.client.html'"></ng-include>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+    </nav>
+</div>
