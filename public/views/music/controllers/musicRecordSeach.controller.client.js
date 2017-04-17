@@ -30,6 +30,8 @@
         vm.favSuccess = null;
         vm.logout = logout ;
         vm.sendEmailInvitation = sendEmailInvitation ;
+        vm.closeModal= closeModal;
+        vm.clearDataFromModal = clearDataFromModal;
         function init() {
             getUserDetails();
             angular.element(document).ready(function () {
@@ -77,6 +79,8 @@
         function closeModal() {
             vm.songSaveError = null;
             vm.songSaveSuccess = null;
+            vm.favError = null;
+            vm.favSuccess = null;
             $('.modal').modal('hide');
         }
 
@@ -170,6 +174,8 @@
         function clearDataFromModal() {
             vm.songSaveError = null;
             vm.songSaveSuccess = null;
+            vm.favError = null;
+            vm.favSuccess = null;
 
         }
         function loadAllMyList() {

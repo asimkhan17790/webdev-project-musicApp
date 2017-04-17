@@ -26,7 +26,12 @@
 
                             <ul class="dropdown-menu">
                                 <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
+                                <li ng-click="model.songerror=null;">
+                                    <a style="color: white;"
+                                       data-toggle="modal"
+                                       target="_self"
+                                       aria-expanded="false"
+                                       data-target="#songSearchModal">Music</a></li>
 
                             </ul>
                         </li>
@@ -146,6 +151,21 @@
                 </div>
                 <div class="modal-body">
                     <ng-include src="'views/user/templates/invitation.view.client.html'"></ng-include>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="songSearchModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Search Song</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/music/templates/searchsong.template.client.html'"></ng-include>
                 </div>
             </div>
 

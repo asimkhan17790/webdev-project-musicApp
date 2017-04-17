@@ -82,7 +82,7 @@ module.exports = function (app ,listOfModel) {
 
     function googleStrategy(token, refreshToken, profile, done) {
         userModel
-            .findUserByGoogleId(profile.id)
+            .findUserByGoogleId(profile.id,profile.emails[0].value)
             .then(
                 function(user) {
                     if(user) {
@@ -169,7 +169,9 @@ module.exports = function (app ,listOfModel) {
                 },
                 function(err){
                     if (err) {
-                        return done(null, {status:'KO'});
+                        console.log('Error:'+err);
+                        return done(null, false);
+                      //  return done(null, );
                     }
                 }
             );

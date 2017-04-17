@@ -71,9 +71,9 @@ module.exports = function () {
         return defer.promise;
     }
 
-    function findUserByGoogleId(id) {
+    function findUserByGoogleId(id,gmail) {
         var deferred = q.defer();
-        UserModel.findOne({'google.id': id}, function(err, user){
+        UserModel.findOne({$or:[{'google.id': id},{email:gmail}]}, function(err, user){
             if(err){
                 deferred.reject(err);
             }

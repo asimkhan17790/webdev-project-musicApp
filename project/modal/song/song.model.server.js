@@ -4,7 +4,8 @@ module.exports = function () {
         deleteAllSongs : deleteAllSongs ,
         deleteSongs : deleteSong,
         searchSongs: searchSongs,
-        findSongById:findSongById
+        findSongById:findSongById,
+        findSongBySpotifyId :findSongBySpotifyId
     };
 
     var mongoose = require('mongoose');
@@ -29,7 +30,7 @@ module.exports = function () {
     function findSongById(songid) {
         var q1 = q.defer();
         songModel.findOne({_id:songid})
-        .populate('album',{albumname : 1})
+            .populate('album',{albumname : 1})
             .exec(function (err ,song) {
                 if(err)
                     q1.reject(err);
@@ -40,6 +41,21 @@ module.exports = function () {
         return q1.promise;
 
     }
+    function findSongBySpotifyId(spotifyId) {
+        var q1 = q.defer();
+        songModel.findOne({spotifyID : spotifyId}, function (err ,song) {
+            if(err)
+                q1.reject(null);
+            else if(song)
+                q1.resolve(song);
+            else {
+                q1.resolve(null);
+            }
+        });
+        return q1.promise;
+
+    }
+
     function deleteSong(songid) {
         var q1 = q.defer();
         songModel.findOneAndRemove({'_id' :songid} ,function (err,song) {

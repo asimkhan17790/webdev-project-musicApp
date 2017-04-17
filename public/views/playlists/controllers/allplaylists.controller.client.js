@@ -8,7 +8,7 @@
         .controller("AllPlayListController",PlayListController);
 
 
-    function PlayListController(EmailService,$location,$timeout,UserService,$routeParams,playListService ,currentUser) {
+    function PlayListController(MusicService,EmailService,$location,$timeout,UserService,$routeParams,playListService ,currentUser) {
 
         var vm = this;
         vm.followers = null ;
@@ -28,11 +28,61 @@
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.sendEmailInvitation = sendEmailInvitation;
         vm.logout =logout ;
+        vm.searchSongs = searchSongs;
+        vm.redirectToSearchedSong = redirectToSearchedSong;
         function init() {
             getUserDetails();
             findAllPlayList();
         }
         init();
+        function searchSongs () {
+            var promise = MusicService.searchSongs(vm.inputSong);
+            promise.success (function (result) {
+                if (result && result.status === 'OK' && result.data && result.data.length > 0) {
+                    console.log(result.data);
+                    vm.searchedSongs = result.data;
+                    vm.songError = null;
+                } else {
+                    vm.searchedSongs = null;
+                    vm.songError = "No such song found !!";
+                }
+            }).error(function () {
+                vm.searchedSongs = null;
+                vm.songError = "Some Error Occurred!! Please try again!";
+            });
+        }
+        function redirectToSearchedSong (selectedSong) {
+
+            closeModal();
+            $timeout(function () {
+                if (selectedSong.origin === 'mymusic') {
+                    $location.url("/music/song/songDetails/"+selectedSong._id);
+                }
+                else {
+
+                    getSpotifySong(selectedSong);
+                    //$location.url("/music/song/songDetails/"+selectedSong._id);
+                }
+            }, 250);
+
+            console.log('redirecting');
+        }
+        function getSpotifySong(selectedSong) {
+
+            var promise  = playListService.createSong(selectedSong);
+            promise.success(function (result) {
+                if (result) {
+
+                    $location.url("/music/song/songDetails/"+result._id);
+
+                } else {
+                    console.log('some error occurred!');
+                }
+
+            }).error(function (err) {
+                console.log('some error occurred!');
+            });
+        }
 
         function logout() {
             UserService
@@ -80,6 +130,7 @@
             vm.createError = null;
             vm.createSuccess = null;
             vm.selectedPlaylistToDelete = null;
+            vm.searchedSongs = null
 
         }
 

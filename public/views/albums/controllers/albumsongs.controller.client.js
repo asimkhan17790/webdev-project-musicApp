@@ -141,7 +141,7 @@
             var promise = playListService.addSongtoPlayList(songId ,playListId);
             promise.success(function(response) {
                 if(response){
-                    vm.songaddedsuccess = "song added to the playlist";
+                    vm.songaddedsuccess = "Song added to the playlist";
                     closeModal() ;
                     init();
 
