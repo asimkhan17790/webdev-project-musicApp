@@ -8,6 +8,7 @@ module.exports = function () {
         dateCreated : {type : Date , default :Date.now()},
         albumOwner : String,
         albumgenre :String,
+        albumThumbNail : String,
         songs : [{type :mongoose.Schema.Types.ObjectId , ref:'songModel'}],
     },{collection: 'album'});
     return albumSchema;

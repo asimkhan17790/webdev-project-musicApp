@@ -32,7 +32,8 @@
             "findAllplayListAndFollowing":findAllplayListAndFollowing ,
             "loggedin" : loggedin ,
             "logout" : logout ,
-            "isAdmin" : isAdmin ,
+            "isAdmin" : isAdmin
+
         }
         return api;
 
@@ -42,6 +43,7 @@
                     return response.data;
                 });
         }
+
 
         function isAdmin() {
             return $http.post('/api/user/isAdmin')
@@ -128,7 +130,6 @@
         function updateUser(userId , newUser) {
             // new user is the payload which is passed to the server
             return $http.put("/api/user/"+userId ,newUser)
-
         }
 
     }

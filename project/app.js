@@ -5,7 +5,7 @@ module.exports = function (app) {
     // the data they bring will be reflected in the database and populated
     // sample file will be require("./services/findMusicFingerPrint")(app, modelList);
     require("./services/findMusicFingerPrint")(app);
-    require("./services/music.service.server")(app);
+    require("./services/music.service.server")(app, modelList);
     require("./services/email.service.server")(app);
     require("./services/eventbrite.service.server")(app);
     require("./services/user.service.server")(app,modelList);

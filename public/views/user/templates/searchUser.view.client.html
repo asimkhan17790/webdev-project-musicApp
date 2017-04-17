@@ -1,3 +1,5 @@
+
+<!--Security done of this page already -->
 <div class="row">
     <div class="">
         <div class="account-wall">
@@ -9,24 +11,13 @@
                                ng-model="model.inputQuery"
                                required autofocus>
                     </div>
+
                     <div class="col-xs-2">
                         <button type="submit" class="btn btn-danger seach-button-lens" ng-click = "model.searchUsers()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </div>
                 </div>
-                <!--<button style="margin-top: 30px" class="btn btn-lg btn-danger btn-block" type="submit" ng-click="model.searchProfile()">
-                 Search
-             </button>-->
-
             </form>
-
-            <!--<form class="navbar-form navbar-right" role="search">
-             <div class="form-group">
-                 <input type="text" class="form-control" placeholder="Search" />
-             </div>
-             <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-       </form>-->
         </div>
-
         <div class="container-fluid">
             <h2 style="" ng-show="model.users.length > 0">
                 Searched Results
@@ -37,23 +28,17 @@
                         <div class="pull-left col-xs-3">
                             <img class="thumb" width="50px" height="50px" ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
                         </div>
-
-                        <div class="pull-left col-xs-9">
-                            <a ng-click="model.redirectToSearchedUser(user._id)" >
-                                {{user.firstName + ' '+user.lastName}}
-                            </a>
-                            <!--ng-href="{{event.url}}"-->
-                            <!--<a class="glyphicon glyphicon-bookmark pull-right" style="position: relative;right:-3px"></a>
-                         <a class="glyphicon glyphicon-resize-full pull-right"></a>-->
+                            <div class="pull-left col-xs-9">
+                                <a ng-click="model.redirectToSearchedUser(user._id)" >
+                                    {{user.firstName + ' '+user.lastName}}
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <!--  <div ng-bind-html="model.getTrustedHtml(event.description.html)" style="background-color: black;opacity: 0.7;color: white;font-size: 15px"></div>
-               </div>-->
-                </li>
-            </ul>
-            <span ng-show="model.error"  class="text-center new-account" style="z-index: 100;color: red;font-size: x-large">
-         {{model.error}}
-                 </span>
-        </div>
+                    </li>
+                </ul>
+                <span ng-show="model.error"  class="text-center new-account" style="z-index: 100;color: red;font-size: x-large">
+           {{model.error}}
+                </span>
+            </div>
     </div>
 </div>

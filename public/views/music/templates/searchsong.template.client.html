@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="">
+        <div class="account-wall">
+            <form class="form-signin form-group">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <input type="text" class="form-control search-field"
+                               placeholder="Search here"
+                               ng-model="model.inputSong"
+                               ng-change="model.searchedSongs=null;"
+                               required autofocus>
+                    </div>
+                    <div class="col-xs-2">
+                        <button type="submit"
+                                class="btn btn-danger seach-button-lens"
+                                ng-click = "model.searchSongs()">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid">
+            <h2 style="" ng-show="model.searchedSongs.length > 0">
+                Searched <span class="redify">Results</span>
+            </h2>
+            <ul ng-show="model.searchedSongs.length > 0" class="list-group" style="overflow-y: auto;height: 250px">
+                <li ng-repeat="song in model.searchedSongs" class="list-group-item">
+                    <div class="row">
+                        <div class="pull-left col-xs-3">
+                            <img class="thumb" width="50px" height="50px" ng-src="{{song.songThumb || '../../../resources/images/speaker.gif'}} ">
+                        </div>
+                        <div class="pull-left col-xs-9">
+                            <div class="row">
+
+                                <div class="col-xs-12">
+                                    <a ng-click="model.redirectToSearchedSong(song)" >
+                                        {{song.title}}
+                                    </a>
+                                </div>
+                                <div ng-show="song.artist" class="col-xs-12" style="font-size: smaller">
+                                    <span ng-repeat="a in song.artist"> {{a}},</span>
+                                </div>
+                                <div ng-hide="song.artist" class="col-xs-12" style="font-size: smaller">
+                                    <span>Unknown Artist</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <span ng-show="model.songError"  class="text-center new-account" style="z-index: 100;color: red;font-size: x-large">
+         {{model.songError}}
+                 </span>
+        </div>
+    </div>
+</div>

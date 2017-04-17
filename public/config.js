@@ -270,6 +270,17 @@
                     pageTitle: 'Upcoming Events'
                 }
             })
+            .when("/music/song/songDetails/:songId", {
+                templateUrl:"/views/music/templates/songDetails.view.client.html",
+                resolve : {
+                    currentUser : checkLoggedIn
+                },
+                controller:"SongDetailsController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Song Details'
+                }
+            })
             .otherwise({
                 redirectTo:"/"
             });

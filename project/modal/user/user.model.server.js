@@ -32,8 +32,8 @@ module.exports = function () {
         deleteUser : deleteUser,
         deleteEventIdFromUser : deleteEventIdFromUser,
         addEventToUser : addEventToUser,
-        findAllEventsOfUser : findAllEventsOfUser
-
+        findAllEventsOfUser : findAllEventsOfUser,
+        findUserByGoogleId : findUserByGoogleId
     };
 
     var mongoose = require('mongoose');
@@ -57,9 +57,20 @@ module.exports = function () {
                 }});
 
         return defer.promise;
-
     }
 
+    function findUserByGoogleId(id) {
+        var deferred = q.defer();
+        UserModel.findOne({'google.id': id}, function(err, user){
+            if(err){
+                deferred.reject(err);
+            }
+            else{
+                deferred.resolve(user);
+            }
+        });
+        return deferred.promise;
+    }
 
     function addEventToUser (userId, eventId) {
 

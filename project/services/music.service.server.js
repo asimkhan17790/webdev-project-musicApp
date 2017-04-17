@@ -1,12 +1,53 @@
-module.exports = function (app) {
+module.exports = function (app, listOfModel) {
     app.get("/api/music/lyrics/:songTitle/:artistName",findSongLyrics);
     app.get("/api/music/musicNews", findMTVNews);
-
+    app.get("/api/music/searchSongs/:inputQuery", searchSongs);
+    app.get("/api/music/findasong/:songid", findSongById);
 
     const https = require('https');
 
     // model definitions here
     var mtvObject = require('../apis/mtvNew.api.server')();
+    var songModel = listOfModel.songModel;
+
+
+    function findSongById (req,res) {
+        var response = {};
+        var songid = req.params.songid;
+        songModel
+            .findSongById(songid)
+            .then(function (song) {
+                if (song) {
+                    response = {status:'KO',data:song}
+                }
+                else {
+                 response =  {status:'KO',data:"Song not Found"}
+                }
+                res.json(response);
+            } , function (err) {
+                res.json({status:'KO',data:err});
+            });
+    }
+
+    function searchSongs (req,res) {
+
+        var response = {};
+        var results =[];
+        var songQuery = req.params.inputQuery;
+        songModel
+            .searchSongs(songQuery)
+            .then(function (songs) {
+                response.status = "OK";
+                results = results.concat(songs);
+                response.data = results;
+                res.send(response);
+            },function (err) {
+                res.send(err);
+            });
+    }
+
+
+
 
     function findSongLyrics (req,res) {
         var songTitle = req.params.songTitle;

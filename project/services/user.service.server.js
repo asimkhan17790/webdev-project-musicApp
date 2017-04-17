@@ -1,19 +1,50 @@
 /**
  * Created by sumitbhanwala on 4/4/17.
  */
-/**
- * Created by sumitbhanwala on 2/21/17.
- */
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+//var bcrypt = require("bcrypt-nodejs");
+
+ var googleConfig = {
+     clientID     : "464567587492-nkq89la1rppp979b74md6k39iiekai40.apps.googleusercontent.com",
+     clientSecret : "OPtM9n-FOWo-Y5IRg1xrk-lW",
+     callbackURL  : "http://localhost:3000/auth/google/callback"
+ };
 
 module.exports = function (app ,listOfModel) {
 
-    // find User is a generic function which will in turn call
-    // findUserByCredentails and findUserByUserName
-    // server is listening to the below mentioned end points
+    // app.use(function(req, res, next) { //allow cross origin requests
+    //     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
+    //     res.header("Access-Control-Allow-Origin", "http://127.0.0.1:3000");
+    //     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
+    //     next();
+    // });
+
+    app.use(function(req, res, next) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+        next();
+    });
+
+    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+
+    /*  app.get('/auth/google/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        function(req, res) {
+            // Successful authentication, redirect home.
+            res.redirect('/');
+        });
+     */
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/#/user/userHomePage',
+            failureRedirect: '/#/landingPage'
+        }));
+
+
+
     app.post("/api/user" ,createUser);
     app.post("/api/user/login" ,passport.authenticate('local'),findUser);
     app.post("/api/user/loggedin",loggedin);
@@ -35,12 +66,7 @@ module.exports = function (app ,listOfModel) {
     app.get("/api/user/follow/playList/:userId1/:userId2",findAllplayListAndFollowing);
     app.get("/api/user/findAllEventsOfUser/:uid", findAllEventsOfUser);
     app.post("/api/user/sendInvite/", sendInvitationToNonUsers);
-    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
-    app.get('/google/oauth/callback',
-        passport.authenticate('google', {
-            successRedirect: '/lectures-wed/passportjs/#!/profile',
-            failureRedirect: '/lectures-wed/passportjs/#!/login'
-        }));
+
 
     passport.use('local',new LocalStrategy(localStrategy));
     passport.serializeUser(serializeUser);
@@ -50,6 +76,103 @@ module.exports = function (app ,listOfModel) {
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
+
+    passport.use(new GoogleStrategy(googleConfig, googleStrategy));
+
+    function googleStrategy(token, refreshToken, profile, done) {
+        userModel
+            .findUserByGoogleId(profile.id)
+            .then(
+                function(user) {
+                    if(user) {
+                        return done(null, user);
+                    } else {
+                        var email = profile.emails[0].value;
+                        var emailParts = email.split("@");
+                        var newGoogleUser = {
+                            username:  emailParts[0],
+                            firstName: profile.name.givenName,
+                            lastName:  profile.name.familyName,
+                            email:     email,
+                            google: {
+                                id:    profile.id,
+                                token: token
+                            }
+                        };
+                        return userModel.createUser(newGoogleUser);
+                    }
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            )
+            .then(
+                function(user){
+                    if (user) {
+                        var emailObject = {
+                            to: user.email,
+                            from: 'asim.khan17790@gmail.com',
+                            subject: 'Welcome to MyMusic',
+                            message: 'Hi <strong>'+ user.firstName+'</strong>,<br><br>'
+                            + 'Welcome to <strong>My Music</strong>,<br><br> Your username is :<strong>'+ user.username+ '</strong><br><br> <h2>Enjoy your musical Journey!!</h2>',
+                        };
+                        emailApi.sendEmailAsync(emailObject);
+                    }
+                    if(user && user.userType === "U")
+                    {
+                        var defaultplayList = {
+                            "playListName" : "Favorites",
+                            "playListOwner" : user._id
+                        }
+                        playListModel
+                            .createplayList(defaultplayList)
+                            .then(function (createdplayList) {
+                                userModel
+                                    .addplayList(createdplayList,'C')
+                                    .then(function (updatedUser) {
+                                        if (updatedUser) {
+                                            // response.status="OK";
+                                            // response.description="User successfully created";
+                                            // response.user = updatedUser;
+                                            // res.json(response);
+                                            // req.login(user, function (err) {
+                                            //     res.json(user);
+                                            // });
+                                            return done(null, user);
+                                        }
+                                        else {
+                                            response.status="KO";
+                                            response.description="Some Error Occurred!! Please try again";
+                                            // res.json(response);
+                                            // res.status(500).send(response);
+                                            return done(response);
+                                        }
+
+                                    },function (error) {
+                                        response.status="KO";
+                                        response.description="Some Error Occurred!! Please try again";
+                                        // res.json(response);
+                                        // res.status(500).send(response);
+                                        return done(response);
+                                    });
+                            },function (error) {
+
+                                response.status="KO";
+                                response.description="Some Error Occurred!! Please try again";
+                                // res.json(response);
+                                // res.status(500).send(response);
+                                return done(response);
+                            });
+                    }
+                    // return done(null, user);
+                },
+                function(err){
+                    if (err) {
+                        return done(null, {status:'KO'});
+                    }
+                }
+            );
+    }
 
     function logout(req, res) {
         req.logout();
@@ -107,17 +230,7 @@ module.exports = function (app ,listOfModel) {
 
     function findUser (req ,res) {
         var user = req.user;
-         //  var response = {};
-         //  if (user)
-         //  {
-         //      response.user = user;
-         //     response.description = "User Found";
-         //     response.status = "OK";
-         // }
-         // else {
-         //     response.status = "KO";
-         //     response.description = "Username or password is incorrect";
-         // }
+
         res.json(user);
     }
 
@@ -125,8 +238,6 @@ module.exports = function (app ,listOfModel) {
         var userId = req.params.userId;
         userModel.deleteUser(userId)
             .then(function (user) {
-                // have to handle it seperately and remove the user  from
-                // the followers and following
                     var followers = user.followers;
                     var following = user.following ;
                     var playLists = user.playList;
