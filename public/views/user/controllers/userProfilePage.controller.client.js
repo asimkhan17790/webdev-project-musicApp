@@ -91,10 +91,10 @@
                     closeModal();
                     $timeout(function () {
                         if(searchedUser.userType == 'U')
-                            $location.url("/user/userSearch/"+vm.pid+"/"+userId2);
+                            $location.url("/user/userSearch/"+userId2);
                         else if(searchedUser.userType == 'M')
                         {
-                            $location.url("/user/singerSearch/"+vm.pid+"/"+userId2);
+                            $location.url("/user/singerSearch/"+userId2);
                         }
                     }, 250);
                     vm.follError = null;

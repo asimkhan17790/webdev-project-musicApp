@@ -33,7 +33,7 @@
             findAllPlayList();
         }
         init();
-        
+
         function logout() {
             UserService
                 .logout()
