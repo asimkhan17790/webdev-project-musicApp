@@ -32,11 +32,11 @@
                         <li ng-show="model.user.userType==='U'" class="nav-item"><a href="#/user/userHomePage">Home</a></li>
                         <li ng-show="model.user.userType==='M'" class="nav-item"><a href="#/user/userHomePageSinger">Home</a></li>
                         <li ng-show="model.user.userType==='M'" class="nav-item"><a href="#/music/myalbums">Albums</a></li>
-                        <li ng-show="model.user.userType==='U'" class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li ng-show="model.user.userType==='U'" class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li ng-show="model.user.userType==='U'" class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item glorifyExtra"><a class="glorifyExtra" href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
-                        <li ng-show="model.user.userType==='U'" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch/{{model.userId}}" class="fa fa-microphone"></a></li>
+                        <li ng-show="model.user.userType==='U'" class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li ng-show="model.user.userType==='U'" class="nav-item"><a href="#/user/followers">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li ng-show="model.user.userType==='U'" class="nav-item"><a href="#/user/following">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item glorifyExtra"><a class="glorifyExtra" href="#/events/upcomingEvents">Events</a></li>
+                        <li ng-show="model.user.userType==='U'" class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
 
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
