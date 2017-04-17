@@ -81,9 +81,19 @@
             var promise = playListService.addSongtoPlayList(songId ,playListId);
             promise.success(function(response) {
                 if(response){
-                    vm.songaddedsuccess = "song added to the playlist";
-                    closeModal() ;
-                    init();
+                    if (response.status==='OK') {
+                        vm.songaddedsuccess = "Song added to the playlist";
+                        closeModal() ;
+                        init();
+                    }else if (response.status==='KO') {
+                        if (response.description) {
+                            vm.error = response.description;
+                        }else {
+                            vm.error = "Some Error Occurred";
+                        }
+                    }
+
+
 
                 }
             }).error(function (err) {
