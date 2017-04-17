@@ -214,7 +214,7 @@
         }
 
         function editProfile() {
-            $location.url("/user/editProfile/"+vm.userId);
+            $location.url("/user/editProfile");
         }
 
         function closeModal() {
