@@ -10,7 +10,7 @@ var bcrypt = require("bcrypt-nodejs");
  var googleConfig = {
      clientID     : "464567587492-nkq89la1rppp979b74md6k39iiekai40.apps.googleusercontent.com",
      clientSecret : "OPtM9n-FOWo-Y5IRg1xrk-lW",
-     callbackURL  : "http://localhost:3000/auth/google/callback"
+     callbackURL  : "https://mymusicapp-webdev.herokuapp.com/auth/google/callback"
  };
 
 module.exports = function (app ,listOfModel) {
