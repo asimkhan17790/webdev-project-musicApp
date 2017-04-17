@@ -12,7 +12,6 @@
         vm.following = null;
         vm.error = null ;
         vm.users = null;
-
         vm.clearUserFromModal  = clearUserFromModal;
         vm.followersLength=null;
         vm.searchUsers = searchUsers ;
@@ -68,9 +67,6 @@
                         vm.emailSuccess = 'Congrats...Your invitation has been sent successfully!!';
                     }
                     vm.invitationEmail = null;
-                    /*  $timeout(function () {
-                     closeModal();
-                     }, 2000);*/
                 } else {
                     vm.emailSuccess = null;
                     vm.emailError = "Some Error Occurred";
@@ -108,10 +104,10 @@
                     closeModal();
                     $timeout(function () {
                         if(searchedUser.userType == 'U')
-                            $location.url("/user/userSearch/"+vm.userId+"/"+userId2);
+                            $location.url("/user/userSearch/"+userId2);
                         else if(searchedUser.userType == 'M')
                         {
-                            $location.url("/user/singerSearch/"+vm.userId+"/"+userId2);
+                            $location.url("/user/singerSearch/"+userId2);
                         }
                     }, 250);
                     vm.error = null;

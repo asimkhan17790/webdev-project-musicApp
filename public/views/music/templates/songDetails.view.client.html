@@ -15,49 +15,11 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse ">
                     <ul class="nav navbar-nav header-ul">
-
-                        <!--<li class="dropdown">
-                            <a href="#" target="_self"
-                               class="dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Search <span class="caret"></span></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a target="_self" aria-expanded="false">Music</a></li>
-
-                            </ul>
-                        </li>-->
-                        <li class="nav-item"><a href="#/user/userHomePage/{{model.userId}}">Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists/{{model.userId}}">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers/{{model.userId}}">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following/{{model.userId}}">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents/{{model.userId}}">Events</a></li>
-                        <!--<li class="nav-item" >
-                            <form>
-                                <div>
-                                    <ng-audio-recorder auto-start="true" id='audioInput' audio-model='model.recordedInput' time-limit="5" on-record-start="model.showSpinner()" on-record-complete="model.recordAndSearch()">
-                                        &lt;!&ndash; Start controls, exposed via recorder&ndash;&gt;
-                                        <div ng-if="recorder.isAvailable" ng-click="">
-                                            <a style="font-size: 20px"
-                                               class="fa fa-microphone glorifyExtra"
-                                               aria-hidden="true"
-                                               id='audioInput11'
-                                               ng-click="!recorder.status.isRecording && recorder.startRecord();model.error=null"
-                                               ng-disabled="recorder.status.isRecording">
-                                            </a>
-                                        </div>
-
-                                        <div ng-if="!recorder.isAvailable">
-                                            &lt;!&ndash; <i class="fa fa-microphone-slash" aria-hidden="true"></i>&ndash;&gt;
-                                        </div>
-
-                                    </ng-audio-recorder>
-                                </div>
-                            </form>
-                        </li>-->
+                        <li class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
+                        <li class="nav-item"><a href="#/user/followers">Followers <span class="badge">{{model.followers}}</span></a></li>
+                        <li class="nav-item"><a href="#/user/following">Following <span class="badge">{{model.following}}</span></a></li>
+                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
                         <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
@@ -68,10 +30,10 @@
                                aria-expanded="false"></a>
 
                             <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile/{{model.userId}}">Edit Profile</a></li>
+                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
                                 <li><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#inviteModal">Send Invite</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" target="_self" >Logout</a></li>
+                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
                             </ul>
                         </li>
                     </ul>

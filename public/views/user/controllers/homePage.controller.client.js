@@ -165,8 +165,6 @@
                 }
             }, 250);
 
-
-
             console.log('redirecting');
         }
 
@@ -273,7 +271,6 @@
                     callSearchEventService(inputFilter);
 
                 }, function (error) {
-                    console.log(error);
                     callSearchEventService(null);
                 });
             } else {
@@ -286,11 +283,9 @@
         function callSearchEventService(inputFilter) {
             var promise =  EventService.searchNearByEvents(inputFilter);
             promise.success(function (response) {
-                console.log(response);
                 vm.events = response.events;
 
             }).error(function (error) {
-                console.log(error);
             });
         }
 
@@ -331,8 +326,6 @@
             vm.playing = true;
             vm.playStatus = "Now Playing...";
             $scope.$apply();
-            console.log(vm.playing);
-            console.log(vm.playStatus);
         }
 
         function previousSong() {
