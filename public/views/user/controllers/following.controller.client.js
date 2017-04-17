@@ -20,6 +20,7 @@
         vm.redirectToSearchedUser = redirectToSearchedUser;
         vm.searchSongs = searchSongs;
         vm.redirectToSearchedSong = redirectToSearchedSong;
+        vm.logout = logout;
         function init() {
             getUserDetails();
             var promise = UserService.findFollowingById(vm.userId);
@@ -37,6 +38,13 @@
             });
         }
         init();
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
+        }
 
         function getUserDetails() {
             var promise = UserService.findUserById(vm.userId);

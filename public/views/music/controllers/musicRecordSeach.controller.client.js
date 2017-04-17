@@ -104,7 +104,11 @@
                         }, 1000);
 
                     } else {
-                        vm.favError = "Some Error Occurred";
+                        if (result.description) {
+                            vm.favError = result.description;
+                        }else {
+                            vm.favError = "Some Error Occurred";
+                        }
                         vm.favSuccess = null;
                         $timeout(function () {
                             vm.favSuccess = null;
@@ -160,8 +164,17 @@
                         }, 500);
 
                     } else {
-                        vm.songSaveError = "Some Error Occurred";
+
+                        if (result.description) {
+                            vm.songSaveError = result.description;
+                        }else {
+                            vm.songSaveError = "Some Error Occurred";
+                        }
                         vm.songSaveSuccess = null;
+                        $timeout(function () {
+                            vm.songSaveError = null;
+                            vm.songSaveSuccess = null;
+                        }, 1000);
                     }
 
                 }).error(function (err) {

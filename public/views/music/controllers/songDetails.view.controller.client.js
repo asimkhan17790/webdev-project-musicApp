@@ -125,31 +125,7 @@
         }
 
 
-        function createSong () {
 
-            if (vm.music.origin==='mymusic') {
-                var artistArray = [];
-
-                 if (vm.music.artist) {
-                    vm.music.artist.forEach(function (item) {
-                        artistArray.push(angular.copy(item.name));
-                    });
-                }
-
-                console.log('trck ID :'+vm.music.spotifyID);
-                var newsong = {
-                    songURL : angular.copy(vm.music.songURL.$$unwrapTrustedValue()),
-                    title : angular.copy(vm.music.title) ,
-                    name : angular.copy(vm.music.title),
-                    genre : vm.music.genre,
-                    artist : angular.copy(artistArray),
-                    songThumb : angular.copy(vm.music.imageUrl),
-                    spotifyID : vm.music.spotifyID
-                };
-                return newsong;
-            }
-
-        }
         function logout() {
             UserService
                 .logout()
@@ -176,10 +152,19 @@
                     }, 500);
 
                 } else {
-                    if (result.description) {
-                        vm.songSaveError = result.description;
+
+                        if (result.description) {
+                            vm.songSaveError = result.description;
+                        }else {
+                            vm.songSaveError = "Some Error Occurred";
+                        }
                         vm.songSaveSuccess = null;
-                    }
+                        $timeout(function () {
+                            vm.songSaveSuccess = null;
+                            vm.songSaveError = null;
+                        }, 1000);
+
+
                 }
 
             }).error(function (err) {

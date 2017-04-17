@@ -39,6 +39,7 @@
         vm.loadAllMyList = loadAllMyList ;
         vm.availablePlaylist = null ;
         vm.play = play;
+        vm.closeModal = closeModal;
         vm.isOwner ;
         vm.index = 0;
         vm.playlist = {};
@@ -141,13 +142,33 @@
             var promise = playListService.addSongtoPlayList(songId ,playListId);
             promise.success(function(response) {
                 if(response){
-                    vm.songaddedsuccess = "Song added to the playlist";
-                    closeModal() ;
-                    init();
+
+                    if (response.status =='OK') {
+                      //  vm.songaddedsuccess = "Song added to the playlist";
+                        closeModal() ;
+                        init();
+                    }
+                    else {
+
+                        if (response.description) {
+                            vm.songaddedError = response.description;
+                        }else {
+                            vm.songaddedError = "Some Error Occurred";
+                        }
+
+                      /*  $timeout(function () {
+                            if (response.description) {
+                                vm.songaddedError = response.description;
+                            }else {
+                                vm.songaddedError = "Some Error Occurred";
+                            }
+                        }, 1000);*/
+                    }
+
 
                 }
             }).error(function (err) {
-                vm.error = "Unable to add song in your album";
+                vm.songaddedError = "Unable to add song in your album";
             })
         }
 
@@ -179,6 +200,7 @@
         }
 
         function closeModal() {
+            vm.songaddedError = null;
             vm.song = null;
             vm.file = null;
             $('.modal').modal('hide');
