@@ -7,7 +7,7 @@ module.exports = function () {
         title : String,
         artist : [String] ,
         genre : String ,
-        spotifyID : String ,
+        spotifyID : {type: String,unique: true, sparse: true},
         lyricsID : String ,
         songURL : String ,
         songThumb : String ,

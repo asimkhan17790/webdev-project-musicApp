@@ -7,7 +7,7 @@
         })
         .controller("SongDetailsController", SongDetailsController);
 
-    function SongDetailsController (UserService,currentUser, $sce,$timeout,Upload,MusicService,$routeParams,playListService) {
+    function SongDetailsController (playListService ,UserService,currentUser, $sce,$timeout,Upload,MusicService,$routeParams) {
 
         var vm = this;
         vm.userId = currentUser._id;
@@ -27,6 +27,9 @@
         vm.favError = null;
         vm.favSuccess = null;
         vm.getTrustedURL = getTrustedURL;
+        vm.logout = logout ;
+        vm.checkoutSongInFav = checkoutSongInFav;
+        vm.clearDataFromModal = clearDataFromModal;
 
         function init() {
             getUserDetails();
@@ -39,6 +42,22 @@
             return  $sce.trustAsResourceUrl(url);
         }
         init();
+
+        function checkoutSongInFav(favorite,songId) {
+            var promise = playListService.checkSongInPlayList(favorite,songId);
+            promise.success(function(response) {
+
+                if (response && response.status === 'YES') {
+                    vm.addedToFav = true;
+                }
+                else {
+                    vm.addedToFav = false;
+                }
+
+            }).error(function (err) {
+                vm.error = "Some Error Occurred";
+            })
+        }
 
         function findSongById () {
 
@@ -56,12 +75,15 @@
         function closeModal() {
             vm.songSaveError = null;
             vm.songSaveSuccess = null;
+            vm.favError = null;
+            vm.favSuccess = null;
             $('.modal').modal('hide');
         }
 
         function addSongToFavorites() {
             if (!vm.addedToFav) {
-                var promise  = playListService.createSongFromSpotify(createSong(),vm.favorite);
+             //   vm.music.songURL = angular.copy(vm.music.songURL.$$unwrapTrustedValue());
+                var promise  = playListService.addSongtoPlayList(vm.music._id,vm.favorite);
                 promise.success(function (result) {
                     if (result && result.status === 'OK') {
                         if (result.description) {
@@ -79,7 +101,11 @@
                         }, 1000);
 
                     } else {
-                        vm.favError = "Some Error Occurred";
+                        if (result.description) {
+                            vm.favError = result.description;
+                        }else {
+                            vm.favError = "Some Error Occurred";
+                        }
                         vm.favSuccess = null;
                         $timeout(function () {
                             vm.favSuccess = null;
@@ -100,34 +126,41 @@
 
 
         function createSong () {
-            var artistArray = [];
-            if (vm.music.artists) {
-                vm.music.artists.forEach(function (item) {
-                    artistArray.push(angular.copy(item.name));
-                });
-            }
-            else if (vm.music.artist) {
-                vm.music.artist.forEach(function (item) {
-                    artistArray.push(angular.copy(item.name));
-                });
+
+            if (vm.music.origin==='mymusic') {
+                var artistArray = [];
+
+                 if (vm.music.artist) {
+                    vm.music.artist.forEach(function (item) {
+                        artistArray.push(angular.copy(item.name));
+                    });
+                }
+
+                console.log('trck ID :'+vm.music.spotifyID);
+                var newsong = {
+                    songURL : angular.copy(vm.music.songURL.$$unwrapTrustedValue()),
+                    title : angular.copy(vm.music.title) ,
+                    name : angular.copy(vm.music.title),
+                    genre : vm.music.genre,
+                    artist : angular.copy(artistArray),
+                    songThumb : angular.copy(vm.music.imageUrl),
+                    spotifyID : vm.music.spotifyID
+                };
+                return newsong;
             }
 
-            console.log('trck ID :'+vm.music.spotifyID);
-            var newsong = {
-                songURL : angular.copy(vm.music.previewURL.$$unwrapTrustedValue()),
-                title : angular.copy(vm.music.trackName) ,
-                name : angular.copy(vm.music.trackName),
-                genre : 'N/A',
-                artist : angular.copy(artistArray),
-                songThumb : angular.copy(vm.music.imageUrl),
-                spotifyID : vm.music.spotifyID
-            };
-            return newsong;
+        }
+        function logout() {
+            UserService
+                .logout()
+                .then(function () {
+                    $location.url('/landingPage');
+                });
         }
 
         function addSongToMyPlaylist(selectedPlayList) {
 
-            var promise  = playListService.createSongFromSpotify(createSong (),selectedPlayList._id);
+            var promise  = playListService.addSongtoPlayList(vm.music._id,selectedPlayList._id);
             promise.success(function (result) {
                 if (result && result.status === 'OK') {
                     if (result.description) {
@@ -143,8 +176,10 @@
                     }, 500);
 
                 } else {
-                    vm.songSaveError = "Some Error Occurred";
-                    vm.songSaveSuccess = null;
+                    if (result.description) {
+                        vm.songSaveError = result.description;
+                        vm.songSaveSuccess = null;
+                    }
                 }
 
             }).error(function (err) {
@@ -153,12 +188,6 @@
             });
         }
 
-
-        function clearDataFromModal() {
-            vm.songSaveError = null;
-            vm.songSaveSuccess = null;
-
-        }
         function loadAllMyList() {
             if(vm.userId != null)
             {
@@ -172,6 +201,13 @@
                     vm.availablePlaylist = null ;
                 });
             }
+        }
+        function clearDataFromModal() {
+            vm.songSaveError = null;
+            vm.songSaveSuccess = null;
+            vm.favError = null;
+            vm.favSuccess = null;
+
         }
 
         function closeAlert() {
@@ -199,6 +235,7 @@
                     vm.following = result.data.following.length ;
                     vm.error = null;
                     vm.favorite = result.data.favPlayList;
+                    checkoutSongInFav(vm.favorite,vm.songId);
                 } else {
                     vm.error = "Some Error Occurred!! Please try again!";
                 }
@@ -211,11 +248,11 @@
         function findLyrics (songTitle, artists) {
             console.log(artists[0]);
             if (songTitle && artists && artists[0] != null) {
-                var promise =  MusicService.searchLyrics(songTitle, artists[0].name);
-
+                var promise =  MusicService.searchLyrics(songTitle, artists[0]);
                 promise.success(function (data) {
                     if (data.message && data.message.header
-                        && data.message.header.status_code && data.message.header.status_code === 200) {
+                        && data.message.header.status_code && data.message.header.status_code === 200
+                    && data.message.body.lyrics && data.message.body.lyrics.lyrics_body) {
                         //console.log(data.message.body.lyrics.lyrics_body);
                         vm.lyricsData = data.message.body.lyrics.lyrics_body;
                         console.log(vm.lyricsData);

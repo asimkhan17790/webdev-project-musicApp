@@ -16,11 +16,19 @@
             "deleteplayList" : deleteplayList ,
             "addSongtoPlayList": addSongtoPlayList,
             "deleteSongFromPlayList" :deleteSongFromPlayList,
-            "createSongFromSpotify" : createSongFromSpotify
-           /* "addSongToFavorite" : addSongToFavorite*/
+            "createSongFromSpotify" : createSongFromSpotify,
+            "checkSongInPlayList" : checkSongInPlayList,
+            "createSong" : createSong
         }
         return api;
 
+        function createSong(song) {
+            return $http.post("/api/playList/createSong/", song);
+        }
+
+        function checkSongInPlayList(favorite,songId) {
+            return $http.get("/api/playList/songpresent/"+ favorite + "/"+songId);
+        }
         function findAllSongs(playListId) {
             console.log("playList id is" + playListId);
             return $http.get("/api/user/playList/song/"+playListId);
@@ -43,7 +51,7 @@
 
         function createSongFromSpotify(newSong,playlistId) {
             console.log("Song is" + newSong);
-            return $http.post("/api/playList/createNewSong/"+playlistId, newSong);
+            return $http.post("/api/playList/createNewSong/" + playlistId, newSong);
         }
 
         function deleteplayList (playList) {

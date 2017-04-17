@@ -9,7 +9,7 @@ module.exports = function (app, listOfModel) {
     // model definitions here
     var mtvObject = require('../apis/mtvNew.api.server')();
     var songModel = listOfModel.songModel;
-
+    var spotifyObject = require('../apis/spotify.api.server')();
 
     function findSongById (req,res) {
         var response = {};
@@ -30,20 +30,28 @@ module.exports = function (app, listOfModel) {
     }
 
     function searchSongs (req,res) {
-
+        // asim
         var response = {};
         var results =[];
         var songQuery = req.params.inputQuery;
         songModel
             .searchSongs(songQuery)
             .then(function (songs) {
-                response.status = "OK";
+
                 results = results.concat(songs);
-                response.data = results;
+                return spotifyObject.searchTracks(songQuery);
                 res.send(response);
-            },function (err) {
-                res.send(err);
-            });
+
+            }).then (function (spotifyResults) {
+
+                response.status = "OK";
+                results = results.concat(spotifyResults);
+                response.data = results;
+                res.json(response);
+
+            }, function (err) {
+                    res.send(results);
+                });
     }
 
 

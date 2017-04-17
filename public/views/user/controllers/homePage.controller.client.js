@@ -145,6 +145,7 @@
             var promise = MusicService.searchSongs(vm.inputSong);
             promise.success (function (result) {
                 if (result && result.status === 'OK' && result.data && result.data.length > 0) {
+                    console.log(result.data);
                     vm.searchedSongs = result.data;
                     vm.songError = null;
                 } else {
@@ -163,11 +164,32 @@
                 if (selectedSong.origin === 'mymusic') {
                     $location.url("/music/song/songDetails/"+selectedSong._id);
                 }
+                else {
+
+                    getSpotifySong(selectedSong);
+                    //$location.url("/music/song/songDetails/"+selectedSong._id);
+                }
             }, 250);
 
-
-
             console.log('redirecting');
+        }
+
+
+        function getSpotifySong(selectedSong) {
+
+                var promise  = playListService.createSong(selectedSong);
+                promise.success(function (result) {
+                    if (result) {
+
+                        $location.url("/music/song/songDetails/"+result._id);
+
+                    } else {
+                        console.log('some error occurred!');
+                    }
+
+                }).error(function (err) {
+                    console.log('some error occurred!');
+                });
         }
 
         function getUserDetails() {
@@ -227,8 +249,9 @@
             vm.invitationEmail = null;
             vm.emailSuccess = null;
             vm.emailError = null;
-            $('.modal').modal('hide');
             vm.searchedSongs = null;
+            $('.modal').modal('hide');
+
         }
         function deleteplayList(playList) {
             var promise = playListService.deleteplayList(playList);

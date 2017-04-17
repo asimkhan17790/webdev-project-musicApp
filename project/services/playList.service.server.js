@@ -11,6 +11,9 @@ module.exports = function (app ,listOfModel) {
     app.delete("/api/user/playlist/song/:playListId/:songId" ,deleteSongFromPlayList);
     app.post("/api/playList/createNewSong/:playlistId" ,createSongFromSpotify);
     app.post("/api/playList/createSongInFavorite/:playlistId" ,createSonginFavorite);
+    app.get("/api/playList/songpresent/:playlistId/:songId" ,songExistsInPlayList);
+    app.post("/api/playList/createSong/" ,createSong);
+
 
     var albumModel = listOfModel.albumModel;
     var userModel = listOfModel.UserModel;
@@ -18,6 +21,45 @@ module.exports = function (app ,listOfModel) {
     var playListModel = listOfModel.playListModel;
 
 
+    function createSong(req, res) {
+        var newSong = req.body;
+        //var response = {};
+        songModel.findSongBySpotifyId(newSong.spotifyID).
+            then(function (found) {
+
+                if (found) {
+                    res.json(found);
+                    return;
+                }
+                else {
+                    return songModel.createSong(newSong);
+                }
+
+            }).then (function (createdSong) {
+                res.json(createdSong);
+                 },
+                function (err) {
+                    res.json(null);
+                });
+
+    }
+
+
+    function songExistsInPlayList (req, res) {
+
+        var response = {};
+        var playListId = req.params.playlistId;
+        var songId = req.params.songId;
+        playListModel
+            .checkSongInPlayList(playListId, songId)
+            .then(function () {
+                response.status = "YES";
+                res.send(response);
+            },function () {
+                response.status="NO";
+                res.json(response);
+            });
+    }
     function createSonginFavorite (req, res) {
 
         var newSong = req.body;
@@ -108,9 +150,17 @@ module.exports = function (app ,listOfModel) {
                 response.data = playList;
                 res.send(response);
             }, function (error) {
-                response.status="KO";
-                response.description="Some error occurred while addition of song!!";
-                res.json(response);
+                if (error==='KOO') {
+                    response.status="KO";
+                    response.description="Song is already present in selected playlist!!";
+                    res.json(response);
+                    return;
+                }else {
+                    response.status="KO";
+                    response.description="Some error occurred while addition of song!!";
+                    res.json(response);
+                }
+
             });
     }
 

@@ -85,41 +85,50 @@
         function createUser() {
             vm.user.userType = vm.userType.userType;
             // maye use the status from passport to display messages
-            var promise = UserService.createUser(vm.user);
-            promise.success(function(response) {
-                console.log(response);
+
+            if (vm.user.confirm_password === vm.user.password) {
+                var promise = UserService.createUser(vm.user);
+                promise.success(function(response) {
+                    console.log(response);
 
 
-                if (response && response.status==='KO') {
-                    if (response.description) {
-                        vm.error = response.description;
-                    } else {
-                        vm.error = "Some Error Occurred!! Please try again.";
+                    if (response && response.status==='KO') {
+                        if (response.description) {
+                            vm.error = response.description;
+                        } else {
+                            vm.error = "Some Error Occurred!! Please try again.";
+                        }
                     }
-                }
-                else if (response) {
-                    closeModal();
+                    else if (response) {
+                        closeModal();
                         $timeout(function () {
-                        if(response.userType === "U") {
-                            $location.url("/user/userHomePage");}
-                        else if(response.userType === "E") {
-                            $location.url("/user/userHomeEventOrg");}
-                        else if(response.userType === "M") {
-                            $location.url("/user/userHomePageSinger");}
-                        else if(response.userType === "A") {
-                            $location.url("/user/adminHomePage");}
-                        else
-                            $location.url("/");
+                            if(response.userType === "U") {
+                                $location.url("/user/userHomePage");}
+                            else if(response.userType === "E") {
+                                $location.url("/user/userHomeEventOrg");}
+                            else if(response.userType === "M") {
+                                $location.url("/user/userHomePageSinger");}
+                            else if(response.userType === "A") {
+                                $location.url("/user/adminHomePage");}
+                            else
+                                $location.url("/");
                         }, 350);
-                }
-            }).error(function (err) {
-                console.log(err);
-                if (err && err==='"Unauthorized"') {
-                    vm.error = "Cannot login! Please Check Username and password";
-                }else {
-                    vm.error = "Some Error occurred! Please try again.";
-                }
-            });
+                    }
+                }).error(function (err) {
+                    console.log(err);
+                    if (err && err==='"Unauthorized"') {
+                        vm.error = "Cannot login! Please Check Username and password";
+                    }else {
+                        vm.error = "Some Error occurred! Please try again.";
+                    }
+                });
+
+            }
+            else {
+                vm.error = "The passwords do not match.Please enter same passwords.";
+            }
+
+
         }
 
         // will refactor the error messages in a better way tomorrow or so
