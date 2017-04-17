@@ -32,8 +32,8 @@
             "findAllplayListAndFollowing":findAllplayListAndFollowing ,
             "loggedin" : loggedin ,
             "logout" : logout ,
-            "isAdmin" : isAdmin
-
+            "isAdmin" : isAdmin,
+            "createUserAdmin" : createUserAdmin
         }
         return api;
 
@@ -106,7 +106,11 @@
 
         function createUser(user) {
             return $http.post("/api/user", user);
+        }
 
+
+        function createUserAdmin(user) {
+                return $http.post("/api/useradmin", user);
         }
 
         function deleteUser(userId ) {

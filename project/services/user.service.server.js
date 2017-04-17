@@ -8,9 +8,11 @@ var bcrypt = require("bcrypt-nodejs");
 
 
  var googleConfig = {
-     clientID     : "464567587492-nkq89la1rppp979b74md6k39iiekai40.apps.googleusercontent.com",
-     clientSecret : "OPtM9n-FOWo-Y5IRg1xrk-lW",
-     callbackURL  : "https://mymusicapp-webdev.herokuapp.com/auth/google/callback"
+
+     clientID     : process.env.GOOGLEPLUSID,
+     clientSecret : process.env.GOOGLEPLUSSECRET,
+     callbackURL  : process.env.CALLBACK
+
  };
 
 module.exports = function (app ,listOfModel) {
@@ -47,6 +49,7 @@ module.exports = function (app ,listOfModel) {
 
 
     app.post("/api/user" ,createUser);
+    app.post("/api/useradmin",createUserAdmin);
     app.post("/api/user/login" ,passport.authenticate('local'),findUser);
     app.post("/api/user/loggedin",loggedin);
     app.post('/api/user/logout', logout);
@@ -98,7 +101,9 @@ module.exports = function (app ,listOfModel) {
                             google: {
                                 id:    profile.id,
                                 token: token
-                            }
+                            } ,
+                            gender : profile.gender,
+                            imageURL : profile.photos[0].value
                         };
                         return userModel.createUser(newGoogleUser);
                     }
@@ -657,6 +662,94 @@ module.exports = function (app ,listOfModel) {
             });
     }
 
+    function createUserAdmin(req ,res) {
+        var user = req.body;
+        var response = {};
+        user.password = bcrypt.hashSync(user.password);
+        userModel
+            .createUser(user)
+            .then(function(user) {
+                if (user) {
+                    var emailObject = {
+                        to: user.email,
+                        from: 'asim.khan17790@gmail.com',
+                        subject: 'Welcome to MyMusic',
+                        message: 'Hi <strong>'+ user.firstName+'</strong>,<br><br>'
+                        + 'Welcome to <strong>My Music</strong>,<br><br> Your username is :<strong>'+ user.username+ '</strong><br><br> <h2>Enjoy your musical Journey!!</h2>',
+                    };
+                    emailApi.sendEmailAsync(emailObject);
+                }
+                if(user && user.userType === "U")
+                {
+                    var defaultplayList = {
+                        "playListName" : "Favorites",
+                        "playListOwner" : user._id
+                    }
+                    playListModel
+                        .createplayList(defaultplayList)
+                        .then(function (createdplayList) {
+                            userModel
+                                .addplayList(createdplayList,'C')
+                                .then(function (updatedUser) {
+                                    if (updatedUser) {
+                                         response.status="OK";
+                                         response.user = updatedUser ;
+                                         response.description="User successfully created";
+                                        res.json(response);
+
+                                    }
+                                    else {
+                                        response.status="KO";
+                                        response.description="Some Error Occurred!! Please try again";
+                                        // res.json(response);
+                                        res.status(500).send(response);
+                                        return;
+                                    }
+
+                                },function (error) {
+                                    response.status="KO";
+                                    response.description="Some Error Occurred!! Please try again";
+                                    // res.json(response);
+                                    res.status(500).send(response);
+                                    return;
+                                });
+                        },function (error) {
+                            response.status="KO";
+                            response.description="Some Error Occurred!! Please try again";
+                            // res.json(response);
+                            res.status(500).send(response);
+                            return;
+                        });
+                }
+                else {
+                    if (user) {
+                         response.status="OK";
+                         response.user = user ;
+                         response.description="User successfully created";
+                         res.json(response);
+                    }
+                    else {
+                        response.status="KO";
+                        response.description="Some Error Occurred!! Please try again";
+                        // res.json(response);
+                        res.status(500).send(response);
+                        return;
+                    }
+                }
+
+            }, function (err) {
+                response.status="KO";
+                if (err.code && err.code === 11000) {
+                    response.description="Username or Email already exists";
+                }
+                else {
+                    response.description="Some Error Occurred!! Please try again";
+                }
+                res.json(response);
+                return;
+
+            });
+    }
 
 
     function updateUser (req ,res) {

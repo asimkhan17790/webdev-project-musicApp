@@ -7,7 +7,7 @@
         })
         .controller("SongDetailsController", SongDetailsController);
 
-    function SongDetailsController (playListService ,UserService,currentUser, $sce,$timeout,Upload,MusicService,$routeParams) {
+    function SongDetailsController ($location,playListService ,UserService,currentUser, $sce,$timeout,Upload,MusicService,$routeParams) {
 
         var vm = this;
         vm.userId = currentUser._id;
@@ -146,9 +146,11 @@
                     else {
                         vm.songSaveSuccess = "Song Successfully Added!!";
                         vm.songSaveError = null;
+
                     }
                     $timeout(function () {
                         closeModal();
+                        init();
                     }, 500);
 
                 } else {

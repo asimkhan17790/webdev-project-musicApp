@@ -90,8 +90,6 @@
                 var promise = UserService.createUser(vm.user);
                 promise.success(function(response) {
                     console.log(response);
-
-
                     if (response && response.status==='KO') {
                         if (response.description) {
                             vm.error = response.description;
