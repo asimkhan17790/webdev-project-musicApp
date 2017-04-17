@@ -30,6 +30,7 @@
         vm.index = 0;
         vm.isOwner=null ;
         vm.logout = logout ;
+        vm.closeModal = closeModal;
 
         function init () {
             vm.userId = $routeParams['uid'];
@@ -87,9 +88,9 @@
                         init();
                     }else if (response.status==='KO') {
                         if (response.description) {
-                            vm.error = response.description;
+                            vm.playlistError = response.description;
                         }else {
-                            vm.error = "Some Error Occurred";
+                            vm.playlistError = "Some Error Occurred";
                         }
                     }
 
@@ -209,6 +210,7 @@
 
 
         function closeModal() {
+            playlistError=null;
             $('.modal').modal('hide');
         }
 

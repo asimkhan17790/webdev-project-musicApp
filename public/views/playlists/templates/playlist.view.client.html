@@ -110,9 +110,12 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearDataFromModal()">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.closeModal()">&times;</button>
                     <h4 class="modal-title">Your Available playlists </h4>
                 </div>
+                <span class="glorify redify" ng-show="model.playlistError"  style="z-index: 100;color: red;font-size: medium">
+                        {{model.playlistError}}
+                     </span>
                 <!--adding ng-repeat this side  so that this can be repeated -->
                 <div >
                     <ul class="list-group" style="overflow-y: auto;height: 250px">
