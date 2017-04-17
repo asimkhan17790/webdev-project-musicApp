@@ -130,7 +130,7 @@
 
         function createUser() {
             vm.userad.userType = vm.userTypead.userType;
-            var promise = UserService.createUser(vm.userad);
+            var promise = UserService.createUserAdmin(vm.userad);
             promise.success(function (response) {
                     //console.log(response.user);
                     if (response.status && response.status==='OK') {
