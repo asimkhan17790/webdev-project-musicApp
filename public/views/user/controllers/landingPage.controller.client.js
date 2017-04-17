@@ -86,7 +86,7 @@
             vm.user.userType = vm.userType.userType;
             // maye use the status from passport to display messages
 
-            if (vm.user.confirm_password === vm.user.password) {
+            if (vm.user.cnfPassword === vm.user.password) {
                 var promise = UserService.createUser(vm.user);
                 promise.success(function(response) {
                     console.log(response);
