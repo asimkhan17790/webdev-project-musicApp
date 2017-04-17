@@ -15,7 +15,7 @@
         vm.errorLogin = null;
         vm.clearUserFromModal = clearUserFromModal;
         vm.openSignupModalFromLoginModal = openSignupModalFromLoginModal;
-        vm.googleLogin = googleLogin ;
+
         function init() {
             //StaticDataService
             vm.user={};
@@ -47,11 +47,7 @@
             }, 250);
         }
         
-        function googleLogin () {
-            UserService.googleLogin();
-        }
-
-        function clearUserFromModal() {
+      function clearUserFromModal() {
             vm.user = null;
             vm.error = null;
             vm.errorLogin = null;
@@ -79,31 +75,50 @@
 
             }).error(function (err) {
                 console.log(err);
+                if (err && err==='Unauthorized') {
+                    vm.errorLogin = "Cannot login! Please Check Username and password";
+                }else {
+                    vm.errorLogin = "Some Error occurred! Please try again.";
+                }
             });
         }
-
         function createUser() {
             vm.user.userType = vm.userType.userType;
             // maye use the status from passport to display messages
             var promise = UserService.createUser(vm.user);
             promise.success(function(response) {
                 console.log(response);
-                closeModal();
-                $timeout(function () {
-                    if(response.userType === "U") {
-                        $location.url("/user/userHomePage");}
-                    else if(response.userType === "E") {
-                        $location.url("/user/userHomeEventOrg");}
-                    else if(response.userType === "M") {
-                        $location.url("/user/userHomePageSinger");}
-                    else if(response.userType === "A") {
-                        $location.url("/user/adminHomePage");}
-                    else
-                        $location.url("/");
-                }, 350);
 
+
+                if (response && response.status==='KO') {
+                    if (response.description) {
+                        vm.error = response.description;
+                    } else {
+                        vm.error = "Some Error Occurred!! Please try again.";
+                    }
+                }
+                else if (response) {
+                    closeModal();
+                        $timeout(function () {
+                        if(response.userType === "U") {
+                            $location.url("/user/userHomePage");}
+                        else if(response.userType === "E") {
+                            $location.url("/user/userHomeEventOrg");}
+                        else if(response.userType === "M") {
+                            $location.url("/user/userHomePageSinger");}
+                        else if(response.userType === "A") {
+                            $location.url("/user/adminHomePage");}
+                        else
+                            $location.url("/");
+                        }, 350);
+                }
             }).error(function (err) {
                 console.log(err);
+                if (err && err==='"Unauthorized"') {
+                    vm.error = "Cannot login! Please Check Username and password";
+                }else {
+                    vm.error = "Some Error occurred! Please try again.";
+                }
             });
         }
 

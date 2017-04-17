@@ -16,27 +16,10 @@
                 <div id="navbar" class="navbar-collapse collapse">
 
                     <ul class="nav navbar-nav header-ul">
-                        <li class="dropdown">
-                            <a href="#" target="_self"
-                               class="dropdown-toggle"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Search <span class="caret"></span></a>
 
-                            <ul class="dropdown-menu">
-                                <li ng-click="model.error=null;"><a style="color: white;" data-toggle="modal" target="_self" aria-expanded="false" data-target="#profileSearchModal">Profiles</a></li>
-                                <li><a style="color: white;" target="_self" aria-expanded="false">Music</a></li>
 
-                            </ul>
-                        </li>
-                        <li class="nav-item glorifyExtra"><a>Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following">Following <span class="badge">{{model.following}}</span></a></li>
-                        <li class="nav-item"><a href="#/events/upcomingEvents">Events</a></li>
-                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
-
+                        <li  ng-show="model.user.userType ==='U'"  class="nav-item"><a href="#/user/userHomePage">Home</a></li>
+                        <li ng-show="model.user.userType ==='M'"  class="nav-item"><a href="#/user/userHomePageSinger">Home</a></li>
                         <li class="nav-item">
                             <a class="glyphicon glyphicon-cog dropdown-toggle"
                                target="_self"
@@ -58,21 +41,33 @@
         </nav>
     </div>
 
+
+
+   <!-- <div ng-show="model.error" class="alert alert-danger" role="alert">
+        {{model.error}}
+    </div>
+    <div ng-show="model.success" class="alert alert-success" role="alert">
+        {{model.success}}
+    </div>-->
+
     <div class="black-container container">
+        <div ng-show="model.error" class="alert alert-danger animate-top alert-dismissable" role="alert">
+            <span aria-label="close" class="closebtn" ng-click="model.closeAlert()">&times;</span>
+            {{model.error}}
+        </div>
+        <div ng-show="model.success" class="alert alert-danger animate-top alert-dismissable" role="alert">
+            <span aria-label="close" class="closebtn" ng-click="model.closeAlert()">&times;</span>
+            {{model.success}}
+        </div>
   <div class="row">
       <h1 class="page-header" style="text-align: center;">Edit Your <span class="redify">Profile</span></h1>
   </div>
   <div class="row">
     <!-- left column  where the picture will be shown-->
-      <div ng-show="model.error" class="alert alert-danger" role="alert">
-          {{model.error}}
-      </div>
-      <div ng-show="model.success" class="alert alert-success" role="alert">
-          {{model.success}}
-      </div>
+
     <div class="col-md-4 col-sm-6 col-xs-12">
       <div class="text-center">
-        <img style="width:200px;height:200px" ngf-thumbnail="model.file || model.user.imageURL ||(model.user.gender=='M'?'../../../resources/images/mard.jpg':'../../../resources/images/aurat.jpg')" class="avatar img-circle img-thumbnail" alt="avatar">
+        <img style="width:200px;height:200px" ngf-thumbnail="model.file || model.user.imageURL ||(model.user.gender=='F'?'../../../resources/images/aurat.jpg':'../../../resources/images/mard.jpg')" class="avatar img-circle img-thumbnail" alt="avatar">
         <h6>Change you picture</h6>
           <input type="file" class="text-center center-block well well-sm"
                  ngf-select name="file" id="file" ng-model="model.file" accept="image/*">
