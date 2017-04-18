@@ -6,12 +6,12 @@ var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var bcrypt = require("bcrypt-nodejs");
 
-
  var googleConfig = {
-     clientID     : process.env.GOOGLEPLUSID,
-     clientSecret : process.env.GOOGLEPLUSSECRET,
-     callbackURL  : process.env.CALLBACK
+     clientID     : "464567587492-nkq89la1rppp979b74md6k39iiekai40.apps.googleusercontent.com",
+     clientSecret : "OPtM9n-FOWo-Y5IRg1xrk-lW",
+     callbackURL  : "http://localhost:3000/auth/google/callback"
  };
+
 
 module.exports = function (app ,listOfModel) {
 
@@ -30,6 +30,7 @@ module.exports = function (app ,listOfModel) {
     });
 
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'] }));
 
     /*  app.get('/auth/google/callback',
         passport.authenticate('google', { failureRedirect: '/login' }),
@@ -38,12 +39,11 @@ module.exports = function (app ,listOfModel) {
             res.redirect('/');
         });
      */
-    app.get('/auth/google/callback',
-        passport.authenticate('google', {
-            successRedirect: '/#/user/userHomePage',
-            failureRedirect: '/#/landingPage'
-        }));
-
+     app.get('/auth/google/callback',
+         passport.authenticate('google', {
+             successRedirect: '/#/user/userHomePage',
+             failureRedirect: '/#/landingPage'
+         }));
 
 
     app.post("/api/user" ,createUser);
@@ -79,8 +79,8 @@ module.exports = function (app ,listOfModel) {
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
 
-    passport.use(new GoogleStrategy(googleConfig, googleStrategy));
 
+    passport.use(new GoogleStrategy(googleConfig, googleStrategy));
     function googleStrategy(token, refreshToken, profile, done) {
         userModel
             .findUserByGoogleId(profile.id,profile.emails[0].value)
@@ -92,7 +92,7 @@ module.exports = function (app ,listOfModel) {
                         var email = profile.emails[0].value;
                         var emailParts = email.split("@");
                         var newGoogleUser = {
-                            username:  emailParts[0],
+                            username:  emailParts[0] + Date.now().toString().substring(6,10) ,
                             firstName: profile.name.givenName,
                             lastName:  profile.name.familyName,
                             email:     email,
@@ -160,7 +160,6 @@ module.exports = function (app ,listOfModel) {
                                         return done(response);
                                     });
                             },function (error) {
-
                                 response.status="KO";
                                 response.description="Some Error Occurred!! Please try again";
                                 // res.json(response);
