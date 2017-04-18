@@ -21,21 +21,21 @@
                 Searched Results
             </h2>
             <ul ng-show="model.users.length > 0" class="list-group" style="overflow-y: auto;height: 250px">
-                <li ng-repeat="user in model.users" class="list-group-item">
+                <li ng-repeat="user1 in model.users" class="list-group-item">
                     <div class="row">
                         <div class="pull-left col-xs-3">
-                            <img class="thumb" width="50px" height="50px" ng-src="{{user.imageURL || '../../../resources/images/mard.jpg'}} ">
+                            <img class="thumb" width="50px" height="50px" ng-src="{{user1.imageURL || '../../../resources/images/mard.jpg'}} ">
                         </div>
 
                         <div class="pull-left col-xs-9">
                             <a >
-                                {{user.firstName+ ", " + user.lastName}}
+                                {{user1.firstName+ ", " + user1.lastName}}
                             </a>
                             <a  style="font-size: xx-large"
                                 class="glyphicon glyphicon-remove pull-right"
-                                ng-click="model.deleteUser(user)">
+                                ng-click="model.deleteUser(user1)">
                             </a>
-                            <a ng-click="model.openEditModalFromAdmin(user)" style="font-size: xx-large"
+                            <a ng-click="model.openEditModalFromAdmin(user1)" style="font-size: xx-large"
                                 class="glyphicon glyphicon-cog pull-right" >
                             </a>
                         </div>

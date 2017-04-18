@@ -34,7 +34,7 @@ module.exports = function () {
         addEventToUser : addEventToUser,
         findAllEventsOfUser : findAllEventsOfUser,
         findUserByGoogleId : findUserByGoogleId,
-        findUserByUsername: findUserByUsername
+        findUserByUsername: findUserByUsername ,
     };
 
     var mongoose = require('mongoose');
@@ -42,6 +42,10 @@ module.exports = function () {
     var UserSchema = require('./user.schema.server.js')();
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
+
+
+
+
 
     function findUserByUsername(username1) {
         var deferred = q.defer();

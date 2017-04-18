@@ -48,7 +48,7 @@
         function saveChanges() {
             var promise =  UserService.updateUser(vm.toEditUser._id ,vm.toEditUser);
             promise.success (function (user) {
-                vm.user = user ;
+              //  vm.user = user ;
                 vm.successEdit="User successfully updated";
                 $timeout(function () {
                     vm.successEdit = null ;
@@ -59,8 +59,8 @@
             });
         }
 
-        function openEditModalFromAdmin(user) {
-            vm.toEditUser = user ;
+        function openEditModalFromAdmin(user1) {
+            vm.toEditUser = user1 ;
             $('#profileSearchModal').modal('hide');
             $timeout(function () {
                 $('#editUserModal').modal('show');
