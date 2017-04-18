@@ -7,9 +7,9 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var bcrypt = require("bcrypt-nodejs");
 
  var googleConfig = {
-     clientID     : "464567587492-nkq89la1rppp979b74md6k39iiekai40.apps.googleusercontent.com",
-     clientSecret : "OPtM9n-FOWo-Y5IRg1xrk-lW",
-     callbackURL  : "http://localhost:3000/auth/google/callback"
+     clientID     : process.env.GOOGLEPLUSID ,
+     clientSecret :  process.env.GOOGLEPLUSSECRET,
+     callbackURL  : process.env.CALLBACK
  };
 
 

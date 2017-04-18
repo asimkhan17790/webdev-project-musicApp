@@ -35,7 +35,6 @@ module.exports = function () {
         findAllEventsOfUser : findAllEventsOfUser,
         findUserByGoogleId : findUserByGoogleId,
         findUserByUsername: findUserByUsername ,
-        findUserByFacebookId: findUserByFacebookId
     };
 
     var mongoose = require('mongoose');
@@ -45,31 +44,7 @@ module.exports = function () {
     return api;
 
 
-    function findUserByFacebookId(id) {
-        var deferred = q.defer();
-        UserModel.findOne({'facebook.id': id}, function(err, user){
-            if(err){
-                deferred.reject(err);
-            }
-            else{
-                deferred.resolve(user);
-            }
-        });
-        return deferred.promise;
-    }
 
-    function findUserByFacebookId(id,gmail) {
-        var deferred = q.defer();
-        UserModel.findOne({$or:[{'facebook.id': id},{email:gmail}]}, function(err, user){
-            if(err){
-                deferred.reject(err);
-            }
-            else{
-                deferred.resolve(user);
-            }
-        });
-        return deferred.promise;
-    }
 
 
     function findUserByUsername(username1) {
