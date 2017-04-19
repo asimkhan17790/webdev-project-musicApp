@@ -210,7 +210,7 @@
 
 
         function closeModal() {
-            playlistError=null;
+            vm.playlistError = null;
             $('.modal').modal('hide');
         }
 
