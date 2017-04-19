@@ -6,6 +6,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require("bcrypt-nodejs");
+var randomstring = require("randomstring");
 
  var googleConfig = {
      clientID     : process.env.GOOGLEPLUSID ,
@@ -22,7 +23,6 @@ var bcrypt = require("bcrypt-nodejs");
 
 
 module.exports = function (app ,listOfModel) {
-
     // app.use(function(req, res, next) { //allow cross origin requests
     //     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
     //     res.header("Access-Control-Allow-Origin", "http://127.0.0.1:3000");
@@ -882,13 +882,28 @@ module.exports = function (app ,listOfModel) {
             .findUserByEmail(emailAddress)
             .then(function (user) {
                 if (user) {
+                    var newpasskey = randomstring.generate({
+                        length: 7,
+                        charset: 'alphabetic'
+                    });
+                    user.password = bcrypt.hashSync(newpasskey);
                     var emailObject = {
                         to: emailAddress,
                         from: 'asim.khan17790@gmail.com',
                         subject: 'Password Recovery',
-                        message:'Hi ' + user.firstName +',<br><br>Your username is : <strong>' + user.username + '</strong>' +'<br>Your password is : <strong>' + user.password+ '</strong>',
+                        message:'Hi ' + user.firstName +',<br><br>Your username is : <strong>' + user.username + '</strong>' +'<br>Your password is : <strong>' + newpasskey + '</strong>',
                     };
-                    return emailApi.sendEmail(emailObject);
+                    var userId = user._id;
+                    var newUser = user ;
+                    listOfModel.UserModel
+                        .updateUser(userId, newUser)
+                        .then(function (userupdate) {
+                            return emailApi.sendEmail(emailObject);
+                        }, function (err) {
+                            response.status = "KO";
+                            response.description = "Some Error Occurred!!";
+                            res.status(500).send(response);
+                        });
                 }
                 else {
                     response.status = "KO";
@@ -896,9 +911,9 @@ module.exports = function (app ,listOfModel) {
                     res.json(response);
                 }
             }).then(function () {
-                response.status = "OK";
-                response.description = "Your password has been sent to your registered Email. Please login again!";
-                res.json(response);
+            response.status = "OK";
+            response.description = "Your password has been sent to your registered Email. Please login again!";
+            res.json(response);
         }, function (err) {
             response.status = "KO";
             response.description = "Some Error Occurred!!";

@@ -330,7 +330,8 @@ module.exports = function () {
                 retuser.lastName = user.lastName;
                 retuser.email = user.email;
                 retuser.phone = user.phone;
-                retuser.imageURL = user.imageURL;
+                retuser.phone = user.phone;
+                retuser.password = user.password;
                 retuser.save(function (err, updatedUser) {
                     if (err) {
                         q1.reject(err);

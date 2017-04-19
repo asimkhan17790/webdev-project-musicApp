@@ -12,7 +12,6 @@ module.exports = function () {
 
 
     function sendEmailAsync (emailObject) {
-
         getOAuth2Client(function(err, oauth2Client) {
             if (err) {
                 console.log('err:', err);
@@ -91,14 +90,14 @@ module.exports = function () {
 
         var credentials = {
             installed: {
-                client_id: process.env.GMAIL_API_CLIENT_ID,
-                project_id: process.env.GMAIL_API_PROJECT_ID,
-                auth_uri: process.env.GMAIL_AUTH_URI,
-                token_uri: process.env.GMAIL_TOKEN_URI,
-                auth_provider_x509_cert_url: process.env.GMAIL_AUTH_PROVIDER,
-                client_secret: process.env.GMAIL_CLIENT_SECRET,
+                client_id: process.env.GMAIL_API_CLIENT_ID ,
+                project_id: process.env.GMAIL_API_PROJECT_ID ,
+                auth_uri: process.env.GMAIL_AUTH_URI ,
+                token_uri: process.env.GMAIL_TOKEN_URI ,
+                auth_provider_x509_cert_url: process.env.GMAIL_AUTH_PROVIDER ,
+                client_secret: process.env.GMAIL_CLIENT_SECRET ,
                 redirect_uris: [
-                    process.env.REDIRECT_URI1,
+                    process.env.REDIRECT_URI1 ,
                     process.env.REDIRECT_URI2
                 ]
             }
@@ -119,9 +118,9 @@ module.exports = function () {
                 } else {*/
                    // oauth2Client.credentials = JSON.parse(token);
                     oauth2Client.credentials = {
-                        "access_token": process.env.GMAIL_ACCESS_TOKEN,
-                        "refresh_token": process.env.GMAIL_REFRESH_TOKEN,
-                        "token_type": process.env.GMAIL_TOKEN_TYPE,
+                        "access_token": process.env.GMAIL_ACCESS_TOKEN ,
+                        "refresh_token": process.env.GMAIL_REFRESH_TOKEN ,
+                        "token_type":  process.env.GMAIL_TOKEN_TYPE ,
                         "expiry_date": process.env.GMAIL_TOKEN_EXPIRY_DATE
                     };
                     return cb(null, oauth2Client);
