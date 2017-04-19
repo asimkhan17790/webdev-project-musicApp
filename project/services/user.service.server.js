@@ -14,9 +14,9 @@ var bcrypt = require("bcrypt-nodejs");
  };
 
  var facebookConfig = {
-     clientID     : "1783265671689936",
-     clientSecret : "33c3270fc2f7b6e85b05d244990c0d7b",
-     callbackURL  : "http://localhost:3000/auth/facebook/callback" ,
+     clientID     : process.env.FACEBOOKID ,
+     clientSecret : process.env.FACEBOOKSECRET ,
+     callbackURL  : process.env.FACEBOOKCALLBACK ,
      profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'photos']
  };
 
