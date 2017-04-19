@@ -13,6 +13,11 @@
                         <span style="color: red;font-family:Helvetica">My</span>Music
                     </a>
                 </div>
+                <div id="navbar" class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav header-ul">
+                        <li><a style="font-size: large;padding: 5px; padding-top: 15px" class="pull-right" href="javascript:history.back()">Back To Login</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </div>
@@ -83,8 +88,6 @@
     </div>
 
     <div class="container">
-
-
         <div class="recorder-div" ng-show="model.recordingFlag">
             <img class="img-responsive" width="200px" height="200px"  style="margin: auto;margin-top: 100px;"
                  ng-src="{{user.imageURL || '../../../resources/images/recorder.gif'}} ">
@@ -102,38 +105,6 @@
 
     </div>
 
-    <div id="showAllPlayList" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!-- <button type="button" class="btn btn-danger">Create Playlist</button>-->
-                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearDataFromModal()">&times;</button>
-                    <h4 class="modal-title">Your Available playlists </h4>
-                </div>
-                <div class="text-center glorify">
-                    <span ng-show="model.songSaveSuccess"  style="z-index: 100;color: green;font-size: large">
-                        {{model.songSaveSuccess}}
-                     </span>
-                    <span ng-show="model.songSaveError" class="redify"  style="z-index: 100;font-size: large">
-                        {{model.songSaveError}}
-                     </span>
-                </div>
-                <!--adding ng-repeat this side  so that this can be repeated -->
-                <div >
-                    <ul class="list-group" style="overflow-y: auto;height: 250px">
-                        <li ng-click="model.addSongToMyPlaylist(playlist)" ng-repeat=" playlist in model.availablePlaylist" class="list-group-item">
-                            <div class="row">
-                                <div class="pull-left col-xs-2">
-                                    <a>{{playlist.playListName}}</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="col-xs-12">
             <a style="font-size: large;padding: 5px;" class="pull-right" href="javascript:history.back()">Back</a>
