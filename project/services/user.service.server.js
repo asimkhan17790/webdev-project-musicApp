@@ -12,6 +12,7 @@ var randomstring = require("randomstring");
      clientID     : process.env.GOOGLEPLUSID ,
      clientSecret :  process.env.GOOGLEPLUSSECRET,
      callbackURL  : process.env.CALLBACK
+
  };
 
  var facebookConfig = {
