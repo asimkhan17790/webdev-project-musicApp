@@ -35,6 +35,7 @@ module.exports = function () {
         findAllEventsOfUser : findAllEventsOfUser,
         findUserByGoogleId : findUserByGoogleId,
         findUserByUsername: findUserByUsername ,
+        findUserByFacebookId : findUserByFacebookId
     };
 
     var mongoose = require('mongoose');
@@ -42,10 +43,6 @@ module.exports = function () {
     var UserSchema = require('./user.schema.server.js')();
     var UserModel = mongoose.model('UserModel', UserSchema);
     return api;
-
-
-
-
 
     function findUserByUsername(username1) {
         var deferred = q.defer();
@@ -75,6 +72,7 @@ module.exports = function () {
         return defer.promise;
     }
 
+    //  facebook and google finding the user
     function findUserByGoogleId(id,gmail) {
         var deferred = q.defer();
         UserModel.findOne({$or:[{'google.id': id},{email:gmail}]}, function(err, user){
@@ -88,9 +86,22 @@ module.exports = function () {
         return deferred.promise;
     }
 
+    function findUserByFacebookId(id,email) {
+        var deferred = q.defer();
+        UserModel.findOne({$or:[{'facebook.id': id},{email:email}]}, function(err, user){
+            if(err){
+                deferred.reject(err);
+            }
+            else{
+                deferred.resolve(user);
+            }
+        });
+        return deferred.promise;
+    }
+
+
+
     function addEventToUser (userId, eventId) {
-
-
         var deferred =  q.defer();
         UserModel.findOne({_id : userId}, function(err, User) {
             if (err){
@@ -319,7 +330,8 @@ module.exports = function () {
                 retuser.lastName = user.lastName;
                 retuser.email = user.email;
                 retuser.phone = user.phone;
-                retuser.imageURL = user.imageURL;
+                retuser.phone = user.phone;
+                retuser.password = user.password;
                 retuser.save(function (err, updatedUser) {
                     if (err) {
                         q1.reject(err);

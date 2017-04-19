@@ -9,8 +9,6 @@
 
 
     function HomePageController (EmailService,EventService ,currentUser,$sce,UserService ,$routeParams ,MusicService,$timeout,playListService,$location) {
-
-
         var vm = this;
         vm.userId = currentUser._id;
         //playlist

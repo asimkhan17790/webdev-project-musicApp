@@ -14,7 +14,6 @@
         }
         init();
         function sendEmail() {
-
             var promise = UserService.forgotPasswordEmail(vm.emailAddress);
             promise.success(function(response) {
                 if (response && response.status ==='OK') {
@@ -30,9 +29,7 @@
                         vm.errorEmail = "Some Error Occurred! Please Try again.";
                         vm.successEmail = null;
                     }
-
                 }
-
             }).error(function (err) {
 
                 if (err.description) {
