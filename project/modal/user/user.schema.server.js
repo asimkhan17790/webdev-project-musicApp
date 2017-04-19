@@ -18,6 +18,10 @@ module.exports = function () {
             id:    String,
             token: String
         },
+        facebook: {
+            id:    String,
+            token: String
+        },
         favPlayList:{type :mongoose.Schema.Types.ObjectId , ref:'playListModel'},
         eventsCreated : [{type :mongoose.Schema.Types.ObjectId , ref:'eventModel'}] ,
         userType : {type : String, enum : ['E', 'U', 'M','A'] ,default: 'U'},

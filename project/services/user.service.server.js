@@ -4,12 +4,20 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var bcrypt = require("bcrypt-nodejs");
 
  var googleConfig = {
      clientID     : process.env.GOOGLEPLUSID ,
      clientSecret :  process.env.GOOGLEPLUSSECRET,
      callbackURL  : process.env.CALLBACK
+ };
+
+ var facebookConfig = {
+     clientID     : "1783265671689936",
+     clientSecret : "33c3270fc2f7b6e85b05d244990c0d7b",
+     callbackURL  : "http://localhost:3000/auth/facebook/callback" ,
+     profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'photos']
  };
 
 
@@ -45,6 +53,12 @@ module.exports = function (app ,listOfModel) {
              failureRedirect: '/#/landingPage'
          }));
 
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect: '/#/user/userHomePage',
+            failureRedirect: '/#/landingPage'
+        }));
+
 
     app.post("/api/user" ,createUser);
     app.post("/api/useradmin",createUserAdmin);
@@ -78,6 +92,106 @@ module.exports = function (app ,listOfModel) {
     var albumModel = listOfModel.albumModel;
     var playListModel = listOfModel.playListModel;
     var emailApi = require('../apis/email.api.server')();
+
+    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+    function facebookStrategy(token, refreshToken, profile, done) {
+        userModel
+            .findUserByFacebookId(profile.id,profile.emails[0].value)
+            .then(
+                function(user) {
+                    if(user) {
+                        return done(null, user);
+                    } else {
+                        var email = profile.emails[0].value;
+                        var emailParts = email.split("@");
+                        var newFacebookUser = {
+                            username:  emailParts[0] + Date.now().toString().substring(6,10) ,
+                            firstName: profile.name.givenName,
+                            lastName:  profile.name.familyName,
+                            email:     email,
+                            facebook: {
+                                id:    profile.id,
+                                token: token
+                            } ,
+                            gender : profile.gender,
+                            imageURL : profile.photos[0].value
+                        };
+                        return userModel.createUser(newFacebookUser);
+                    }
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            )
+            .then(
+                function(user){
+                    if (user) {
+                        var emailObject = {
+                            to: user.email,
+                            from: 'asim.khan17790@gmail.com',
+                            subject: 'Welcome to MyMusic',
+                            message: 'Hi <strong>'+ user.firstName+'</strong>,<br><br>'
+                            + 'Welcome to <strong>My Music</strong>,<br><br> Your username is :<strong>'+ user.username+ '</strong><br><br> <h2>Enjoy your musical Journey!!</h2>',
+                        };
+                        emailApi.sendEmailAsync(emailObject);
+                    }
+                    if(user && user.userType === "U")
+                    {
+                        var defaultplayList = {
+                            "playListName" : "Favorites",
+                            "playListOwner" : user._id
+                        }
+                        playListModel
+                            .createplayList(defaultplayList)
+                            .then(function (createdplayList) {
+                                userModel
+                                    .addplayList(createdplayList,'C')
+                                    .then(function (updatedUser) {
+                                        if (updatedUser) {
+                                            // response.status="OK";
+                                            // response.description="User successfully created";
+                                            // response.user = updatedUser;
+                                            // res.json(response);
+                                            // req.login(user, function (err) {
+                                            //     res.json(user);
+                                            // });
+                                            return done(null, user);
+                                        }
+                                        else {
+                                            response.status="KO";
+                                            response.description="Some Error Occurred!! Please try again";
+                                            // res.json(response);
+                                            // res.status(500).send(response);
+                                            return done(response);
+                                        }
+
+                                    },function (error) {
+                                        response.status="KO";
+                                        response.description="Some Error Occurred!! Please try again";
+                                        // res.json(response);
+                                        // res.status(500).send(response);
+                                        return done(response);
+                                    });
+                            },function (error) {
+                                response.status="KO";
+                                response.description="Some Error Occurred!! Please try again";
+                                // res.json(response);
+                                // res.status(500).send(response);
+                                return done(response);
+                            });
+                    }
+                    // return done(null, user);
+                },
+                function(err){
+                    if (err) {
+                        console.log('Error:'+err);
+                        return done(null, false);
+                        //  return done(null, );
+                    }
+                }
+            );
+    }
+
 
 
     passport.use(new GoogleStrategy(googleConfig, googleStrategy));
