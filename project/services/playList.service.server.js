@@ -103,7 +103,90 @@ module.exports = function (app ,listOfModel) {
         var newSong = req.body;
         var playlistId = req.params.playlistId;
         var response = {};
-        songModel.createSong(newSong)
+
+        var newSong = req.body;
+        //var response = {};
+        songModel.findSongBySpotifyId(newSong.spotifyID).
+        then(function (found) {
+
+            if (found) {
+                playListModel.addSongtoPlaylist(found._id ,playlistId)
+                    .then(function (updatedPlayList) {
+
+                    if (updatedPlayList) {
+                        response.status = 'OK';
+                        response.description = 'Song Successfully Added..';
+                        res.json(response);
+                        return;
+                    }
+                    else {
+                        response.status = 'KO';
+                        response.description = 'Some Error Occurred!!';
+                        res.json(response);
+                        return;
+                    }
+
+
+                }, function (err) {
+                    if (err==='KOO') {
+                        response.status="KO";
+                        response.description="Song is already present in selected playlist!!";
+                        res.json(response);
+                        return;
+                    }else {
+                        response.status="KO";
+                        response.description="Some error occurred while addition of song!!";
+                        res.json(response);
+                        return;
+                    }
+                });
+            }
+            else {
+                songModel.createSong(newSong)
+                    .then(function (newSongCreated){
+                        return playListModel.addSongtoPlaylist(newSongCreated._id ,playlistId);
+                    }).then(function (updatedPlayList) {
+
+                    if (updatedPlayList) {
+                        response.status = 'OK';
+                        response.description = 'Song Successfully Added..';
+                        res.json(response);
+                        return;
+                    }
+                    else {
+                        response.status = 'KO';
+                        response.description = 'Some Error Occurred!!';
+                        res.json(response);
+                        return;
+                    }
+
+
+                }, function (err) {
+                    if (err==='KOO') {
+                        response.status="KO";
+                        response.description="Song is already present in selected playlist!!";
+                        res.json(response);
+                        return;
+                    }else {
+                        response.status="KO";
+                        response.description="Some error occurred while addition of song!!";
+                        res.json(response);
+                        return;
+                    }
+                });
+            }
+
+        },
+            function (err) {
+                response.status="KO";
+                response.description="Some error occurred while addition of song!!";
+                res.json(response);
+                return;
+            });
+
+
+
+        /*songModel.createSong(newSong)
             .then(function (newSongCreated){
                 return playListModel.addSongtoPlaylist(newSongCreated._id ,playlistId);
             }).then(function (updatedPlayList) {
@@ -112,6 +195,7 @@ module.exports = function (app ,listOfModel) {
                     response.status = 'OK';
                     response.description = 'Song Successfully Added..';
                     res.json(response);
+                    return;
                 }
                 else {
                     response.status = 'KO';
@@ -120,7 +204,7 @@ module.exports = function (app ,listOfModel) {
                     return;
                 }
 
-            return;
+
         }, function (err) {
             if (err==='KOO') {
                 response.status="KO";
@@ -133,7 +217,7 @@ module.exports = function (app ,listOfModel) {
                 res.json(response);
                 return;
             }
-        });
+        });*/
     }
 
 
