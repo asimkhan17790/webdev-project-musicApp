@@ -13,30 +13,6 @@
                         <span style="color: red;font-family:Helvetica">My</span>Music
                     </a>
                 </div>
-                <div id="navbar" class="navbar-collapse collapse ">
-                    <ul class="nav navbar-nav header-ul">
-                        <li class="nav-item"><a href="#/user/userHomePage">Home</a></li>
-                        <li class="nav-item"><a href="#/music/myplaylists">Playlists</a></li>
-                        <li class="nav-item"><a href="#/user/followers">Followers <span class="badge">{{model.followers}}</span></a></li>
-                        <li class="nav-item"><a href="#/user/following">Following <span class="badge">{{model.following}}</span></a></li> <li class="nav-item"><a href="#/events/upcomingEvents/">Events</a></li>
-                        <li class="nav-item"><a style="font-size: 20px" href="#/music/recordAndSearch" class="fa fa-microphone"></a></li>
-                        <li class="nav-item">
-                            <a class="glyphicon glyphicon-cog dropdown-toggle"
-                               target="_self"
-                               data-toggle="dropdown"
-                               role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false"></a>
-                            <ul class="dropdown-menu" id="profileHeaderCog">
-                                <li><a style="color: white;" href="#/user/editProfile">Edit Profile</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a style="color: white;" ng-click="model.logout()" >Logout</a></li>
-
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
             </div>
         </nav>
     </div>
@@ -58,18 +34,6 @@
                         <span ng-show="model.favError" class="redify" style="z-index: 100;font-size: large;position: relative;top: 0px">
                             {{model.favError}}
                          </span>
-                        <div class="col-xs-12" style="margin-top:10px">
-                            <a type="button"
-                               data-toggle="tooltip"
-                               title="Add To Favourites"
-                               data-placement="left"
-                               ng-click = "model.addSongToFavorites()"
-                               class="glyphicon glyphicon-heart pull-right like-button glorify"
-                               ng-class="model.addedToFav?'redHeart':'whiteHeart'">
-                            </a>
-                            <!-- <a type="button" class="glyphicon glyphicon-list-alt pull-right like-button glorify">
-                             </a>-->
-                        </div>
 
                         <div class="col-xs-12 col-sm-3 glorify">
                             <h4> Title:</h4>
@@ -109,12 +73,6 @@
                             <button type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px"
                                     ng-click="model.findLyrics(model.music.title, model.music.artist)">
                                 Find Lyrics
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-sm-6" >
-                            <button data-toggle="modal" data-target="#showAllPlayList" ng-click="model.loadAllMyList()"
-                                    type="button" class="btn btn-lg btn-danger btn-block" style="margin-top: 20px">
-                                Add to Playlist
                             </button>
                         </div>
                     </div>

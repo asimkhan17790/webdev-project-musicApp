@@ -281,6 +281,14 @@
                     pageTitle: 'Song Details'
                 }
             })
+            .when("/music/guest/song/songDetails/:songId", {
+                templateUrl:"/views/music/templates/songDetailsguest.view.client.html",
+                controller:"SongDetailsguestController",
+                controllerAs:"model",
+                data: {
+                    pageTitle: 'Song Details'
+                }
+            })
             .otherwise({
                 redirectTo:"/"
             });

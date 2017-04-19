@@ -20,6 +20,23 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse ">
                 <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown">
+                        <a href="#" target="_self"
+                           class="dropdown-toggle"
+                           data-toggle="dropdown"
+                           role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false">Search <span class="caret"></span></a>
+
+                        <ul class="dropdown-menu">
+                            <li ng-click="model.songerror=null;">
+                                <a style="color: white;"
+                                   data-toggle="modal"
+                                   target="_self"
+                                   aria-expanded="false"
+                                   data-target="#songSearchModal">Music</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item glorify"><a data-toggle="modal" data-target="#myModal">Login</a></li>
                     <li class="nav-item glorify"><a data-toggle="modal" data-target="#myModalSignup" target="_self">Sign Up</a></li>
                 </ul>
@@ -137,6 +154,21 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div id="songSearchModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="model.clearUserFromModal()">&times;</button>
+                    <h4 class="modal-title">Search Song</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-include src="'views/music/templates/searchsong.template.client.html'"></ng-include>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -26,7 +26,6 @@ module.exports = function (app ,listOfModel) {
         //var response = {};
         songModel.findSongBySpotifyId(newSong.spotifyID).
             then(function (found) {
-
                 if (found) {
                     res.json(found);
                     return;

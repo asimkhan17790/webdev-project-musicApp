@@ -4,7 +4,7 @@
         .module("WebDevMusicApp")
         .controller("LandingPageController",LandingPageController);
 
-    function LandingPageController ($location, UserService ,$routeParams,StaticDataService ,$timeout) {
+    function LandingPageController ($location,playListService, UserService ,$routeParams,StaticDataService ,$timeout ,MusicService) {
         var vm = this;
         vm.login = login;
         vm.createUser = createUser;
@@ -15,6 +15,8 @@
         vm.errorLogin = null;
         vm.clearUserFromModal = clearUserFromModal;
         vm.openSignupModalFromLoginModal = openSignupModalFromLoginModal;
+        vm.searchSongs = searchSongs;
+        vm.redirectToSearchedSong  = redirectToSearchedSong ;
 
         function init() {
             //StaticDataService
@@ -30,6 +32,58 @@
             $('.modal').modal('hide');
             $('#myModalSignup').modal('show');
 
+        }
+
+        function redirectToSearchedSong (selectedSong) {
+
+            closeModal();
+            $timeout(function () {
+                if (selectedSong.origin === 'mymusic') {
+                    $location.url(" /music/guest/song/songDetails/"+selectedSong._id);
+                }
+                else {
+                    getSpotifySong(selectedSong);
+                    //$location.url("/music/song/songDetails/"+selectedSong._id);
+                }
+            }, 250);
+
+            console.log('redirecting');
+
+        }
+
+        function getSpotifySong(selectedSong) {
+
+            var promise  = playListService.createSong(selectedSong);
+            promise.success(function (result) {
+                if (result) {
+
+                    $location.url("/music/guest/song/songDetails/"+result._id);
+
+                } else {
+                    console.log('some error occurred!');
+                }
+
+            }).error(function (err) {
+                console.log('some error occurred!');
+            });
+
+        }
+
+        function searchSongs () {
+            var promise = MusicService.searchSongs(vm.inputSong);
+            promise.success (function (result) {
+                if (result && result.status === 'OK' && result.data && result.data.length > 0) {
+                    console.log(result.data);
+                    vm.searchedSongs = result.data;
+                    vm.songError = null;
+                } else {
+                    vm.searchedSongs = null;
+                    vm.songError = "No such song found !!";
+                }
+            }).error(function () {
+                vm.searchedSongs = null;
+                vm.songError = "Some Error Occurred!! Please try again!";
+            });
         }
 
         function closeModal() {
