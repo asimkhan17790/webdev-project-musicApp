@@ -20,6 +20,9 @@
             //StaticDataService
             vm.user={};
             vm.userType =  vm.userOptions[0];
+            $('.carousel').carousel({
+                interval: 5000
+            }).carousel('cycle');
         }
         init();
 

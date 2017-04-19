@@ -17,7 +17,11 @@
                 <input ng-change="model.error=null" type="text" name="username" required  class="form-control input-lg" ng-model="model.user.username" placeholder="userName"/>
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
-                        <input ng-change="model.error=null" pattern="^\d{4}-\d{3}-\d{4}$" type="text" name="phone" required class="form-control input-lg" ng-model="model.user.phone" placeholder="Phone: xxxx-xxx-xxxx"/>
+                        <input ng-change="model.error=null" pattern="^\d{10}$"
+                               type="text" name="phone" required class="form-control input-lg"
+                               ng-model="model.user.phone"
+                               placeholder="Phone: #"
+                                maxlength="10"/>
                     </div>
                     <div class="col-xs-6 col-md-6">
                         <select ng-change="model.error=null" required class = "form-control" style="height: 46px;"  name="singleSelect" ng-model="model.userType" ng-options="x.label for x in model.userOptions">
