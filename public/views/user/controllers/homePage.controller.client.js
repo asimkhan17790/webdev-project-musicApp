@@ -156,7 +156,6 @@
             });
         }
         function redirectToSearchedSong (selectedSong) {
-
             closeModal();
             $timeout(function () {
                 if (selectedSong.origin === 'mymusic') {
@@ -168,9 +167,7 @@
                     //$location.url("/music/song/songDetails/"+selectedSong._id);
                 }
             }, 250);
-
             console.log('redirecting');
-
         }
 
 

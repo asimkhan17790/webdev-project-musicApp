@@ -4,7 +4,7 @@
         .module("WebDevMusicApp")
         .controller("UserProfileController",UserProfileController);
 
-    function UserProfileController ($location, UserService ,$routeParams,StaticDataService ,$timeout ,currentUser) {
+    function UserProfileController ($location, playListService,MusicService ,UserService ,$routeParams,StaticDataService ,$timeout ,currentUser) {
 
         var vm = this;
         vm.userId = $routeParams.uidS ;
@@ -14,10 +14,14 @@
         vm.findPlayList = findPlayList;
         vm.followUserThisPlayList = followUserThisPlayList;
         vm.notFollowing = null;
+        vm.songError = null;
         vm.redirectToSearchedUser  = redirectToSearchedUser;
         vm.searchUsers = searchUsers;
         vm.logout = logout ;
         vm.sendEmailInvitation = sendEmailInvitation ;
+        vm.searchSongs = searchSongs ;
+        vm.redirectToSearchedSong = redirectToSearchedSong ;
+        vm.getSpotifySong = getSpotifySong ;
         function init() {
             getUserDetails();
             getfollowing();
@@ -36,6 +40,54 @@
                 .then(function () {
                     $location.url('/landingPage');
                 });
+        }
+        function searchSongs () {
+            var promise = MusicService.searchSongs(vm.inputSong);
+            promise.success (function (result) {
+                if (result && result.status === 'OK' && result.data && result.data.length > 0) {
+                    console.log(result.data);
+                    vm.searchedSongs = result.data;
+                    vm.songError = null;
+                } else {
+                    vm.searchedSongs = null;
+                    vm.songError = "No such song found !!";
+                }
+            }).error(function () {
+                vm.searchedSongs = null;
+                vm.songError = "Some Error Occurred!! Please try again!";
+            });
+        }
+        function redirectToSearchedSong (selectedSong) {
+            closeModal();
+            $timeout(function () {
+                if (selectedSong.origin === 'mymusic') {
+                    $location.url("/music/song/songDetails/"+selectedSong._id);
+                }
+                else {
+
+                    getSpotifySong(selectedSong);
+                    //$location.url("/music/song/songDetails/"+selectedSong._id);
+                }
+            }, 250);
+            console.log('redirecting');
+        }
+        
+        function getSpotifySong(selectedSong) {
+
+            var promise  = playListService.createSong(selectedSong);
+            promise.success(function (result) {
+                if (result) {
+
+                    $location.url("/music/song/songDetails/"+result._id);
+
+                } else {
+                    console.log('some error occurred!');
+                }
+
+            }).error(function (err) {
+                console.log('some error occurred!');
+            });
+
         }
 
         function sendEmailInvitation () {
