@@ -164,9 +164,11 @@
             <span aria-label="close" class="closebtn" ng-click="model.closeAlert()">&times;</span>
             {{model.error}}
         </div>
-        <div ng-bind-html="model.getTrustedHtml(model.lyricsData)" style="font-size: medium;"
-             class="form-group lyrics-div glorify" ng-show="model.lyricsData"></div>
-    </div>
+        <div ng-show="model.lyricsData"  class="form-group lyrics-div glorify" style="font-size: large;">
+            <h1>Lyrics</h1>
+            <hr size="30">
+            <div ng-bind-html="model.getTrustedHtml(model.lyricsData)"></div>
+        </div>
 
 
     <div id="showAllPlayList" class="modal fade" role="dialog">
