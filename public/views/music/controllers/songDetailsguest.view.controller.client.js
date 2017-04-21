@@ -18,6 +18,7 @@
         vm.getTrustedURL = getTrustedURL;
         vm.clearDataFromModal = clearDataFromModal;
 
+        vm.getTrustedHtml = getTrustedHtml;
         function init() {
             findSongById();
             angular.element(document).ready(function () {
