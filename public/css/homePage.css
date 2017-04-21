@@ -95,7 +95,7 @@
     -webkit-transition: all .3s ease 0s;
     -o-transition: all .3s ease 0s;
     transition: all .3s ease 0s;
-    /*margin-bottom: 5px;*/
+    margin-bottom: 5px;
 }
 .mymusic-ak-list-event:after {
     clear: both;
