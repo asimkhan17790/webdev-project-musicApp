@@ -42,7 +42,7 @@
             closeModal();
             $timeout(function () {
                 if (selectedSong.origin === 'mymusic') {
-                    $location.url(" /music/guest/song/songDetails/"+selectedSong._id);
+                    $location.url("/music/guest/song/songDetails/"+selectedSong._id);
                 }
                 else {
                     getSpotifySong(selectedSong);
@@ -55,7 +55,6 @@
         }
 
         function getSpotifySong(selectedSong) {
-
             var promise  = playListService.createSong(selectedSong);
             promise.success(function (result) {
                 if (result) {

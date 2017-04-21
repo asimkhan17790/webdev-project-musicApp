@@ -10,7 +10,7 @@
     function SongDetailsguestController ($location,playListService ,UserService, $sce,$timeout,Upload,MusicService,$routeParams) {
         var vm = this;
         vm.songId = $routeParams.songId ;
-        vm.getTrustedHtml = getTrustedHtml;
+        //vm.getTrustedHtml = getTrustedHtml;
         vm.showSpinner = showSpinner;
         vm.findLyrics = findLyrics;
         vm.closeAlert = closeAlert;
