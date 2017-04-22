@@ -100,7 +100,6 @@ module.exports = function () {
     }
 
 
-
     function addEventToUser (userId, eventId) {
         var deferred =  q.defer();
         UserModel.findOne({_id : userId}, function(err, User) {
@@ -332,6 +331,7 @@ module.exports = function () {
                 retuser.phone = user.phone;
                 retuser.phone = user.phone;
                 retuser.password = user.password;
+                retuser.imageURL = user.imageURL;
                 retuser.save(function (err, updatedUser) {
                     if (err) {
                         q1.reject(err);
@@ -376,6 +376,7 @@ module.exports = function () {
         });
         return q1.promise;
     }
+
     function deleteUser(userId) {
         var deferred =  q.defer();
         UserModel.findOneAndRemove({_id:userId}, function(err, foundUser) {
