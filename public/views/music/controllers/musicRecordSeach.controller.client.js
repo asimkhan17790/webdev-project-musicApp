@@ -7,7 +7,7 @@
         })
         .controller("MusicRecorderController", MusicRecorderController);
 
-    function MusicRecorderController (UserService,EmailService, $sce,currentUser,$timeout,Upload,MusicService,$routeParams,playListService) {
+    function MusicRecorderController (UserService,EmailService, $sce,currentUser,$timeout,Upload,MusicService,$routeParams,playListService,$location) {
 
         var vm = this;
         vm.userId = currentUser._id;
